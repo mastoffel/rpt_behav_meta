@@ -44,10 +44,10 @@ library(readr)
 library(tidyr)
 library(wordcloud)
 
-WoS1 <- as.data.frame(read_bibliography("data/WoS_try_1.bib")) %>% 
+WoS1 <- as.data.frame(read_bibliography("data/WoS_search_1_31_10_2018.bib")) %>% 
                 dplyr::select(label, title, author, journal, #issn, 
                               volume, pages, year, doi, abstract)
-WoS2 <- as.data.frame(read_bibliography("data/WoS_try_2.bib")) %>% 
+WoS2 <- as.data.frame(read_bibliography("data/WoS_search_2_31_10_2018.bib")) %>% 
                 dplyr::select(label, title, author, journal, #issn, 
                             volume, pages, year, doi, abstract)
 
@@ -59,7 +59,7 @@ table(WoS$year)
 # Scopus advanced search, 6.11.2018, 14:00, 771 results
 # TITLE-ABS-KEY((repeatab* OR intraclass) AND behav* AND (personalit* OR temperament* OR (behav* W/10 syndrom*) OR (*individ* W/10 difference*) OR "coping style*")) 
 
-scopus <-  as.data.frame(read_bibliography("data/scopus/scopus.bib")) %>% 
+scopus <-  as.data.frame(read_bibliography("data/scopus/scopus_search_06_11_2018.bib")) %>% 
     dplyr::select(label, title, author, journal, #issn, 
         volume, pages, year, doi, abstract) %>% 
     mutate(source = "scopus")
@@ -157,25 +157,5 @@ write_csv(final_refs_rayyan, path = "data/complete_search_rayyan_formatted.csv")
 
 
 
-# 
-first_screen <- read_csv("data/first_screening.csv")
-names(first_screen)
-head(first_screen)
-first_screen$notes
 
 
-WoS_screen <- readRDS("WoS_screen.rds")
-revtools::screen_abstracts(WoS)
-WoS_screen[WoS_screen$order_random == 1, ]
-# load a bibliographic dataset with the authors, titles, and abstracts of multiple study refer
-data(example_references_metagear)
-names(example_references_metagear)
-example_references_metagear["JOURNAL"]
-
-effort_distribute(example_references_metagear, initialize = TRUE, reviewers = "martin", save_split = TRUE)
-abstract_screener("effort_martin.csv", aReviewer = "martin")
-
-theBiblio <- scrape_bibliography(as.character(example_references_metagear$DOI)[4])
-
-
-install.packages("tabulizer")

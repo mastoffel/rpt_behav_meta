@@ -1,0 +1,71 @@
+Codebook meta-table
+
+# What happened so far:
+# (1) WoS and Scopus search (see file 1_)
+# (2) Rayyan abstract screening: 218 articles tagged with longer period / more than 2 measurements
+# (3) exported to bibtex, changed "url" to "doi" in bibtex file, imported in zotero
+# (4) downloaded pdfs in zotero and not exported csv file with standard utf encoding and "notes" 
+
+# These variables define the study, and were exported from Zotero
+
+Key - Zotero study key
+Publication Year 
+Author 
+Title
+Publication Title - Journal title
+ISBN
+ISSN
+DOI
+Pages
+Volume
+
+
+# These variables were added to collect data
+
+species_common - 		common name 
+
+behaviour 	   - 		measured behaviour. Categorization in Bell paper: 
+						Courtship, mate preference, activity, affiliation, aggression,
+						anti-predator (including risk taking), exploratory behaviour, 
+						foraging,habitat selection and territoriality (including nest site
+						selection and thermal preference), migration, mating (any behaviours
+						performed during mating and including extrapair copulations),
+						parental care and other.
+						
+context			-		3 levels
+						1: lab experiment, lab-reared
+						2: lab experiment, wild-caught
+						3: Field experiment
+						
+type_of_treatment		3 levels
+						0: No Treatment
+						1: Between-subject treatment
+						2: Within-subject treatment
+					
+treatment				Verbal description of treatment (to be added, e.g. hormone injection)
+life_stage				3 levels (maybe more if insect stages are added)
+						"juvenile"
+						"adult"
+						"both"
+event					Major life-event, such as metamorphosis between measurements?
+
+R						Point estimate repeatability 
+
+R_se					Standard error
+
+CI_lower			
+
+CI_upper
+
+p_val
+
+t1						timepoint of first measurement in days old#
+
+t2						timepoint of second measurement in days old#
+
+delta_t					difference between timepoints 
+
+remarks
+
+
+			
