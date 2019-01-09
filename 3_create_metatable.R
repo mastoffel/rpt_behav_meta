@@ -21,6 +21,8 @@ meta_table <- zotero_articles %>%
                     DOI, Pages, Volume) %>% 
                 # add variables to be collected for metaanalysis
                 mutate(species_common = "", 
+                       sample_size = "",
+                       sex = "", # 0 = both, 1 = females, 2 = males
                       # species_latin = "",
                        behaviour = "", # broader behaviour as described by the authors (boldness, etc..)
                                        # see Bell 2009 for a potential classification

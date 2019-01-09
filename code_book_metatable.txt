@@ -24,6 +24,10 @@ Volume
 
 species_common - 		common name 
 
+sample_size				n
+
+sex						0 = both, 1 = females, 2 = males
+
 behaviour 	   - 		measured behaviour. Categorization in Bell paper: 
 						Courtship, mate preference, activity, affiliation, aggression,
 						anti-predator (including risk taking), exploratory behaviour, 
@@ -36,6 +40,7 @@ context			-		3 levels
 						1: lab experiment, lab-reared
 						2: lab experiment, wild-caught
 						3: Field experiment
+					
 						
 type_of_treatment		3 levels
 						0: No Treatment
@@ -59,7 +64,7 @@ CI_upper
 
 p_val
 
-t1						timepoint of first measurement in days old#
+t1						timepoint of first measurement in days old# / if given in month, month * 30.5
 
 t2						timepoint of second measurement in days old#
 
