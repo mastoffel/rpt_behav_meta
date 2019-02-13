@@ -205,8 +205,8 @@ meta_table <- meta_table %>%
                 mutate(Key = "JQJKK3Y6",
                        species_common = "Great tit",
                        sex = 0,
-                       context = NA,
-                       type_of_treatment = NA,
+                       context = 3,
+                       type_of_treatment = 0,
                        treatment = NA,
                        life_stage = "both",
                        event = NA,
@@ -218,3 +218,125 @@ meta_table <- meta_table %>%
 meta_table <- select(meta_table, names(meta_table_template))
 meta_table
 write_delim(meta_table, path = "output/Aplin_Firth_2015.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 5, incomplete #######
+# Arroyo, Beatriz; Mougeot, Francois; Bretagnolle, Vincent
+# individual variation in behavioural responsiveness to humans leads to differences in breeding success and long-term population phenotypic changes
+# Key: V5R8XCKE
+# DOI: 10.1111/ele.12729
+
+# a bit tricky: Sample sizes are a bit unclear (number of measurements are reported only, see table)
+# between years consists of 30 individuals with 2-7 years 
+
+meta_table <- tribble(
+    ~behaviour,                   ~R,  ~R_se, ~sample_size, ~t1, ~t2, ~delta_t, ~remarks, ~sex,
+    "nest_departure_distance", 0.001,  0.023,         1662,  NA,  NA,      365, 'within-year-repeatability', 1,
+    "fleeing probability",     0.541,  0.049,         2399,  NA,  NA,      365, 'within-year-repeatability', 1,    
+    "passive_if_present",      0.520,  0.059,         1844,  NA,  NA,      365, 'within-year-repeatability', 1, 
+    "defence_intensity_PCA",   0.518,  0.033,         1014,  NA,  NA,      365, 'within-year-repeatability', 1,        
+    "nest_departure_distance", 0.001,  0.017,          197,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1,
+    "fleeing probability",     0.341,  0.135,          299,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1,    
+    "passive_if_present",      0.522,  0.194,          252,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1, 
+    "defence_intensity_PCA",   0.131,  0.073,          189,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1
+)
+
+###### Paper 6 ########
+# Ballew, Nicholas G.; Mittelbach, Gary G.; Scribner, Kim T. 2017	
+# fitness consequences of boldness in juvenile and adult largemouth bass
+# RR968ED6		
+
+# note: juvenile: 1-3 years, afterwards adult
+meta_table <- tribble(
+    ~behaviour,    ~R,  ~R_se,  ~CI_lower, ~CI_upper, ~sample_size,     ~t1,     ~t2, ~delta_t, ~life_stage, ~sex, ~remarks, 
+    "boldness",  0.54,     NA,       0.38,      0.67,           93, 36*30.5, 48*30.5,       NA,   "both",       0, "Boldness was a PC from 4 different behaviours",    
+    "boldness",  0.75,     NA,       0.63,      0.84,           71, 48*30.5, 60*30.5,       NA,   "adult",      0, "Boldness was a PC from 4 different behaviours", 
+    "boldness",  0.50,     NA,       0.30,      0.65,           71, 36*30.5, 60*30.5,       NA,   "both",       0, "Boldness was a PC from 4 different behaviours"   
+)
+    
+meta_table <- meta_table %>% 
+    mutate(Key = "RR968ED6",
+           species_common = "largemouth_bass",
+           context = 2,
+           type_of_treatment = 0,
+           treatment = NA,
+           p_val = NA,
+           event = NA)
+
+# order columns by meta_table_template
+meta_table <- select(meta_table, names(meta_table_template))
+meta_table
+write_delim(meta_table, path = "output/Ballew_Mittelbach_2017.txt", delim = " ", col_names = TRUE)
+
+
+
+
+    
+###### Paper 7 #######
+# Bosco, Jennifer M.; Riechert, Susan E.; O'Meara, Brian C.	2017
+# the ontogeny of personality traits in the desert funnel-web spider, agelenopsis lisa (araneae: agelenidae)
+
+library(tabulizer)
+library(magrittr)
+library(broom)
+
+location <- "data/papers/Bosco et al. - 2017 - the ontogeny of personality traits in the desert f.pdf"
+# Extract the table
+out <- extract_tables(location, pages = 6)
+out
+locate_areas(location, pages = 6)    
+
+R_table <- extract_tables(location,
+    output = "data.frame",
+    pages = c(6, 6), # include pages twice to extract two tables per page
+    area = list(
+        c(82.72286, 43.16004, 643.55584, 295.53488 ),
+        c(58.88746, 305.34945, 256.58109, 547.90972)
+    
+    ),
+    guess = FALSE
+)
+
+str(R_table[1])
+R_table[[1]] <- mutate(R_table[[1]], p = as.numeric(p))
+R_table_tidy <- R_table %>% 
+                reduce(bind_rows) %>% 
+                as_tibble() %>% 
+                rename(behaviour = Trait,
+                       life_stage = Life.stage,
+                       R = Radj, 
+                       CI = `CI..95..`, 
+                       p_val = p) %>% 
+                separate(CI, into = c("CI_lower", "CI_upper"), sep = ",\\s*") %>% 
+                mutate(life_stage = str_replace(life_stage, " \\+ ", "_")) %>% 
+                separate(life_stage, into = c("life_stage", "sex"), sep = " ") %>% 
+                dplyr::filter(life_stage != "All") %>%  # filter all, otherwise pseudoreplication
+                filter(life_stage != "") %>% 
+                filter(life_stage != "female") %>% 
+                mutate(sex = replace_na(sex, "female")) %>% 
+                print(n = 60)
+                mutate(sex = case_when(sex == "male" ~ 2,
+                                       sex == "female" ~ 1))
+                #seperate(life_stage, into = c("life_stage", ""))
+                print(n = 60)
+    
+    
+    meta_table_template <- data.frame("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
+        "species_common" = NA, 
+        "sample_size" = NA, 
+        "sex" = NA,                # 0 = both, 1 = females, 2 = males
+        "behaviour" = NA,          # measured behaviour as stated by authors
+        "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp
+        "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
+        "treatment"= NA,          # Verbal description
+        "life_stage"= NA,         # "juvenile", "adult", "both"
+        "event"= NA,              # Major life-event, such as metamorphosis between measurements
+        "R"= NA,
+        "R_se"= NA,
+        "CI_lower"= NA,
+        "CI_upper"= NA,
+        "p_val"= NA,
+        "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
+        "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
+        "delta_t"= NA,             # difference between timepoints in days
+        "remarks"= NA)
