@@ -10,6 +10,7 @@ library(rptR)
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
                          "sample_size" = NA, 
+                         "measurements_per_ind" = NA, # new, check papers 1-6 again
                          "sex" = NA,                # 0 = both, 1 = females, 2 = males
                          "behaviour" = NA,          # measured behaviour as stated by authors
                          "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp
@@ -28,7 +29,7 @@ meta_table_template <- tibble("Key" = NA,                # identifier in meta-ta
                          "remarks"= NA)
 
 
-##### Paper 1 ##########
+###### Paper 1: Baker_Goodman 2018 ##########
 # Baker, Matthew R.; Goodman, Alex; C., er; Santo, Jonathan B.; Wong, Ryan Y. (2018)
 # Repeatability and reliability of exploratory behavior in proactive and reactive zebrafish, Danio rerio
 # 
@@ -106,7 +107,7 @@ write_delim(meta_table, path = "output/Baker_Goodman_2018.txt", delim = " ", col
 
 
 
-##### Paper 2, incomplete #######
+###### Paper 2: Fisher_Adele 2015 incomplete #######
 # Fisher, David N.; James, Adele; Rodriguez-Munoz, Rol; , o; Tregenza, Tom (2015)
 # behaviour in captivity predicts some aspects of natural behaviour, but not others, in a wild cricket population
 # FVQNEVJS
@@ -121,7 +122,7 @@ dat <- read_delim(url2, delim = "\t")
 length(table(dat$tag))
 
 
-###### Paper 3, incomplete #######
+###### Paper 3, Bierbach_Laskowski 2017 incomplete #######
 ### Bierbach, David; Laskowski, Kate L.; Wolf, Max
 ### behavioural individuality in clonal fish arises despite near-identical rearing conditions
 ### MV5GA8PC
@@ -137,7 +138,7 @@ dat <- read_excel(tmp) # skip = n
 dat
 
 
-####### Paper 4 ##########
+###### Paper 4: Aplin_Firth 2015 ##########
 # additional calculations to fill meta table, sorted by study
 
 library(lubridate)
@@ -220,7 +221,7 @@ meta_table
 write_delim(meta_table, path = "output/Aplin_Firth_2015.txt", delim = " ", col_names = TRUE)
 
 
-###### Paper 5, incomplete #######
+###### Paper 5, Arroyo_Mougeot 2017 incomplete #######
 # Arroyo, Beatriz; Mougeot, Francois; Bretagnolle, Vincent
 # individual variation in behavioural responsiveness to humans leads to differences in breeding success and long-term population phenotypic changes
 # Key: V5R8XCKE
@@ -241,7 +242,7 @@ meta_table <- tribble(
     "defence_intensity_PCA",   0.131,  0.073,          189,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1
 )
 
-###### Paper 6 ########
+###### Paper 6: Ballew_Mittelbach 2017 ########
 # Ballew, Nicholas G.; Mittelbach, Gary G.; Scribner, Kim T. 2017	
 # fitness consequences of boldness in juvenile and adult largemouth bass
 # RR968ED6		
@@ -361,8 +362,53 @@ write_delim(meta_table, path = "output/Bosco_Riechert_2016.txt", delim = " ", co
 #timescales in the sheepshead swordtail, xiphophorus birchmanni
 
 
+### talk to holger, not sure this is ok, as individuals for short and long timescales are different! ##
 
 
 
 
-######
+
+###### Paper 9: Bubac_Coltman et 2018 #######
+
+# Bubac, Christine M.; Coltman, David W.; Bowen, W. Don; Lidgard, Damian C.; Lang, Shelley L. C.; den Heyer, Cornelia E.	2018
+# AKG6LAL3
+# repeatability and reproductive consequences of boldness in female gray seals	BEHAVIORAL ECOLOGY AND SOCIOBIOLOGY
+
+# Boldness was measured for a total of 469 branded females
+# during nine consecutive breeding seasons (2008 to 2016).
+# Over a 9-year period, 2504 observations were made for between year repeatability
+# measures. Boldness scores were obtained within a single year on 35 females between 2009 and 2016 (105 total
+# observations). On average, females were tested 5.5 ± 0.09
+# SE and 3.0 ± 0.30 SE times per female for between and within
+# year sampling efforts, respectively.
+
+# Only females with at least two observations were included in between (n = 458 females) and within year (n = 35 females)
+# repeatability analyses.
+
+# adult female grey seals were 6 to 43 years old, so mean age is 18.5 years or 6753 days
+# data was collected over a 9 year period with an average of 5.5 measurments per female, so over a minimum of 5.5 years or 2008 days (t2 = 6753 + 2008)
+
+
+meta_table <- tribble(
+    ~behaviour,              ~R,  ~R_se, ~CI_lower, ~CI_upper, ~sample_size,  ~t1,   ~t2, ~delta_t, ~measurements_per_ind, ~remarks,
+    "boldness",            0.61,     NA,      0.57,      0.66,          458, 6753,   8760,    2008,                    5.5, "one measurement per year and average of 5.5 equals 5.5 years span of rpt",
+    "boldness",            0.82,     NA,      0.54,      0.92,           35, 6753,  7118,      365,                      3, "measurement times start based on mean adult life time" 
+)
+
+meta_table <- meta_table %>% 
+    mutate(Key = "AKG6LAL3",
+           sex = 1,
+           context = 3,
+           type_of_treatment = NA,
+           treatment = NA,
+           life_stage = "adult",
+           event = NA,
+           p_val = NA)
+
+write_delim(meta_table, path = "output/Bubac_Coltman_2018.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
+
