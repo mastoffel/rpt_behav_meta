@@ -7,7 +7,7 @@ library(httr)
 library(rptR)
 
 # variables from the meta table
-meta_table_template <- data.frame("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
+meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
                          "sample_size" = NA, 
                          "sex" = NA,                # 0 = both, 1 = females, 2 = males
@@ -272,14 +272,14 @@ write_delim(meta_table, path = "output/Ballew_Mittelbach_2017.txt", delim = " ",
 
 
     
-###### Paper 7 #######
+###### Paper 7: Bosco et al 2017, nearly done: waiting for authors to write about ages #######
 # Bosco, Jennifer M.; Riechert, Susan E.; O'Meara, Brian C.	2017
 # the ontogeny of personality traits in the desert funnel-web spider, agelenopsis lisa (araneae: agelenidae)
 
 library(tabulizer)
 library(magrittr)
 library(broom)
-
+library(tidyverse)
 location <- "data/papers/Bosco et al. - 2017 - the ontogeny of personality traits in the desert f.pdf"
 # Extract the table
 out <- extract_tables(location, pages = 6)
@@ -299,7 +299,7 @@ R_table <- extract_tables(location,
 
 str(R_table[1])
 R_table[[1]] <- mutate(R_table[[1]], p = as.numeric(p))
-R_table_tidy <- R_table %>% 
+meta_table <- R_table %>% 
                 reduce(bind_rows) %>% 
                 as_tibble() %>% 
                 rename(behaviour = Trait,
@@ -314,29 +314,55 @@ R_table_tidy <- R_table %>%
                 filter(life_stage != "") %>% 
                 filter(life_stage != "female") %>% 
                 mutate(sex = replace_na(sex, "female")) %>% 
-                print(n = 60)
                 mutate(sex = case_when(sex == "male" ~ 2,
-                                       sex == "female" ~ 1))
+                                       sex == "female" ~ 1)) %>% 
                 #seperate(life_stage, into = c("life_stage", ""))
                 print(n = 60)
-    
-    
-    meta_table_template <- data.frame("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
-        "species_common" = NA, 
-        "sample_size" = NA, 
-        "sex" = NA,                # 0 = both, 1 = females, 2 = males
-        "behaviour" = NA,          # measured behaviour as stated by authors
-        "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp
-        "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
-        "treatment"= NA,          # Verbal description
-        "life_stage"= NA,         # "juvenile", "adult", "both"
-        "event"= NA,              # Major life-event, such as metamorphosis between measurements
-        "R"= NA,
-        "R_se"= NA,
-        "CI_lower"= NA,
-        "CI_upper"= NA,
-        "p_val"= NA,
-        "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
-        "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
-        "delta_t"= NA,             # difference between timepoints in days
-        "remarks"= NA)
+
+# info about timings:
+# We subjected each of 98 of 120 surviving spiders to a battery of 11 behavioral trait tests at three stages in the life cycle: juvenile (third–
+# fifth instar), penultimate (one molt removed from sexual maturity), and sexually mature. Two weeks separated replicate within stage tests.
+# We completed the first trial within a particular life stage seven days following an individual’s molt to a new stage and three days after an ad libitum feeding.
+
+# life time of Agelenopsis lisa: probably a year with 10 instars
+# rough calculation assuming birth in spring, mature late summer:
+time_one_molt <- (365 * 3/4) / 10
+juvenile_age <- time_one_molt * 4
+penultimate_age <- time_one_molt * 9
+adult_age <- (365 * 3/4) + (365 - (365 * 3/4))/2
+
+meta_table <- meta_table %>% 
+    mutate(Key = "V5SYT8AL",
+           species_common = "desert_funnel_web_spider",
+           sample_size = 98,
+            # see paper
+           measurements_per_ind = rep(c(19, 54, 22, 67, 22, 54, 19, 54, 22, 54), 4),
+           behaviour = c(rep("aggressiveness_or_foraging_behaviour", 10), rep("exploration_or_activity", 10),
+                         rep("latency_exploring_new_envir", 10), rep("latency_to_return_after_predatory_cue", 10)),
+           context = 1,
+           type_of_treatment = 0,
+           treatment = NA,
+           event = rep(c(rep(NA, 6), "molts", "molts", "molts_sexual_maturity", "molts_sexual_maturity"), 4),
+           t1 = rep(c(rep(juvenile_age, 2), rep(penultimate_age, 2), rep(adult_age, 2), rep(juvenile_age, 2), rep(penultimate_age, 2)), 4),
+           # 14 days between measurements within stages)
+           t2 = rep(c(rep(juvenile_age, 2) + 14, rep(penultimate_age, 2) + 14, rep(adult_age, 2) + 14, 
+                    rep(penultimate_age, 2), rep(adult_age, 2)), 4)) %>% 
+    mutate(delta_t = t2 - t1,
+           remarks = "timings in days assumed from standard life-cycle of Agelenopsis")
+            
+write_delim(meta_table, path = "output/Bosco_Riechert_2016.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 8 Boulton et al 2014 To be discussed ####
+# Boulton, Kay; Grimmer, Andrew J.; Rosenthal, Gil G.; Walling, Craig A.; Wilson, Alastair J. 2014		
+# PYZL2E8A	
+# how stable are personalities? a multivariate view of behavioural variation over long and short 
+#timescales in the sheepshead swordtail, xiphophorus birchmanni
+
+
+
+
+
+
+######
