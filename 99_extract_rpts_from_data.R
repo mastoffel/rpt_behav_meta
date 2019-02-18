@@ -412,3 +412,62 @@ write_delim(meta_table, path = "output/Bubac_Coltman_2018.txt", delim = " ", col
 
 
 
+
+###### Paper 10: Burtka_Grindstaff 2013 ######
+# Burtka, Jennifer L.; Grindstaff, Jennifer L.	2013
+# LFNHZNJS		
+# repeatable nest defense behavior in a wild population of eastern bluebirds (sialia sialis) as evidence of personality
+
+library(tabulizer)
+library(magrittr)
+library(broom)
+library(tidyverse)
+location <- "data/papers/Burtka and Grindstaff - 2013 - repeatable nest defense behavior in a wild populat.pdf"
+# Extract the table
+loc_area <- locate_areas(location, pages = 7)    
+
+R_table <- extract_tables(location,
+    output = "data.frame",
+    pages = c(7), # include pages twice to extract two tables per page
+    area = list(
+        unlist(loc_area)
+    ),
+    guess = FALSE
+)
+
+# Eastern Bluebirds live around 6-10 years, average age assumed: 4 years = 1460 days
+# within year season is 230 - 90 = 140 days. (max)
+
+
+meta_table <- R_table[[1]] %>% 
+                select(2,5, 6, 8) %>% 
+                rename(R = `τ`,
+                       sample_size = N,
+                       R_se = SE,
+                       p_val = p) %>% 
+                mutate(t1 = c(rep(1460, 6)),
+                       t2 = c(rep(1460+140, 4), rep(1460 + 365, 2)),
+                       sex = rep(c(2,1), 3),
+                       behaviour = "nest_defence_aggressiveness",
+                    # see table 3
+                       measurements_per_ind = c(2.2, 2.3, 2.1, 2.3, 2, 2),
+                       context = 3,
+                       type_of_treatment = 0,
+                       treatment = NA,
+                       life_stage = "adult",
+                       event = c(rep("within_years", 4), rep("between_years", 2)),
+                       CI_lower = NA,
+                       CI_upper = NA,
+                       delta_t = c(rep(140, 4), rep(365, 2)),
+                       remarks = NA,
+                       Key = "LFNHZNJS")
+
+
+write_delim(meta_table, path = "output/Burtka_Grindstaff_2013.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
+
+
