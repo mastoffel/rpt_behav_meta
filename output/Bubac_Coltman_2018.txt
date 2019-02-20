@@ -1,3 +1,3 @@
-behaviour R R_se CI_lower CI_upper sample_size t1 t2 delta_t measurements_per_ind remarks Key sex context type_of_treatment treatment life_stage event p_val
-boldness 0.61 NA 0.57 0.66 458 6753 8760 2008 5.5 "one measurement per year and average of 5.5 equals 5.5 years span of rpt" AKG6LAL3 1 3 NA NA adult NA NA
-boldness 0.82 NA 0.54 0.92 35 6753 7118 365 3 "measurement times start based on mean adult life time" AKG6LAL3 1 3 NA NA adult NA NA
+behaviour R R_se CI_lower CI_upper sample_size t1 t2 delta_t measurements_per_ind remarks Key species_common sex context type_of_treatment treatment life_stage event p_val
+boldness 0.61 NA 0.57 0.66 458 6753 8760 2008 5.5 "one measurement per year and average of 5.5 equals 5.5 years span of rpt" AKG6LAL3 grey_seal 1 3 NA NA adult NA NA
+boldness 0.82 NA 0.54 0.92 35 6753 7118 365 3 "measurement times start based on mean adult life time" AKG6LAL3 grey_seal 1 3 NA NA adult NA NA

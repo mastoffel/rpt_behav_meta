@@ -5,7 +5,10 @@ library(readxl)
 library(XLConnect)
 library(httr)
 library(rptR)
-
+library(tabulizer)
+library(magrittr)
+library(broom)
+library(tidyverse)
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
@@ -343,6 +346,7 @@ meta_table <- meta_table %>%
            context = 1,
            type_of_treatment = 0,
            treatment = NA,
+           R_se = NA,
            event = rep(c(rep(NA, 6), "molts", "molts", "molts_sexual_maturity", "molts_sexual_maturity"), 4),
            t1 = rep(c(rep(juvenile_age, 2), rep(penultimate_age, 2), rep(adult_age, 2), rep(juvenile_age, 2), rep(penultimate_age, 2)), 4),
            # 14 days between measurements within stages)
@@ -397,6 +401,7 @@ meta_table <- tribble(
 
 meta_table <- meta_table %>% 
     mutate(Key = "AKG6LAL3",
+           species_common = "grey_seal",
            sex = 1,
            context = 3,
            type_of_treatment = NA,
@@ -418,10 +423,6 @@ write_delim(meta_table, path = "output/Bubac_Coltman_2018.txt", delim = " ", col
 # LFNHZNJS		
 # repeatable nest defense behavior in a wild population of eastern bluebirds (sialia sialis) as evidence of personality
 
-library(tabulizer)
-library(magrittr)
-library(broom)
-library(tidyverse)
 location <- "data/papers/Burtka and Grindstaff - 2013 - repeatable nest defense behavior in a wild populat.pdf"
 # Extract the table
 loc_area <- locate_areas(location, pages = 7)    
@@ -460,7 +461,8 @@ meta_table <- R_table[[1]] %>%
                        CI_upper = NA,
                        delta_t = c(rep(140, 4), rep(365, 2)),
                        remarks = NA,
-                       Key = "LFNHZNJS")
+                       Key = "LFNHZNJS",
+                       species_common = "eastern_bluebird")
 
 
 write_delim(meta_table, path = "output/Burtka_Grindstaff_2013.txt", delim = " ", col_names = TRUE)
@@ -468,6 +470,39 @@ write_delim(meta_table, path = "output/Burtka_Grindstaff_2013.txt", delim = " ",
 
 
 
+###### Paper 11: Cabrera_Andres_2017 #######
+ #Cabrera, Doreen; Andres, Daniel; McLoughlin, Philip D.; Debeffe, Lucie; Medill, Sarah A.; Wilson, Alastair J.; Poissant, Jocelyn	2017	
+# ESF6PD88	
+# island tameness and the repeatability of flight initiation distance in a large herbivore
 
+location <- "data/papers/Cabrera et al. - 2017 - island tameness and the repeatability of flight in-rotated.pdf"
 
+# average time of measurements among days: 
+delta_t_among <- 10.2
+# all data from foles (maximum of one year old, but rather a few days to a few months)
+# assumed here: 365/2 = 182.5 days
+age_fole <- 365/2
+
+tribble(
+    ~timespan,         ~sample_size, ~measurements_per_ind,    ~R, ~R_se,     ~t1,                           ~t2,      ~delta_t,
+  #  "within_among_days",          103,               376/103,   0.42,  0.06,  age_fole, age_fole + delta_t_among, delta_t_among,
+    "within_days",                156,               375/156,   0.55,  0.05,  age_fole,           age_fole + 0.5,           0.5,
+    "among_days",                  45,                 99/45,   0.39,  0.12,  age_fole, age_fole + delta_t_among, delta_t_among
+) %>% 
+    mutate(Key = "ESF6PD88",
+           species_common = "horse",
+           sex = 0,
+           behaviour = "flight_initiation_distance",
+           context = 3,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "juvenile",
+           event = NA,
+           CI_lower = NA,
+           CI_upper = NA,
+           p_val = NA,
+           remarks = "foles under 1 year") %>% 
+    select(-timespan) -> meta_table
+
+write_delim(meta_table, path = "output/Cabrera_Andres_2017.txt", delim = " ", col_names = TRUE)
 
