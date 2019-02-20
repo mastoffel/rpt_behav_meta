@@ -506,3 +506,72 @@ tribble(
 
 write_delim(meta_table, path = "output/Cabrera_Andres_2017.txt", delim = " ", col_names = TRUE)
 
+
+###### Paper 12: D'Eath_2004 #######
+# D'Eath, RB 2004	
+# 2WGN2QQC		
+# consistency of aggressive temperament in domestic pigs: the effects of social experience and social disruption
+
+# pigs were tested with two different intruders on the same day
+tribble(
+     ~sample_size, ~measurements_per_ind,    ~R, ~R_se, ~p_val,    ~t1,   ~t2,      ~delta_t,
+          112,                         2,   0.303,  NA,  0.002,     48,  48.1,       0.1,
+          112,                         2,   0.453,  NA,  0.001,     80,  80.1,       0.1,
+          112,                         2,   0.629,  NA,  0.001,    113, 113.1,       0.1,
+          112,                         6,   0.413,  NA,  NA,        48,     113,      65
+) %>% 
+    mutate(Key = "2WGN2QQC",
+           species_common = "domestic_pig",
+           sex = 0,
+           behaviour = "aggressiveness",
+           context = 1,
+           type_of_treatment = c(0,0,0,2),
+           teatment = c(NA, NA, NA, "litter_change"),
+           life_stage = c("juvenile", "adult", "adult", "both"),
+           event = NA,
+           CI_lower = NA,
+           CI_upper = NA,
+           remarks = c("correlation", "correlation", "correlation", "repeatability")
+           ) -> meta_table
+
+write_delim(meta_table, path = "output/D'eath_2004.txt", delim = " ", col_names = TRUE)
+
+##### Paper 13: David_Auclair_2012 ######
+# David, Morgan; Auclair, Yannick; Cezilly, Frank	2012	
+# assessing short- and long-term repeatability and stability of personality in captive zebra finches using longitudinal data
+# Z9FL9L9P	
+
+# long term  exploration delta_t = 263 d
+# long term struggling rate detla_t = 209 d
+# short_term = 7 day first session, 3 day second session
+
+# zebra finch life span : 2-3 years (Zann 1996)
+# e.g. long term intervall ~23 % of the life of a wild zebrafinch
+# short term
+
+# only females, two month of age
+# 20 for explor, 17 for struggling
+
+
+tribble(
+    ~behaviour,   ~sample_size, ~measurements_per_ind,    ~R, ~CI_lower, ~CI_upper, ~p_val,    ~t1,   ~t2,      ~delta_t,
+    "exploration",          17,                     2,    0.81,    0.59,     0.95,  0.001,     61,    68,            7, 
+    "exploration",          17,                     2,    0.35,       0,     0.73,  0.14,   322.5, 325.5,            3,   
+    "exploration",          17,                     4,    0.76,    0.46,     0.92,  0.001,     61,   324,           263,
+    "struggling_rate",      20,                     2,    0.54,    0.21,     0.88,  0.005,     61,    68,            7, 
+    "struggling_rate",      20,                     2,    0.88,    0.78,     0.99,  0.001,  268.5, 271.5,            3,
+    "struggling_rate",      20,                     4,    0.15,   -0.31,     0.61,  0.25,      61,   270,           209
+) %>% 
+    mutate(Key = "Z9FL9L9P",
+           species_common = "zebra_finch",
+           sex = 1,
+           context = 1,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "adult",
+           event = NA,
+           R_se = NA,
+           remarks = NA
+    ) -> meta_table
+    
+write_delim(meta_table, path = "output/David_Auclair_2012.txt", delim = " ", col_names = TRUE)
