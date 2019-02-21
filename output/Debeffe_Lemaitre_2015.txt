@@ -1,0 +1,3 @@
+behaviour sample_size measurements_per_ind R CI_lower CI_upper p_val t1 t2 delta_t remarks Key species_common sex context type_of_treatment life_stage event treatment R_se
+docility 116 4 0.41 0.3 0.51 NA 1132 1317 185 "delta_t is full season" 4ABCSFR6 roe_deer 0 3 0 both NA NA NA
+docility 65 2.7 0.31 0.13 0.49 NA 1132 1937.5 805.5 "delta_t is full season plus an 2.7*365 days" 4ABCSFR6 roe_deer 0 3 0 both NA NA NA

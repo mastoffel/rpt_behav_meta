@@ -1,0 +1,4 @@
+behavior R R_se p_val sample_size measurements_per_ind t1 t2 delta_t Key species_common sex context type_of_treatment treatment life_stage event CI_lower CI_upper remarks
+aggressiveness 0.56 NA 0.01 85 2 77 78 1 SX3CYX5C pig 0 1 0 NA juvenile NA NA NA "All spearman rank correlations, no SE, not the same individuals for short and long term rpt"
+aggressiveness 0.73 NA 0.01 78 2 77 78 1 SX3CYX5C pig 0 1 0 NA juvenile NA NA NA "All spearman rank correlations, no SE, not the same individuals for short and long term rpt"
+aggressiveness 0.57 NA 0.01 53 2 49 77 28 SX3CYX5C pig 0 1 0 NA juvenile NA NA NA "All spearman rank correlations, no SE, not the same individuals for short and long term rpt"

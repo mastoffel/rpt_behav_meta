@@ -536,7 +536,7 @@ tribble(
 
 write_delim(meta_table, path = "output/D'eath_2004.txt", delim = " ", col_names = TRUE)
 
-##### Paper 13: David_Auclair_2012 ######
+###### Paper 13: David_Auclair_2012 ######
 # David, Morgan; Auclair, Yannick; Cezilly, Frank	2012	
 # assessing short- and long-term repeatability and stability of personality in captive zebra finches using longitudinal data
 # Z9FL9L9P	
@@ -575,3 +575,124 @@ tribble(
     ) -> meta_table
     
 write_delim(meta_table, path = "output/David_Auclair_2012.txt", delim = " ", col_names = TRUE)
+
+###### Paper 14: DeWitt_Sih_1999 ####
+# DeWitt, TJ; Sih, A; Hucko, JA	1999
+# 7QAACTY6	
+# trait compensation and cospecialization in a freshwater snail: size, shape and antipredator behaviour
+
+# snail were wild caught
+
+# To quantify the repeatability of individual variation in antipredator behaviour, we repeated our
+# behavioural assays on 6 days spread over a 13-day period.
+tribble(
+    ~behaviour,   ~sample_size, ~measurements_per_ind,    ~R, ~CI_lower, ~CI_upper,  ~p_val,    ~t1,   ~t2, ~delta_t,
+    "antipredator_behaviour",         96,           3,   0.33,      NA,        NA,   0.0001,     NA,    NA,         3,  
+    "antipredator_behaviour",         96,           6,   0.27,      NA,        NA,   0.0001,     NA,    NA,        13     
+) %>% 
+    mutate(Key = "7QAACTY6",
+           species_common = "physid_snail",
+           context = 2,
+           remarks = "No SE/CI, also data was obtained by pooling across video observation, i.e. measurement per ind not reliable",
+           sex = 0,
+           context = 2, 
+           type_of_treatment = 0,
+           treatment = NA, 
+           lifes_stage = NA,
+           event = NA,
+           R_se = NA) -> meta_table
+write_delim(meta_table, path = "output/DeWitt_Sih_1999.txt", delim = " ", col_names = TRUE)
+
+###### Paper 15: Debeffe_Lemaitre_2015 #######
+# Debeffe, L.; Lemaitre, J. F.; Bergvall, U. A.; Hewison, A. J. M.; Gaillard, J. M.; Morellet, N.; Goulard, M.; Monestier, C.; David, M.; Verheyden-Tixier, H.; Jaederberg, L.; Vanpe, C.; , Kjell; er, P.	
+# 4ABCSFR6	2015	
+# short- and long-term repeatability of docility in the roe deer: sex and age matter
+
+# winter 2007e2008 and winter 2012e2013
+# N = 130 individuals for a total of 532 capture events, mean ± SE number of captures per individual = 4.09 ± 2.81, range 2e22
+
+# Between-winter adjusted repeatability of standardized handling scores was assessed as a measure of long-term repeatability while controlling for sex differences in repeatability
+# and using a subsample of 65 individuals recaptured during successive winters (mean ± SE ¼ 2.68 ± 0.97 winters, range 2e5).
+# winter capuring season delta_t = 185 days, between 12 November and 25 March
+# between years: 365 + 185
+
+# within season : N = 117
+# between seasons: N = 65
+
+# roe deer life expectancy at 1 year of age: 10-12 years
+# sample: 66 juveniles (<1 year), 87 adults, i.e. roughly average age: (66 * 1/2 + 87 * 5) / (66 + 87) = 3.1 years = 1132 days
+# 2.7: average number of winters an individual is caught: so delta_t (between 2.7 winters) = 1.7 * 365 + 185
+
+#### sex difference is reported but not split into long and short term
+
+delta_t_between <- (1.7*365)+185
+
+tribble(
+    ~behaviour,   ~sample_size, ~measurements_per_ind,    ~R, ~CI_lower, ~CI_upper,  ~p_val,    ~t1,                    ~t2,        ~delta_t, ~remarks,
+    "docility",         116,           4,               0.41,      0.30,      0.51,      NA,   1132,              1132+185,             185, "delta_t is full season",
+    "docility",          65,           2.7,             0.31,      0.13,      0.49,      NA,   1132,  1132+delta_t_between, delta_t_between, "delta_t is full season plus an 2.7*365 days"   
+) %>% 
+    mutate(Key = "4ABCSFR6",
+           species_common = "roe_deer",
+           sex = 0,
+           context = 3,
+           type_of_treatment = 0,
+           life_stage = "both",
+           event = NA,
+           treatment = NA,
+           R_se = NA) -> meta_table
+
+write_delim(meta_table, path = "output/Debeffe_Lemaitre_2015.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
+
+
+
+###### Paper 16: English_Nakagawa_2010 incomplete, longitudinal? #######
+# English, S.; Nakagawa, S.; Clutton-Brock, T. H. 2010	
+# XR32CK8A	
+# consistent individual differences in cooperative behaviour in meerkats (suricata suricatta)
+
+# 2-19 measures per individual (average 10 ?)
+# few individuals survive beyond 4 years of age
+# tribble(
+#     ~behaviour,     ~R,   ~R_se, ~p_val, ~N_o, N_i,   ~t1,                    ~t2,        ~delta_t, ~remarks,
+#   #  "babysitting",  0.218, 0.046, 0.0001, 6460, 646,                              
+# )
+
+
+###### Paper 17: Erhard_Mendl_1997 #######
+
+# Erhard, HW; Mendl, M		1997	
+# SX3CYX5C
+# measuring aggressiveness in growing pigs in a resident-intruder situation
+
+# 1 and 2: 11 weeks of age and 1 day later
+
+tribble(
+    ~behavior,         ~R, ~R_se, ~p_val, ~sample_size, ~measurements_per_ind, ~t1, ~t2, ~delta_t,
+    "aggressiveness",  0.56, NA,     0.01,   85,                              2,  77,  78,        1,
+    "aggressiveness",  0.73, NA,     0.01,   78,                              2,  77,  78,        1,
+    "aggressiveness",  0.57, NA,     0.01,   53,                              2,  49,  77,        28
+) %>% 
+    mutate(Key = "SX3CYX5C",
+           species_common = "pig",
+           sex = 0,
+           context = 1,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "juvenile",
+           event = NA,
+           CI_lower = NA,
+           CI_upper = NA,
+           remarks = "All spearman rank correlations, no SE, not the same individuals for short and long term rpt") -> meta_table
+
+write_delim(meta_table, path = "output/Erhard_Mendl_1997.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
