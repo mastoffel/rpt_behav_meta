@@ -9,6 +9,7 @@ library(tabulizer)
 library(magrittr)
 library(broom)
 library(tidyverse)
+library(metaDigitise)
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
@@ -694,5 +695,235 @@ write_delim(meta_table, path = "output/Erhard_Mendl_1997.txt", delim = " ", col_
 
 
 
+
+
+
+###### Paper 18: Fisher_James_2015 incomplete, data_to_be_analysed #####
+
+# Fisher, David N.; James, Adele; Rodriguez-Munoz, Rol; , o; Tregenza, Tom	2015	
+# behaviour in captivity predicts some aspects of natural behaviour, but not others, in a wild cricket population
+# FVQNEVJS
+# url with data
+# "https://ore.exeter.ac.uk/repository/handle/10871/16930"
+url <- "https://ore.exeter.ac.uk/repository/bitstream/handle/10871/16930/bae.w2.txt?sequence=4&isAllowed=y"
+wild_shy <- read_delim(url, delim = "\t")
+names(wild_shy)
+table(wild_shy$tag)
+table(wild_shy$date)
+
+###### Paper 19: Gabriel_Black_2010 ######
+# Gabriel, Pia O.; Black, Jeffrey M.	2010	
+# NWYGHZWI
+# behavioural syndromes in steller's jays: the role of time frames in the assessment of behavioural traits
+
+
+# long term: measurments_per_ind = 3.4, N = 109
+# age: 1-11 years, so take 5 years, 1825 days
+# sample size long term is guessed
+# could be double checked
+# I think measures have been averaged across years for long term, so only one datapoint for 2006 and one for 2008
+
+
+
+tribble(
+      ~R, ~CI_lower, ~CI_upper, ~sample_size, ~measurements_per_ind,        ~t1,       ~t2,   ~delta_t,  ~p_val, 
+    0.49,      0.33,      0.64,          44,                   3.4,        1825,    1825+365,      365,  0.0001,
+    0.41,      0.28,      0.54,          65,                   3.4,  1825+2*365,  1825+3*365,      365,  0.0001,
+    0.74,      0.49,      0.88,          20,                     2,        1825,  1825+3*365,    3*365,  0.0001   
+) %>% 
+    mutate(Key = "NWYGHZWI",
+           species_common = "stellers_jay",
+           behaviour = "risk_taking",
+           sex = 0,
+           context = 3,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "adult",
+           event = "between_season",
+           R_se = NA,
+           remarks = "sample sizes and measurement were a bit of guesswork") -> meta_table
+
+write_delim(meta_table, path = "output/Gabriel_Black_2010.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 20: Garamszegi_Mark_2015 ######
+
+# Garamszegi, L.Z.; Mark, G.; Szsz, E.; Zsebk, S.; Azcrate, M.; Herczeg, G.; Trk, J. 2015
+# among-year variation in the repeatability, within- and between-individual, and phenotypic correlations of behaviors in a natural population
+# WFBJ35EC	
+
+# juveniles and adults
+# collared flycatcher
+# not clear from article how far apart between year repeatabilities are
+# basically its within year but different individuals in the 5 years
+# and then between years it can be any 2 or more years within these 8 (so minimum 2, maximum 8 years)
+
+# average measurements within year: 2.74
+
+location <- "data/papers/Garamszegi et al. - 2015 - among-year variation in the repeatability, within-.pdf"
+# Extract the table
+loc_area <- locate_areas(location, pages = 10)    
+
+R_table <- extract_tables(location,
+    output = "data.frame",
+    pages = c(10), # include pages twice to extract two tables per page
+    area = list(
+        unlist(loc_area)
+    ),
+    guess = FALSE
+)
+
+# over course of 8 years, but unclear whats the average distance, so minimum 2 years taken
+extract_table <- function(trait) {
+    trait <- enquo(trait)
+    R_table[[1]] %>% 
+        filter(!(Year == "")) %>% 
+        select(!!trait, Year) %>% 
+        separate(!!trait, into = c("sample_size", "R", "CI"), sep = " ") %>% 
+        separate(CI, into = c("CI_lower", "CI_upper"), sep = "/") %>% 
+        mutate(CI_lower = str_replace(CI_lower, "\\(", ""), 
+            CI_upper = str_replace(CI_upper, "\\)", ""),
+            delta_t = c(rep(365, 5), 365 * 2),
+            remarks = paste0("year_", Year),
+            measurements_per_ind = c(rep(2.7, 5), 2), 
+            behaviour = str_replace(!!trait, "\\.", "_"),
+            sex = c(rep(0, 5), 2)) %>% 
+        select(-Year)
+} 
+
+# list to table
+meta_table <- bind_rows(lapply(c("Novelty.avoidance", "Aggression", "Risk.taking"), extract_table)) %>% 
+                mutate(
+                    Key = "WFBJ35EC",
+                    species_common = "collared_flycatcher",
+                    context = 3,
+                    type_of_treatment = 0,
+                    treatment = NA,
+                    life_stage = "both",
+                    event = NA,
+                    R_se = NA,
+                    p_val = NA,
+                    t1 = "average_age",
+                    t2 = rep(c(rep("average_age_plus_365", 5), "average_age_plus_at_least_2times365"), 3)
+                )
+
+write_delim(meta_table, path = "output/Garamszegi_Mark_2015.txt", delim = " ", col_names = TRUE)
+
+
+
+
+###### Paper 21: Gifford_Clay_2014 : FROM here also species_latin variable and avg_adult var when age not reported ######
+
+# Gifford, Matthew E.; Clay, Timothy A.; Careau, Vincent 2014	
+# D4KRF54L	
+# individual (co) variation in standard metabolic rate, feeding rate, and exploratory behavior in wild-caught semiaquatic salamanders
+
+# adult individuals caught from the wild
+# lifetime: up to 10 years?
+
+# three years here
+avg_adult <- 5*365
+
+tribble(
+    ~behaviour,                 ~R,  ~R_se,  ~sample_size,~measurements_per_ind,  ~delta_t,            ~t1,           ~t2,
+    "feeding_rate",          0.778, 0.101,             19,                   2,         21,      avg_adult, avg_adult + 3,
+    "feeding_rate",          0.543, 0.192,             19,                   2,         42,  avg_adult + 3, avg_adult + 9,
+    "feeding_rate",          0.451, 0.217,             19,                   2,         63,      avg_adult, avg_adult + 9, 
+    "exploratory_behaviour", 0.389, 0.237,             19,                   2,         21,      avg_adult, avg_adult + 3,
+    "exploratory_behaviour", 0.302, 0.251,             19,                   2,         42,  avg_adult + 3, avg_adult + 9,
+    "exploratory_behaviour", 0.147, 0.258,             19,                   2,         63,      avg_adult, avg_adult + 9
+) %>% 
+    mutate(Key = "D4KRF54L",
+           species_common = "ouchita_dusky_salamander",
+           species_latin  = "Desmognathus_brimleyorum",
+           sex = 0,
+           context = 2,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "adult",
+           event = NA,
+           CI_lower = NA,
+           CI_upper = NA,
+           p_val = NA,
+           remarks = NA) -> meta_table
+
+write_delim(meta_table, path = "output/Gifford_Clay_2014.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
+
+
+
+
+###### Paper 22: Goold_Newberry_2017 incomplete, data_to_be_analysed #######
+
+url <- "https://github.com/ConorGoold/GooldNewberry_aggression_shelter_dogs/blob/master/raw_data.csv"
+
+dat <- read_csv(url)
+
+###### Paper 23: Grace_Anderson_2014 #####
+# Grace, Jacquelyn K.; Anderson, David J. 2014
+# X75NVMBP
+# personality correlates with contextual plasticity in a free-living, long-lived seabird
+
+# nazga booby
+# lifespan up to at least 26 years
+# ~43 days egg incubation 15 days nestling brooding, all testing during incubation
+# first round of testin:
+# nest intruder 444 birds on eggs, 35 on chicks
+# novel object: 418 on eggs, 61 on chicks
+# second novel object and social stimulus: 409 on eggs, 70 on chicks
+
+# behaviours:
+# Gardening / Moving nest material / Mateadvertisement (males), Territy display (both), anxiety or agitation 
+# Shaking / Body shakes and shivers / Aggressive signal, anxiety or agitation related
+# Aggression / Biting and jabbing intruder, novel object, simulated conspecific / Aggressivenes or Boldness
+
+# four tests :nest intruder, two novel object, one social stimulus
+# first novel obj: red bull can, second: plastic crate
+
+# test sequence (all during incubation): 
+# session 1: 2008-2009, sample size 51
+# session 2: 2009-2010, sample size 71
+# session 3: 2010       sample size 15
+# session 4: 2011-2012 (repeated birds from session 1-3) sample size 20 / but for long term: 86
+# overall sample size short term repeatability: 51+71+15+20 = 157
+# overall samlpe size long term repeatability : 86
+# intervals: test-retest: average: 14 days (mean sd = 13.8 +- 3.8), N = 193, two measurements per session
+#            test-retest long term: min: 1 year, max: 2 years, so lets take mean: 548 days
+todigit <- metaDigitise("to_digitise/study3_grace2014/")
+ # write_delim(todigit, path = "to_digitise/study3_grace2014/digitized_figure.txt")
+todigit <- read_delim("to_digitise/study3_grace2014/digitized_figure.txt", delim = " ")
+# to be figured out
+avg_adult <- NA
+
+
+todigit %>% 
+    select(group_id, mean, se, n) %>% 
+    rename(R = mean,
+           behaviour = group_id,
+           R_se = se,
+           sample_size = n) %>% 
+    mutate(delta_t = c(rep(548, 12), rep(14, 12)),
+           measurements_per_ind = c(rep(2, 12), rep(2, 12)), 
+           sex = 0,
+           context = 3,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "adult",
+           event = c(rep("between_season", 12), rep("within_season", 12)),
+           CI_lower = NA,
+           CI_upper = NA,
+           p_val = NA,
+           t1 = NA,
+           t2 = NA,
+           remarks = "age_unknown",
+           Key = "X75NVMBP",
+           species_common = "nazca_booby") -> meta_table
+
+write_delim(meta_table, path = "output/Grace_Anderson_2014.txt", delim = " ", col_names = TRUE)
 
 

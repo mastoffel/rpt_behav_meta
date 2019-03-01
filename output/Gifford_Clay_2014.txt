@@ -1,0 +1,7 @@
+behaviour R R_se sample_size measurements_per_ind delta_t t1 t2 Key species_common species_latin sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val remarks
+feeding_rate 0.778 0.101 19 2 21 1825 1828 D4KRF54L ouchita_dusky_salamander Desmognathus_brimleyorum 0 2 0 NA adult NA NA NA NA NA
+feeding_rate 0.543 0.192 19 2 42 1828 1834 D4KRF54L ouchita_dusky_salamander Desmognathus_brimleyorum 0 2 0 NA adult NA NA NA NA NA
+feeding_rate 0.451 0.217 19 2 63 1825 1834 D4KRF54L ouchita_dusky_salamander Desmognathus_brimleyorum 0 2 0 NA adult NA NA NA NA NA
+exploratory_behaviour 0.389 0.237 19 2 21 1825 1828 D4KRF54L ouchita_dusky_salamander Desmognathus_brimleyorum 0 2 0 NA adult NA NA NA NA NA
+exploratory_behaviour 0.302 0.251 19 2 42 1828 1834 D4KRF54L ouchita_dusky_salamander Desmognathus_brimleyorum 0 2 0 NA adult NA NA NA NA NA
+exploratory_behaviour 0.147 0.258 19 2 63 1825 1834 D4KRF54L ouchita_dusky_salamander Desmognathus_brimleyorum 0 2 0 NA adult NA NA NA NA NA

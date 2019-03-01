@@ -19,6 +19,7 @@ DOI
 Pages
 Volume
 
+# in R script: variable avg_adult means that the age at first measurement was not reported and the average age taken instead.
 
 # These variables were added to collect data
 

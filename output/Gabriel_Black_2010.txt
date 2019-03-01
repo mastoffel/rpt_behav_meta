@@ -1,0 +1,4 @@
+R CI_lower CI_upper sample_size measurements_per_ind t1 t2 delta_t p_val Key species_common behaviour sex context type_of_treatment treatment life_stage event R_se remarks
+0.49 0.33 0.64 44 3.4 1825 2190 365 1e-4 NWYGHZWI stellers_jay risk_taking 0 3 0 NA adult between_season NA "sample sizes and measurement were a bit of guesswork"
+0.41 0.28 0.54 65 3.4 2555 2920 365 1e-4 NWYGHZWI stellers_jay risk_taking 0 3 0 NA adult between_season NA "sample sizes and measurement were a bit of guesswork"
+0.74 0.49 0.88 20 2 1825 2920 1095 1e-4 NWYGHZWI stellers_jay risk_taking 0 3 0 NA adult between_season NA "sample sizes and measurement were a bit of guesswork"
