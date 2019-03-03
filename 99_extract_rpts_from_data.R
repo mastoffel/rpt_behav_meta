@@ -13,6 +13,7 @@ library(metaDigitise)
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
+                         "species_latin" = NA,
                          "sample_size" = NA, 
                          "measurements_per_ind" = NA, # new, check papers 1-6 again
                          "sex" = NA,                # 0 = both, 1 = females, 2 = males
@@ -922,8 +923,58 @@ todigit %>%
            t2 = NA,
            remarks = "age_unknown",
            Key = "X75NVMBP",
-           species_common = "nazca_booby") -> meta_table
+           species_common = "nazca_booby",
+           species_latin = "sula_granti") -> meta_table
 
 write_delim(meta_table, path = "output/Grace_Anderson_2014.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 24: Greggor_Jolles_2016 ######
+
+# Greggor, Alison L.; Jolles, Jolle W.; Thornton, Alex; Clayton, Nicola S.	2016
+# 6GYLQSZ7		
+# seasonal changes in neophobia and its consistency in rooks: the effect of novelty type and dominance position
+
+# rooks
+# risk-taking 
+# captive rooks
+# long term: 4 year period / neophobia and dominance
+# 19 initially, 16 in the end
+# birds were 7 years old during first testing 2010 (and then 2014 )
+# breeding season: end of feburary / early march
+# 3 measurements in 2014: breeding season 2014, summer and winter // dominance hierarchies
+
+7*365
+11*365
+
+# breeding to non-breeding season ~ 365/2
+# assumed length of breeding season ~1 month
+# assumed length of non-breeding season measurements: ~1 month
+tribble(
+    ~behaviour,          ~R, ~CI_lower, ~CI_upper,  ~t1,  ~t2, ~delta_t,                                              ~event,   ~remarks,
+    "dominance_ranks", 0.77,      0.45,      0.91, 2555, 4015,     1460,             "across_breeding_seasons_in_both_years",   "spearman_corr",
+    "dominance_ranks", 0.42,     -0.10,      0.76, 4015, 4198,      183, "within_year_change_breeding_to_nonbreeding_season",   "spearman_corr",
+    "novel_object",    0.28,      0.16,      0.49, 4015, 4045,       30,                            "within_breeding_season",   "neophobia",
+    "novel_object",    0.15,      0.06,      0.34, 4198, 4228,       30,                         "within_nonbreeding_season",   "neophobia",
+    "novel_object",    0.49,     -0.01,      0.79, 4015, 4198,      183,             "change_breeding_to_nonbreeding_season",   "neophobia",
+    "novel_object",    0.48,      0.00,      0.78, 2555, 4015,     1460,             "across_breeding_seasons_in_both_years",   "spearman_corr",
+    "novel_people",    0.16,      0.06,      0.36, 4015, 4045,       30,                            "within_breeding_season",   "neophobia",
+    "novel_people",    0.00,      0.00,      0.07, 4198, 4228,       30,                         "within_nonbreeding_season",   "neophobia",
+    "novel_people",    0.55,      0.07,      0.82, 4015, 4198,      183, "within_year_change_breeding_to_nonbreeding_season",   "spearman_corr"
+) %>% 
+    mutate(Key = "6GYLQSZ7",
+           species_common = "rook",
+           species_latin = "Corvus_frugilegus",
+           sample_size = 16,
+           measurements_per_ind = c(2, 2, 2, 2, 4, 2, 2, 2, 4),
+           sex = 0,
+           context = 1,
+           type_of_treatment = 0,
+           life_stage = "adult",
+           R_se = NA,
+           p_val = NA) -> meta_table
+
+write_delim(meta_table, path = "output/Greggor_Jolles_2016.txt", delim = " ", col_names = TRUE)
 
 
