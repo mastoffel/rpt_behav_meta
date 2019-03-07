@@ -1,0 +1,3 @@
+R behaviour sample_size measurements_per_ind delta_t t1 t2 event Key species_common species_latin sex context type_of_treatment treatment life_stage R_se CI_lower CI_upper p_val remarks
+0.59 novel_object 80 2 30 1095 1125 non_breeding_season GZFPB2J7 european_mink Mustela_lutreola 0 1 0 NA both NA NA NA NA "no se or ci or pval, maybe simulation?"
+0.69 novel_object 68 4 120 1095 1215 non_breeding_to_breeding_season_rpt GZFPB2J7 european_mink Mustela_lutreola 0 1 0 NA both NA NA NA NA "no se or ci or pval, maybe simulation?"

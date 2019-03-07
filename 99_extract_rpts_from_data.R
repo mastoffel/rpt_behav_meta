@@ -31,7 +31,8 @@ meta_table_template <- tibble("Key" = NA,                # identifier in meta-ta
                          "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
                          "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
                          "delta_t"= NA,             # difference between timepoints in days
-                         "remarks"= NA)
+                         "remarks"= NA,
+                         "max_lifespan_days" = NA)
 
 
 ###### Paper 1: Baker_Goodman 2018 ##########
@@ -977,4 +978,526 @@ tribble(
 
 write_delim(meta_table, path = "output/Greggor_Jolles_2016.txt", delim = " ", col_names = TRUE)
 
+
+
+###### Paper 25: Guenther_Groothuis_2018,  data_to_be_analysed ############
+# Guenther, A.; Groothuis, A. G. G.; Krueger, O.; Goerlich-Jansson, V. C.	2018	
+# 	4FC9GYVQ
+
+# data to be analysed and models are described in paper
+
+# cortisol during adolescence organises personality traits and behavioural syndromes
+dat <- read_xlsx("data/downloaded_from_papers/raw_data_Guenther_et_al_Hormones&Behaviour.xlsx") %>% 
+    rename(testround = age)
+table(dat$ID)
+
+# measures:
+# novel_object / boldness: No_touches
+# exploration: LF_trips
+# struggle docility: Struggle
+
+dat$testround
+# models: (testround is testround here, going from 1-3)
+# fixed: Treatment + sex + testround + treatment*sex + testround*sex + (1|mother/ID)
+# for sociapositive and aggressivenes: + (1|Stimulus)
+
+# gaussian: hand-escape latency, struggle docility
+# poisson: boldness, exploration, sociopositive
+# binary: aggressiveness
+
+# tests: first test: 61 days old, (early adolescence)
+# second: 92 days (late adolescence)
+# third: 123 days (adult)
+
+# measures detail:
+# Struggle_docility: Gaussian
+dat$Struggle
+# Hand_escape_latency: Gaussian
+dat$Hand
+# Boldness, Novel object: Poisson
+dat$NO_touches
+# Free exploration (number of trips to new area): Poisson
+dat$LF_trips
+# sociopositive behaviour: Poisson
+dat$Socpos
+# aggressive: Binary
+dat$Aggression_binary
+
+dat_final <- dat %>% 
+    select(ID, sex, Treat, mother, Stimulus, testround, Struggle, Hand, NO_touches, 
+           LF_trips, Socpos, Aggression_binary) %>% 
+    mutate_at(vars(6:11), funs(as.numeric))
+
+
+# not_roundx is which measurement round from those three not to take
+# creates meta_table
+calc_rpt <- function(resp, treat = "T", not_roundx, dat){
+    
+    nboot <- 100
+   # dat <- dplyr::filter(dat, ((Treat == treat) & (testround != not_roundx)))
+    dat <- dplyr::filter(dat, testround != not_roundx)
+    
+    if (resp %in% c("Struggle", "Hand")) {
+        mod_form <- as.formula(paste0(resp, " ~ sex + testround + testround * sex + (1|ID) + (1|mother)"))
+        res <- rpt(mod_form, data = dat, grname = "ID",
+            datatype = "Gaussian", nboot = nboot)
+    } 
+    if (resp %in% c("NO_touches", "LF_trips")) {
+        mod_form <- as.formula(paste0(resp, " ~ sex + testround + testround * sex + (1|ID) + (1|mother)"))
+        res <- rpt(mod_form, data = dat, grname = "ID",
+            datatype = "Poisson", nboot = nboot)
+    }
+    
+    if (resp == "Socpos") {
+        mod_form <- as.formula(paste0(resp, " ~ sex + testround + (1|ID) + (1|mother)")) #(1|Stimulus) + testround * sex 
+        res <- rpt(mod_form, data = dat, grname = "ID",
+            datatype = "Poisson", nboot = nboot)
+    }
+    
+    if (resp == "Aggression_binary") {
+        mod_form <- as.formula(paste0(resp, " ~ sex + testround + (1|ID) + (1|mother)")) # (1|Stimulus) + testround * sex
+        res <- rpt(mod_form, data = dat, grname = "ID",
+            datatype = "Binary", nboot = nboot)
+    }
+
+    treat_name <- ifelse(treat == "T", "cortisol", "control")
+    
+    ages_at_roundx <- data.frame("round_1" = 61, "round_2" = 92, "round_3" = 123)
+    ages <- ages_at_roundx %>% 
+               # unselect the round not used 
+               select(-grep(pattern = not_roundx, x = names(ages_at_roundx))) 
+    
+    if (resp %in% c("Struggle", "Hand")) {
+        R <- unname(res$R)
+        R_se <- unname(res$se)
+    } else {
+        R <- unname(res$R[2, ])
+        R_se <- unname(res$se[2, ])
+    }
+    out <- data.frame(R = R, 
+                      R_se = R_se, 
+                      sample_size = res$nobs,  
+                      behaviour = resp, 
+                      treatment = treat_name,
+                      t1 = unname(ages[[1]]),
+                      t2 = unname(ages[[2]])) %>% 
+                 mutate(delta_t = t2 - t1)
+    out <- as_tibble(out)
+}
+
+
+# set up variables for all models
+
+# takes a long time so split up:
+# first four responses
+resps <- c("Struggle", "Hand", "NO_touches", "LF_trips" ) #"Socpos", "Aggression_binary"
+treats <- c("T", "C")
+not_rounds <- c(3,1,2) # first measurements close in time and at last the two further away
+
+df_vars <- data.frame(all_resps = rep(resps, 6), 
+                 all_treats = rep(rep(treats, each = length(resps)), 3), 
+                 all_not_rounds = rep(not_rounds, each = length(resps)*2), stringsAsFactors = FALSE)
+
+
+all_rpts <- apply(df_vars, 1, function(x) calc_rpt(unname(x[[1]]), unname(x[[2]]), unname(x[[3]]), dat_final))
+
+# reshape some stuff which wasn't right
+all_rpts_df <- rbind_list(all_rpts) %>% 
+                mutate(R_se = ifelse(is.na(se), R_se, se)) %>% 
+                select(-se)
+# write_delim(all_rpts_df, path = "data/anja_paper_rpts1.txt")
+
+# next response:
+resps <- c("Socpos") #"Socpos", "Aggression_binary"
+# treats <- c("T", "C")
+not_rounds <- c(3,1,2) # first measurements close in time and at last the two further away
+
+df_vars <- data.frame(all_resps = rep(resps, 3), 
+    # all_treats = rep(rep(treats, each = length(resps)), 3), 
+    all_not_rounds = rep(not_rounds, each = length(resps)), stringsAsFactors = FALSE)
+
+all_rpts2 <- apply(df_vars, 1, function(x) calc_rpt(unname(x[[1]]), not_roundx = unname(x[[2]]), dat = dat_final))
+all_rpts3 <- apply(df_vars, 1, function(x) calc_rpt(unname(x[[1]]), not_roundx = unname(x[[2]]), dat = dat_final))
+
+
+
+#  "Socpos", "Aggression_binary"
+
+rpt(Struggle ~ sex + testround + testround * sex + (1 | ID) + (1 | mother), data = dat, grname = "ID",
+    datatype = "Gaussian", nboot = 10)
+
+
+
+###### Paper 26: Haage_Bergvall_2013 ######
+# Haage, Marianne; Bergvall, Ulrika A.; Maran, Tiit; Kiik, Kairi; Angerbjorn, Anders	2013	
+# situation and context impacts the expression of personality: the influence of breeding season and test context	
+# GZFPB2J7
+# european_mink
+# captive bred
+
+# within season: November/December 2009, n = 80 (males and females) 
+# between season also: march april 2010 (breeding season): N = 68
+# from juvenile to adult (0 to 6 years old) / average 3 years old?
+
+avg_adult <- 1095
+
+
+tribble(
+    ~R,    ~behaviour,     ~sample_size, ~measurements_per_ind, ~delta_t,   ~t1, ~t2,  ~event,
+    0.59, "novel_object",            80,                     2,       30,  1095, 1125, "non_breeding_season",
+    0.69, "novel_object",            68,                     4,      120,  1095, 1215, "non_breeding_to_breeding_season_rpt" 
+) %>%
+    mutate(
+        Key = "GZFPB2J7",
+        species_common = "european_mink",
+        species_latin = "Mustela_lutreola",
+        sex = 0,
+        context  = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "both",
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        remarks = "no se or ci or pval, maybe simulation?") -> meta_table
+    
+write_delim(meta_table, path = "output/Haage_Bergvall_2013.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 27: Hammond-Tooke_Cally_2012, metadigitise here #######   
+### metadigitise
+# Hammond-Tooke, Cally A.; Nakagawa, Shinichi; Poulin, Robert 2012	
+# 6TGIGAET	
+# parasitism and behavioural syndromes in the fish gobiomorphus cotidianus
+
+# common_bullies
+# Gobiomorphus cotidianus
+# "Young bullies" between 25 and 55 mm in length
+
+# fish from wild to lab
+ # three sessions, three weeks between each
+# one session : fish tested twice, 7 days apart
+# second session with predator cue added
+
+# all young fish, so guess: half a year old (they mature at 1 year)
+avg_juvenile <- 183
+
+# digitalise
+# todigit <- metaDigitise("to_digitise/study4_hammond-tooke_cally2012/")
+# write_delim(x = todigit, path = "to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt")
+todigit <- read_delim(path = "to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt")
+
+todigit %>% 
+    select(group_id, mean, n, se) %>% 
+    rename(R = mean,
+           R_se = se,
+           sample_size = n) %>% 
+    separate(group_id, into = c("session", "behaviour"), sep = "_") %>% 
+    mutate(t1 = c(rep(avg_juvenile, 6), rep(avg_juvenile + 3*7, 3), rep(avg_juvenile + 7*7, 3)),
+           t2 = c(rep(avg_juvenile + 8*7, 3), rep(avg_juvenile + 7, 3), rep(avg_juvenile + 4*7, 3), rep(avg_juvenile + 8*7, 3)),
+           delta_t = t2-t1,
+           Key = "6TGIGAET",
+           species_common = "common_bully",
+           species_latin = "Gobiomorphus_cotidianus",
+           measurements_per_ind = c(rep(6, 3), rep(2, 9)),
+           sex = 0,
+           context = 2,
+           type_of_treatment = 2,
+           treatment = c(rep("predator_cue", 3), rep("no_cue", 3), rep("predator_cue", 3), rep("no_cue", 3)),
+           life_stage = "juvenile",
+           event = NA,
+           CI_lower = NA,
+           CI_upper = NA,
+           remarks = "age_guessed") -> meta_table
+    
+write_delim(meta_table, path = "output/Hammond-Tooke_Cally_2012.txt", delim = " ", col_names = TRUE)
+
+
+
+ 
+
+
+
+###### from now on: avg_adult_age = 0.25 * max_longevity (from http://genomics.senescence.info/species/) ######
+#####              avg_juvenile_age = 0.5 * age_maturity
+##### variable    max_lifespan_days added to meta_table
+
+###### Paper 28: Herde_Eccard_2013, tabulizer here ##############     
+## tabulized extractio here
+# Herde, Antje; Eccard, Jana A.	2013
+# consistency in boldness, activity and exploration at different stages of life
+# CVPFUYZS	
+
+?tabulizer
+
+location <- "data/papers/Herde and Eccard - 2013 - consistency in boldness, activity and exploration .pdf"
+# Extract the table
+# out <- extract_tables(location, pages = 3)
+# out
+# locate_areas(location, pages = 3)    
+
+R_table <- extract_tables(location,
+    output = "data.frame",
+    pages = c(3), # include pages twice to extract two tables per page
+    area = list(c(101.44020 , 55.68943, 434.54786, 546.44064)),
+    guess = FALSE
+) 
+
+# get number of measurements
+only_num_meas <- R_table[[1]] %>% 
+    as_tibble() %>% 
+    rename(mean_sd = 4) %>% 
+    filter(grepl("\\(", mean_sd)) %>% 
+    select(mean_sd) %>% 
+    mutate(mean_sd = str_replace(mean_sd, "\\(", "")) %>% 
+    mutate(mean_sd = str_replace(mean_sd, "\\)", "")) %>% 
+    mutate(mean_sd = as.numeric(mean_sd)) %>% 
+    rename(num_measurements = mean_sd) 
+
+# transform 
+R_table[[1]] %>% 
+    as_tibble() %>% 
+    rename(mean_sd = 4,
+           over_mat = 5,
+           adult_short = 6,
+           adult_long = 7) %>% 
+    filter(!grepl("\\(", mean_sd)) %>% 
+    slice(2:n()) %>% 
+    mutate(num_measurements = only_num_meas$num_measurements) %>% 
+    mutate(Test = na_if(Test, ""),
+           over_mat = na_if(over_mat, "")) %>% 
+    fill(Test) %>% 
+    # behaviour names according to cluster analysis
+    mutate(behaviour = c("boldness1", "activity1", "activity2", "boldness2", "activity3", 
+         "boldness3",  "boldness4", "activity4", "exploration1", "exploration2", "activity5")) %>% 
+    # mutate(Definition = str_replace_all(Definition, " ", "_"),
+    #        Variable = str_replace_all(Variable, " ", "_")) %>% 
+    # unite(Test, Variable, Definition, col = "behaviour", sep = "_") %>% 
+    gather(over_mat, adult_short, adult_long, key = "timespan", value = "rpt") %>% 
+    select(behaviour, timespan, num_measurements, rpt) %>% 
+    filter(!is.na(rpt)) %>% 
+    separate(rpt, into = c("sample_size", "R", "p_val"), sep = " ") -> meta_table_raw
+
+# common_voles 
+# Microtus_arvalis
+# 1) before and after maturation over three month 62 +- 20 days old and 90 days later after mat. lab-born , 17 voles 9 males 8 females
+# 2) adult during one week / different voles, adult voles (avg life-span 4.5 month), 88 males, 80 females, wild trapped and lab tested
+# 3) adult over three month, 48 adults males and females 2.5 month apart wild trapped and lab tested
+# 
+# assumed average adult age: 0.25 * 4.8 year = 1.2 years = 438 days
+
+avg_adult_age <- 438
+
+meta_table <- meta_table_raw %>% 
+    mutate(sample_size = as.numeric(sample_size),
+           R = as.numeric(R),
+           measurements_per_ind = num_measurements/sample_size,
+           t1 = c(62, 62, rep(avg_adult_age , 22)),
+           t2 = case_when(
+               timespan == "over_mat" ~ 152,
+               timespan == "adult_short" ~ avg_adult_age  + 7,
+               timespan == "adult_long" ~ avg_adult_age + 76
+           ),
+           delta_t = t2 - t1,
+           event = c(rep("maturation", 2), rep(NA, 22)),
+           context = c(1, 1, rep(2, 22)),
+           species_common = "common_vole",
+           species_latin = "Microtus_arvalis",
+           sex = 0,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = c(rep("both", 2), rep("adult", 22)),
+           R_se = NA,
+           CI_lower = NA,
+           CI_upper = NA,
+           remarks = "no uncertainty yet",
+           max_lifespan_days = 438) %>% 
+        select(-c(num_measurements, timespan))
+
+meta_table
+
+write_delim(meta_table, path = "output/Herde_Eccard_2013.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 29: Heuschele_Ekvall_2017 #####
+
+# Heuschele, Jan; Ekvall, Mikael T.; Bianco, Giuseppe; , Hyl; er, Samuel; Hansson, Lars-Anders 2017	
+# 	"N7X6VHZ5"
+# context-dependent individual behavioral consistency in daphnia
+# Ultraviolet radiation 
+# longevity: 0.19 years = 69.35 days   69.35 * 0.25 = 17 days average adult age
+avg_adult_age <- 17
+avg_juvenile_age <- 1
+
+# Daphnia magna
+# collected in the wild
+# adults measured over 3 days
+# juveniles measured over 3 weeks
+library(tibble)
+
+tribble(
+             ~behaviour,    ~R, ~CI_lower, ~CI_upper, ~delta_t,           ~t1,              ~t2,     ~type_of_treatment,            ~treatment,
+    "swimming_velocity",  0.73,      0.45,     0.92,        3, avg_adult_age,        avg_adult_age + 3,     2,            "before_UV_radiation",
+    "swimming_velocity",  0.177,    -0.176,   0.614,        3, avg_adult_age,        avg_adult_age + 3,     2,                   "UV_radiation",
+    "swimming_velocity",  0.576,     0.207,   0.846,        3, avg_adult_age,        avg_adult_age + 3,     2,             "after_UV_radiation",
+    "swimming_velocity",  0.357,      0.097,  0.622,       21, avg_juvenile_age, avg_juvenile_age + 21,     2,            "before_UV_radiation",
+    "swimming_velocity",  0.090,     -0.135,  0.387,       21, avg_juvenile_age, avg_juvenile_age + 21,     2,                   "UV_radiation",
+    "swimming_velocity",  0.107,     -0.121,  0.404,       21, avg_juvenile_age, avg_juvenile_age + 21,     2,              "after_UV_radiation"
+    ) %>% 
+    mutate(
+     Key = "N7X6VHZ5",
+     species_common = "Daphnia_magna",
+     species_latin = "Daphnia_magna",
+     measurements_per_ind = 3, 
+     sample_size = rep(c(11,22), each = 3),
+     sex = 1,
+     context = rep(c(2, 1), each = 3),
+     life_stage = rep(c("adult", "juvenile"), each = 3),
+     event = rep(c(NA, "maturation"), each = 3),
+     R_se = NA,
+     p_val = NA,
+     remarks = "juveniles tested long term are offspring of mothers tested short term, i.e. same genes because clonal"
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Heuschele_Ekvall_2017.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 30: Holtmann_Santos_2017, data is there, needs to be analysed ####
+# Holtmann, Benedikt; Santos, Eduardo S. A.; Lara, Carlos E.; Nakagawa, Shinichi 2017	
+# personality-matching habitat choice, rather than behavioural plasticity, is a likely driver of a phenotype-environment covariance
+# V3JKY9ME
+
+url <- "https://datadryad.org/bitstream/handle/10255/dryad.154721/Flight-initiation-distance_data.xlsx?sequence=1"
+download.file(url, destfile = "data/downloaded_from_papers/holtmann_santos_2017.xlsx")
+
+dat <- read_xlsx("data/downloaded_from_papers/holtmann_santos_2017.xlsx")
+
+
+
+###### Paper 31: Hudson_Rangassamy_2015 #######
+# Hudson, Robyn; Rangassamy, Marylin; Saldana, Amor; Banszegi, Oxana; Roedel, Heiko G.	2015	
+# stable individual differences in separation calls during early development in cats and mice
+# P5DGEWV5
+
+# dat <- metaDigitise("to_digitise/study5_Hudson_Rangassamy_2015/", summary = FALSE)
+# write_delim(dat, "to_digitise/study5_Hudson_Rangassamy_2015/digitised_dat.txt")
+# dat <- read_delim(file = "to_digitise/study5_Hudson_Rangassamy_2015/digitised_dat.txt", delim = " ")
+# dat
+
+library(digitize)
+
+mydata <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot1.png")
+mydata2 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot2.png")
+mydata3 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot3.png")
+mydata4 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot4.png")
+mydata5 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot5.png")
+mydata6 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot6.png")
+mydata7 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot7.png")
+mydata8 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot8.png")
+
+
+# saveRDS(ls(), file = "to_digitise/study5_Hudson_Rangassamy_2015/all_digitised_df.RData")
+# obj <- readRDS(file = "to_digitise/study5_Hudson_Rangassamy_2015/all_digitised_df.RData")
+# make big dataframe
+df_list <- mget(paste0("mydata", c("",2:8)))
+var_names <- rep(list(c("week1", "week2"), c("week2", "week3"), c("week3", "week4"), c("week1", "week4")), 2)
+
+name_df <- function(df, df_names) {
+    names(df) <- df_names
+    df
+}
+
+dfs_proc <- map2(df_list, var_names, name_df) %>% 
+             map(function(x) mutate(x, id = paste0("id", 1:nrow(x))))
+            
+
+# reshape data a litte
+long_format_dfs <- map(dfs_proc, gather, key = "timepoint", value = "sep_calls", -id) 
+long_format_dfs[5:8] <- map(long_format_dfs[5:8], function(x) rename(x, locomotion = "sep_calls"))
+
+# locomotion sometimes negative (due to taking data from plot), make it 0 
+long_format_dfs[5:8] <- map(long_format_dfs[5:8], function(x) mutate(x, locomotion = ifelse(locomotion < 0, 0, locomotion)))
+
+# round calls
+long_format_dfs[1:4] <- map(long_format_dfs[1:4], function(x) mutate(x, sep_calls = round(sep_calls, digits = 0)))
+# repatabilities: calls: poisson, locomotion: gaussian
+get_rpts_pois <- function(df) {
+    res <- rptPoisson(sep_calls ~ (1|id), grname = "id", nboot = 1000, data = df)
+    out <- tibble(R = res$R[2, ], R_se = res$se[2, ], 
+                  t1 = unique(df$timepoint)[1], t2 = unique(df$timepoint)[2],
+                  behaviour = "separation_calls")
+}
+
+get_rpts_gauss <- function(df) {
+    res <- rptGaussian(locomotion ~ (1|id), grname = "id", nboot = 1000, data = df)
+    out <- tibble(R = as.numeric(res$R), R_se = as.numeric(res$se), 
+        t1 = unique(df$timepoint)[1], t2 = unique(df$timepoint)[2],
+        behaviour = "separation_locomotor_activity")
+}
+
+all_call_rpts <- map_dfr(long_format_dfs[1:4], get_rpts_pois)
+all_motor_rpts <- map_dfr(long_format_dfs[5:8], get_rpts_gauss)
+
+meta_table_cat <- rbind(all_call_rpts, all_motor_rpts) %>% 
+    mutate(sample_size = unlist(map(long_format_dfs, function(x) nrow(x) / 2)),
+           Key = "P5DGEWV5",
+           species_common = "domestic_cat",
+           species_latin = "felis_catus",
+           measurements_per_ind = 2,
+           sex = 0,
+           context = 1,
+           type_of_treatment = 2,
+           treatment = "separation_from_mother",
+           life_stage = "juvenile",
+           event = NA,
+           CI_lower =NA,
+           CI_upper = NA,
+           p_val = NA,
+           remarks = "not controlled for litter here, as variables were extracted from plots",
+           max_lifespan_days = 10950) %>% 
+    mutate(t1 = case_when(
+        t1 == "week1" ~ 7,
+        t1 == "week2" ~ 14,
+        t1 == "week3" ~ 21,
+        t1 == "week4" ~ 28
+    ), 
+        t2 = case_when(
+            t2 == "week1" ~ 7,
+            t2 == "week2" ~ 14,
+            t2 == "week3" ~ 21,
+            t2 == "week4" ~ 28
+        ),
+        delta_t = t2-t1)
+    
+  
+
+meta_table_mouse <- tribble(
+                     ~behaviour,  ~t1, ~t2, ~delta_t,    ~R,  ~CI_lower, ~CI_upper, ~sample_size, ~measurements_per_ind,
+             "separation_calls", 13,  14,         1, 0.635,    0.220,     0.877,       18,                        2,
+             "separation_calls", 14,  16,         2, 0.504,    0.332,     0.745,       59,                        2, 
+"separation_locomotor_activity", 13,  14,         1, 0,        0,         0.415,       18,                        2,
+"separation_locomotor_activity", 14,  16,         2, 0.248,    0.001,     0.488,       59,                        2
+) %>% 
+    mutate(
+        Key = "P5DGEWV5",
+        species_common = "mound-building_mouse",
+        species_latin = "Mus_spicilegus",
+        sex = 0,
+        context = 1,
+        type_of_treatment = 2,
+        treatment = "separation_from_mother",
+        life_stage = "juvenile",
+        event = NA,
+        R_se = NA,
+        max_lifespan_days = 1278,
+        remarks = "different mice for both rpts",
+        pval = NA
+    )
+    
+  
+    
+meta_table <- bind_rows(meta_table_cat, meta_table_mouse)
+
+write_delim(meta_table, path = "output/Hudson_Rangassamy_2015.txt", delim = " ", col_names = TRUE)
 

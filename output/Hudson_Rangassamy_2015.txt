@@ -1,0 +1,13 @@
+R R_se t1 t2 behaviour sample_size Key species_common species_latin measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val remarks max_lifespan_days delta_t pval
+0.4696174950479181 0.1405678355884681 7 14 separation_calls 33 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 7 NA
+0.6339693166978534 0.11493546103637778 14 21 separation_calls 31 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 7 NA
+0.6649095606680822 0.10122513914433927 21 28 separation_calls 32 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 7 NA
+0.37922232293955216 0.15279982614936974 7 28 separation_calls 33 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 21 NA
+0.5194052524472089 0.15710354663687376 7 14 separation_locomotor_activity 24 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 7 NA
+0.3355704448015551 0.16917858902690813 14 21 separation_locomotor_activity 24 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 7 NA
+0.39202437663955375 0.16148730370562447 21 28 separation_locomotor_activity 26 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 7 NA
+0.0933461969678136 0.1291994221186852 7 28 separation_locomotor_activity 26 P5DGEWV5 domestic_cat felis_catus 2 0 1 2 separation_from_mother juvenile NA NA NA NA NA 10950 21 NA
+0.635 NA 13 14 separation_calls 18 P5DGEWV5 mound-building_mouse Mus_spicilegus 2 0 1 2 separation_from_mother juvenile NA 0.22 0.877 NA "different mice for both rpts" 1278 1 NA
+0.504 NA 14 16 separation_calls 59 P5DGEWV5 mound-building_mouse Mus_spicilegus 2 0 1 2 separation_from_mother juvenile NA 0.332 0.745 NA "different mice for both rpts" 1278 2 NA
+0 NA 13 14 separation_locomotor_activity 18 P5DGEWV5 mound-building_mouse Mus_spicilegus 2 0 1 2 separation_from_mother juvenile NA 0 0.415 NA "different mice for both rpts" 1278 1 NA
+0.248 NA 14 16 separation_locomotor_activity 59 P5DGEWV5 mound-building_mouse Mus_spicilegus 2 0 1 2 separation_from_mother juvenile NA 0.001 0.488 NA "different mice for both rpts" 1278 2 NA

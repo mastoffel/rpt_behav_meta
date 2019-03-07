@@ -1,0 +1,13 @@
+session behaviour R sample_size R_se t1 t2 delta_t Key species_common species_latin measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper remarks
+overall activity 0.2831890331890333 72 0.07201860335971123 183 239 56 6TGIGAET common_bully Gobiomorphus_cotidianus 6 0 2 2 predator_cue juvenile NA NA NA age_guessed
+overall aggression 0.27463409606266775 72 0.07201860335971111 183 239 56 6TGIGAET common_bully Gobiomorphus_cotidianus 6 0 2 2 predator_cue juvenile NA NA NA age_guessed
+overall boldness 0.18052978767264505 72 0.08074813103967626 183 239 56 6TGIGAET common_bully Gobiomorphus_cotidianus 6 0 2 2 predator_cue juvenile NA NA NA age_guessed
+one activity 0.7750979179550608 72 0.11566624175953619 183 190 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 no_cue juvenile NA NA NA age_guessed
+one aggression 0.1120902906617195 72 0.12221338751951001 183 190 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 no_cue juvenile NA NA NA age_guessed
+one boldness 0.411513090084519 72 0.17677293551929105 183 190 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 no_cue juvenile NA NA NA age_guessed
+two activity 0.14631003916718233 68 0.0960248044796149 204 211 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 predator_cue juvenile NA NA NA age_guessed
+two aggression 0.14631003916718233 68 0.12003100559951863 204 211 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 predator_cue juvenile NA NA NA age_guessed
+two boldness 0.1078128220985366 68 0.13530767903945748 204 211 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 predator_cue juvenile NA NA NA age_guessed
+three activity 0.21047206761492498 68 0.10475433215957987 232 239 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 no_cue juvenile NA NA NA age_guessed
+three aggression 0.5312822098536387 68 0.1614962620793523 232 239 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 no_cue juvenile NA NA NA age_guessed
+three boldness 0.7793753865182438 68 0.20514390047917744 232 239 7 6TGIGAET common_bully Gobiomorphus_cotidianus 2 0 2 2 no_cue juvenile NA NA NA age_guessed
