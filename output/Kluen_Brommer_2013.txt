@@ -1,0 +1,10 @@
+behaviour R p_val sample_size measurements_per_ind t1 t2 delta_t event remarks Key species_common species_latin sex context type_of_treatment treatment life_stage R_se CI_lower CI_upper max_lifespan_days
+escape_behaviour 0.12 0.11 175 2 1332.25 1342.25 10 within_breeding_season NA BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+escape_behaviour 0.32 0.001 175 2 1332.25 1377.25 45 within_winter_season NA BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+escape_behaviour -0.013 0.92 73 2 1332.25 1515.25 183 between_breeding_and_winter_seasons correlation BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+activity 0.24 0.002 175 2 1332.25 1342.25 10 within_breeding_season NA BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+activity 0.18 0.04 175 2 1332.25 1377.25 45 within_winter_season NA BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+activity 0.424 0.001 73 2 1332.25 1515.25 183 between_breeding_and_winter_seasons correlation BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+neophobia 0 0.5 175 2 1332.25 1342.25 10 within_breeding_season NA BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+neophobia 0.46 0.001 175 2 1332.25 1377.25 45 within_winter_season NA BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329
+neophobia 0.021 0.86 73 2 1332.25 1515.25 183 between_breeding_and_winter_seasons correlation BJKBMZRI blue_tit Cyanistes_caeruleus 0 3 0 NA adult NA NA NA 5329

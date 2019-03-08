@@ -20,7 +20,7 @@ meta_table_template <- tibble("Key" = NA,                # identifier in meta-ta
                          "measurements_per_ind" = NA, # new, check papers 1-6 again
                          "sex" = NA,                # 0 = both, 1 = females, 2 = males
                          "behaviour" = NA,          # measured behaviour as stated by authors
-                         "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp
+                         "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
                          "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
                          "treatment"= NA,          # Verbal description
                          "life_stage"= NA,         # "juvenile", "adult", "both"
@@ -1638,4 +1638,51 @@ tribble(
     ) -> meta_table
 
 write_delim(meta_table, path = "output/Jennings_Hayden_2013.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 34: Kluen_Brommer_2013 ####
+# Kluen, Edward; Brommer, Jon E.	2013	
+# context-specific repeatability of personality traits in a wild bird: a reaction-norm perspective
+# 	BJKBMZRI
+
+# neophobia, activity, escape time
+# 73 individuals measured in both seasons (presumable within one year)
+# blue tit breeding season: may/june
+# trapping of adult birds when nestlings were between 6 and 16 days old so within 10 days
+# in winter trapping around 3 month max, so probably delta_t around one and a half month ~ 45 days
+
+# winter, say roughly 183 days between seasons
+
+adult_lifespan <- AnAgeScrapeR::scrape_AnAge("Cyanistes caeruleus", vars = c("maximum_longevity_yrs"), download_data = FALSE)
+avg_adult_age <- as.numeric(adult_lifespan $maximum_longevity_yrs) * 365 * 0.25
+
+
+tribble(
+    ~behaviour,         ~R,  ~p_val, ~sample_size, ~measurements_per_ind,           ~t1,                 ~t2, ~delta_t, ~event,                                 ~remarks,
+    "escape_behaviour", 0.12, 0.11,           175,                     2, avg_adult_age,  avg_adult_age + 10,       10,  "within_breeding_season",                     NA,
+    "escape_behaviour", 0.32, 0.001,          175,                     2, avg_adult_age,  avg_adult_age + 45,       45,  "within_winter_season",                       NA,
+    "escape_behaviour",-0.013, 0.92,          73,                      2, avg_adult_age, avg_adult_age + 183,      183,  "between_breeding_and_winter_seasons", "correlation",
+    "activity",         0.24, 0.002,          175,                     2, avg_adult_age,  avg_adult_age + 10,       10,  "within_breeding_season",                     NA,
+    "activity",         0.18, 0.04,           175,                     2, avg_adult_age,  avg_adult_age + 45,       45,  "within_winter_season",                       NA,
+    "activity",         0.424, 0.001,          73,                     2, avg_adult_age, avg_adult_age + 183,      183,  "between_breeding_and_winter_seasons", "correlation",
+    "neophobia",        0,     0.5,           175,                     2, avg_adult_age,  avg_adult_age + 10,       10,  "within_breeding_season",                     NA,
+    "neophobia",        0.46,  0.001,         175,                     2, avg_adult_age,  avg_adult_age + 45,       45,  "within_winter_season",                       NA,
+    "neophobia",        0.021, 0.86,            73,                    2, avg_adult_age, avg_adult_age + 183,      183,  "between_breeding_and_winter_seasons", "correlation"
+) %>% 
+    mutate(
+        Key = "BJKBMZRI",
+        species_common = "blue_tit",
+        species_latin  = "Cyanistes_caeruleus",
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        R_se = NA,
+        CI_lower =NA,
+        CI_upper =NA,
+        max_lifespan_days =  as.numeric(adult_lifespan $maximum_longevity_yrs) * 365
+    ) -> meta_table 
+
+write_delim(meta_table, path = "output/Kluen_Brommer_2013.txt", delim = " ", col_names = TRUE)
 
