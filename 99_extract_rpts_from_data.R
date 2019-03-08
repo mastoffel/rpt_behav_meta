@@ -10,6 +10,8 @@ library(magrittr)
 library(broom)
 library(tidyverse)
 library(metaDigitise)
+library(AnAgeScrapeR)
+library(lubridate)
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
@@ -1500,4 +1502,140 @@ meta_table_mouse <- tribble(
 meta_table <- bind_rows(meta_table_cat, meta_table_mouse)
 
 write_delim(meta_table, path = "output/Hudson_Rangassamy_2015.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 32: Jablonszky_Stasz_2017 ######
+
+# Jablonszky, Monika; Szasz, Eszter; Marko, Gabor; Torok, Janos; Herczeg, Gabor; Garamszegi, Laszlo Zsolt	2017
+# escape ability and risk-taking behaviour in a hungarian population of the collared flycatcher (ficedula albicollis)
+# 	ZCSXGUYW
+
+# collared flycatcher
+# 2009 - 2016
+# april 11 and may 10 courtship
+
+
+
+# may 17 and june 22 chick feeding
+dmy(22062016) - dmy(11042016)
+
+# only males
+# 246 adults 134 yearlings, 80 birds more than once
+# 2016: twice a day
+# Escape ability
+
+# digitize data to estimate R_se
+library(digitize)
+mydata <- digitize("to_digitise/study6/plot1.png")
+mydata2 <- digitize("to_digitise/study6/plot2.png")
+mydata3 <- digitize("to_digitise/study6/plot3.png")
+
+
+df_list <- mget(paste0("mydata", c("",2:3)))
+var_names <- list(c("day11", "day12"), c("season1", "season2"), c("year1", "year2"))
+
+name_df <- function(df, df_names) {
+    names(df) <- df_names
+    df
+}
+
+dfs_proc <- map2(df_list, var_names, name_df) %>% 
+    map(function(x) mutate(x, id = paste0("id", 1:nrow(x))))
+
+
+# reshape data a litte
+long_format_dfs <- map(dfs_proc, gather, key = "timepoint", value = "escape_ability", -id) 
+
+# 
+
+rpt1 <- rptGaussian(escape_ability ~ (1|id), data = long_format_dfs[[1]], grname = "id", nboot = 1000)
+rpt2 <- rptGaussian(escape_ability ~ (1|id), data = long_format_dfs[[2]], grname = "id", nboot = 1000)
+rpt3 <- rptGaussian(escape_ability ~ (1|id), data = long_format_dfs[[3]], grname = "id", nboot = 1000)
+
+
+# R_se day: 0.122
+# R_se between season: ~0.128
+# R_se between years: 0.134
+# within-day repeatability (2016): N = 45, R = 0.236, p = 0.022
+# between periods: N = 52, R = 0.041, P = 0.356
+# between years: N = 34, R = 0, p = 0.758
+#
+anage <- AnAgeScrapeR::scrape_AnAge("Ficedula albicollis", vars = "maximum_longevity_yrs")
+avg_adult_age <- as.numeric(anage$maximum_longevity_yrs) * 0.25 * 365
+
+tribble(
+    ~R,   ~R_se,  ~p_val,          ~t1,                  ~t2,    ~delta_t, ~sample_size,
+    0.236, 0.122, 0.022, avg_adult_age,  avg_adult_age + 0.5,         0.5,           45,
+    0.041, 0.128, 0.356, avg_adult_age,  avg_adult_age + 72,          72,            52,
+    0    , 0.134, 0.758, avg_adult_age,  avg_adult_age + 365,        365,            34
+) %>% 
+    mutate(Key = "ZCSXGUYW",
+        species_common = "collared_flycatcher",
+        species_latin = "Ficedula albicollis",
+        measurements_per_ind = 2,
+        sex = 2,
+        behaviour = "escape_ability_risk_taking",
+        context = 3,
+        type_of_treatment = 0,
+        treatment = 0,
+        life_stage = "adult",
+        event = c(NA, "courtship_to_chick_feeding", "across_years"),
+        CI_lower = NA,
+        CI_upper = NA,
+        max_lifespan_days = as.numeric(anage$maximum_longevity_yrs) * 365,
+        remarks = "R_se estimated from recalculating rpt with 
+        a simplified model (only id as random effect)") -> meta_table
+
+write_delim(meta_table, path = "output/Jablonszky_Stasz_2017.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
+
+ 
+###### Paper 33 Jennings_Hayden_2013 ######
+# Jennings, Domhnall J.; Hayden, Thomas J.; Gammell, Martin P.	2013
+# personality and predictability in fallow deer fighting behaviour: the relationship with mating success
+# 	NPSM25PQ
+
+# within rut (over two years though) ~ two weeks 14 days
+# between ruts 365 days
+# adult males
+# fighting in the wild -> escalation rate
+
+# 1996: 5494 interactions, 73 mature males = 75 measurements_per_ind
+# 1997: 7202 interactions, 74 mature males 
+# over all: 12696 int., 147 mature males, = 86 measurements per ind
+# behaviour measured as number of fights / number of all interactions
+# 7 blocks a 2 days, to 7 measurements per ind I guess
+#### 56 over two ruts were included, minus 10 which were observed in both ###
+
+adult_lifespan <- AnAgeScrapeR::scrape_AnAge("Dama dama", vars = c("maximum_longevity_yrs"), download_data = FALSE)
+avg_adult_age <- as.numeric(adult_lifespan $maximum_longevity_yrs) * 365 * 0.25
+
+tribble(
+       ~R,    ~p_val, ~sample_size, ~measurements_per_ind,           ~t1,                ~t2, ~delta_t,
+    0.113,    0.001,            46,                     7, avg_adult_age, avg_adult_age + 14,       14,
+    0.221,    0.001,            10,                    14, avg_adult_age, avg_adult_age + 365,     365
+) %>% 
+    mutate(
+        Key = "NPSM25PQ",
+        species_common = "fallow_deer",
+        species_latin = "Dama_dama",
+        sex = 2,
+        behaviour = "fighting_behaviour_during_rut",
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = c("within_rut", "between_years"),
+        R_se = NA,
+        CI_upper = NA,
+        CI_lower = NA,
+        remarks = "No se reported",
+        max_lifespan_days = as.numeric(adult_lifespan$maximum_longevity_yrs) * 365
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Jennings_Hayden_2013.txt", delim = " ", col_names = TRUE)
 

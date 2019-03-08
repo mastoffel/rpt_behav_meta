@@ -1,0 +1,7 @@
+R R_se p_val t1 t2 delta_t sample_size Key species_common species_latin measurements_per_ind sex behaviour context type_of_treatment treatment life_stage event CI_lower CI_upper max_lifespan_days remarks
+0.236 0.122 0.022 894.2500000000001 894.7500000000001 0.5 45 ZCSXGUYW collared_flycatcher "Ficedula albicollis" 2 2 escape_ability_risk_taking 3 0 0 adult NA NA NA 3577.0000000000005 "R_se estimated from recalculating rpt with 
+        a simplified model (only id as random effect)"
+0.041 0.128 0.356 894.2500000000001 966.2500000000001 72 52 ZCSXGUYW collared_flycatcher "Ficedula albicollis" 2 2 escape_ability_risk_taking 3 0 0 adult courtship_to_chick_feeding NA NA 3577.0000000000005 "R_se estimated from recalculating rpt with 
+        a simplified model (only id as random effect)"
+0 0.134 0.758 894.2500000000001 1259.25 365 34 ZCSXGUYW collared_flycatcher "Ficedula albicollis" 2 2 escape_ability_risk_taking 3 0 0 adult across_years NA NA 3577.0000000000005 "R_se estimated from recalculating rpt with 
+        a simplified model (only id as random effect)"
