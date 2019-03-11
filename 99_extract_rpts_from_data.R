@@ -1686,3 +1686,165 @@ tribble(
 
 write_delim(meta_table, path = "output/Kluen_Brommer_2013.txt", delim = " ", col_names = TRUE)
 
+
+###### Paper 35: Koski_2011 ######
+# Koski, Sonja E.	2011	
+# social personality traits in chimpanzees: temporal stability and structure of behaviourally assessed personality traits in three captive populations
+# 	INKLPDFJ
+
+library(tabulizer)
+location <- "data/papers/Koski - 2011 - social personality traits in chimpanzees temporal.pdf"
+location <- "data/papers/split_koski/Koski rot-rotated.pdf"
+# split_pdf(location, outdir = "data/papers/split_koski")
+out <- locate_areas(location)    
+
+R_table1 <- extract_tables(location,
+    output = "matrix",
+    #pages = c(7), # include pages twice to extract two tables per page
+    area = out,
+    guess = FALSE
+) 
+meta_table0 <- R_table1[[1]] %>% 
+    as_tibble() %>% 
+    .[-c(1,2, 18:25), ] %>% 
+    mutate(var_name = substr(V1, 1, str_locate(V1, "[0-9]")-2),
+           numbers = substr(V1, str_locate(V1, "[0-9]"), str_length(V1))) %>% 
+    select(-V1) %>% 
+    rename(numbers2 = V2) %>% 
+    select(var_name, numbers, numbers2) %>% 
+    separate(numbers, into = c("R1", "CI_lower1", "CI_upper1", "F1", "p_val1", 
+                               "R2", "CI_lower2", "CI_upper2", "F2", "p_val2", "R_irrel"), sep = " ") %>% 
+    select(-R_irrel, -numbers2) %>% 
+    mutate_all(funs(str_replace(., pattern = "\\(", replacement = ""))) %>% 
+    mutate_all(funs(str_replace(., pattern = "\\)", replacement = ""))) %>% 
+    mutate_all(funs(str_replace(., pattern = ",", replacement = ""))) %>% 
+    mutate_all(funs(str_replace(., pattern = "<", replacement = ""))) %>%
+    mutate_all(funs(str_replace(., pattern = "−", replacement = "-"))) %>% 
+    mutate(R1 = ifelse(var_name == "Groom divers.", 0.48, R1),
+           CI_lower1 = ifelse(var_name == "Being approached", 0.14, CI_lower1)) %>% 
+    mutate_at(vars(R1:p_val2), as.numeric) %>% 
+    select(-F1, -F2)
+
+# reshape a little:
+
+longevity_adult <- AnAgeScrapeR::scrape_AnAge("Pan troglodytes", vars = "maximum_longevity_yrs", 
+                   download_data = FALSE) 
+lifespan <- as.numeric(longevity_adult$maximum_longevity_yrs) * 365
+avg_adult_age <- lifespan * 0.25
+
+# short  : 1 year
+# long: 2.5 years
+
+meta_table1 <- meta_table0 %>% select(var_name, R1:p_val1)
+meta_table2 <- meta_table0 %>% select(var_name, R2:p_val2) %>% 
+               rename(R1 = R2, CI_lower1 = CI_lower2, CI_upper1 = CI_upper2, p_val1 = p_val2)
+
+# create final meta table
+rbind(meta_table1, meta_table2) %>% 
+    mutate(timeframe = rep(c("long", "short"), each = 15),
+           sample_size = 18,
+           measurements_per_ind = rep(c(2, 6), each = 15),
+           t1 = avg_adult_age,
+           t2 = rep(c(avg_adult_age + 365, avg_adult_age + 365*2.5), each = 15),
+           delta_t = t2 - t1) %>% 
+    rename(behaviour = 1, R = 2, CI_lower = 3, CI_upper  = 4, p_val = 5) %>% 
+    mutate(Key = "INKLPDFJ",
+         species_common = "chimpanzee",
+         species_latin = "Pan_troglodytes",
+        sex = 0,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = NA,
+        R_se = NA,
+        remarks = "zoo setting",
+        max_lifespan_days = lifespan) %>% 
+    select(-timeframe) -> meta_table
+    
+write_delim(meta_table, path = "output/Koski_2011.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 36: LeCoeur_Thibault_2015 ##########
+# Le Coeur, Christie; Thibault, Martin; Pisanu, Benoit; Thibault, Sophie; Chapuis, Jean-Louis; Baudry, Emmanuelle	2015
+# XMJ8ZGHT		
+# temporally fluctuating selection on a personality trait in a wild rodent population
+
+dat <- read_xlsx("data/downloaded_from_papers/lecoeur_thibault_2015.xlsx")
+
+dat %>% group_by(ID) %>% mutate(count = n()) %>% filter(count == 2) %>% arrange(ID) %>% print(n = Inf)
+
+# filter out cases where measurements are precisely one year apart
+short_term <- dat %>% 
+    group_by(ID) %>% 
+    mutate(count = n()) %>% 
+    arrange(ID) %>% 
+    filter(count == 2) %>% 
+    summarise(abs_diff = diff(range(yr))) %>% 
+    filter(abs_diff == 1)
+
+dat_short <- dat[dat$ID %in% short_term$ID, ]
+# check
+test1 <- dat_short %>% arrange(ID) %>% group_by(ID) %>% slice(1)
+test2 <- dat_short %>% arrange(ID) %>% group_by(ID) %>% slice(2)
+
+# log transform and gaussian like described in paper with year as random and ext as fixed
+rpt_short_out <- dat_short %>% 
+    mutate(trappy = log(trappy)) %>% 
+    rptGaussian(trappy ~ (1|ID) + (1|yr) + ext, data = ., grname = "ID")
+
+
+# longer term
+longer_term <- dat %>% 
+    group_by(ID) %>% 
+    mutate(count = n()) %>% 
+    arrange(ID) %>% 
+    #filter(count != 2) %>% 
+    summarize(abs_diff = diff(range(yr))) %>% 
+    filter(abs_diff > 1)
+
+dat_long <- dat[dat$ID %in% longer_term$ID, ]
+
+# all measurements further than 1 year are on average 2.3 years apart, see :
+dat_long %>% arrange(ID) %>% group_by(ID) %>% summarise(yr_range = diff(range(yr))) %>% summarise(mean(yr_range))
+
+# measurments per ind in long term data
+nrow(dat_long) / length(unique(dat_long$ID))
+
+rpt_long_out <- dat_long %>% 
+    mutate(trappy = log(trappy)) %>% 
+    rptGaussian(trappy ~ (1|ID) + (1|yr) + ext, data = ., grname = "ID")
+
+
+adult_lifespan <- scrape_AnAge("Tamias sibiricus", vars = "maximum_longevity_yrs", download_data = FALSE)
+adult_lifespan <- as.numeric(adult_lifespan$maximum_longevity_yrs) * 365
+avg_adult_age <- adult_lifespan * 0.25
+
+# trappability ~ boldness
+tribble(
+                 ~R,                         ~R_se,                                       ~sample_size,  ~measurements_per_ind,  ~t1,                          ~t2,    ~delta_t,
+    as.numeric(rpt_short_out$R), as.numeric(rpt_short_out$se),      as.numeric(rpt_short_out$ngroups),                      2, avg_adult_age, avg_adult_age + 365,       365,
+    as.numeric(rpt_long_out$R),  as.numeric(rpt_long_out$se),       as.numeric(rpt_long_out$ngroups),                       3, avg_adult_age, avg_adult_age + 365*2.3,  365*2.3     
+) %>% 
+    mutate(Key = "XMJ8ZGHT",
+           species_common = "siberian_chipmunk",
+           species_latin = "Tamias_sibiricus",
+           sex = 0,
+           behaviour = "trappability_boldness",
+           context = 3,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "adult",
+           event = c(NA, "between_years"),
+           CI_lower = NA,
+           CI_upper = NA,
+           p_val = NA,
+           remarks = NA,
+           max_lifespan_days = adult_lifespan) -> meta_table
+
+write_delim(meta_table, path = "output/LeCoeur_Thibault_2015.txt", delim = " ", col_names = TRUE)
+
+
+    
+###### Paper 37:
