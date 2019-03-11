@@ -1,0 +1,3 @@
+R CI_lower CI_upper sample_size measurements_per_ind t1 t2 delta_t Key species_common species_latin sex behaviour context type_of_treatment treatment life_stage event R_se p_val remarks max_lifespan_days
+0.56 0.48 0.64 104 15 456.25 459.25 3 XQZPRZ9N guppy Poecilia_reticulata 2 activity 1 NA NA adult NA NA NA NA 1825
+0.31 0.21 0.41 104 15 456.25 477.25 21 XQZPRZ9N guppy Poecilia_reticulata 2 activity 1 NA NA adult NA NA NA NA 1825

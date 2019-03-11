@@ -2032,28 +2032,51 @@ dat1 %>%
         max_lifespan_days = ifelse(species_common == "great_tit", as.numeric(lv_long[2,2]), as.numeric(lv_long[1,2]))
     ) -> meta_table
     
+write_delim(meta_table, path = "output/Milligan_Radersma_2017.txt", delim = " ", col_names = TRUE)
 
 
-meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
-    "species_common" = NA, 
-    "species_latin" = NA,
-    "sample_size" = NA, 
-    "measurements_per_ind" = NA, # new, check papers 1-6 again
-    "sex" = NA,                # 0 = both, 1 = females, 2 = males
-    "behaviour" = NA,          # measured behaviour as stated by authors
-    "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
-    "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
-    "treatment"= NA,          # Verbal description
-    "life_stage"= NA,         # "juvenile", "adult", "both"
-    "event"= NA,              # Major life-event, such as metamorphosis between measurements
-    "R"= NA,
-    "R_se"= NA,
-    "CI_lower"= NA,
-    "CI_upper"= NA,
-    "p_val"= NA,
-    "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
-    "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
-    "delta_t"= NA,             # difference between timepoints in days
-    "remarks"= NA,
-    "max_lifespan_days" = NA)
+###### Paper 40: Mitchell_Fanson_2016 ####
 
+# Mitchell, David J.; Fanson, Benjamin G.; Beckmann, Christa; Biro, Peter A.	2016	
+# towards powerful experimental and statistical approaches to study intraindividual variability in labile traits
+# 	XQZPRZ9N
+
+
+# short time: 3 days, mean 5 measurements
+# long : 3 weeks, mean 15 measurements
+# 104 individuals, 1477 obs
+# activity
+# male guppies (Poecilia reticulata)
+
+# Rshort-term =0.56 [0.48, 0.64]
+#Rlong-term =0.31 [0.21, 0.41]
+
+guppie_longevity <- scrape_AnAge(latin_name = "Poecilia reticulata", download_data = FALSE, vars = "maximum_longevity_yrs" )
+guppie_long_days <- as.numeric(guppie_longevity$maximum_longevity_yrs) * 365
+avg_adult_age <- guppie_long_days * 0.25
+
+tribble(
+    ~R,    ~CI_lower,     ~CI_upper,     ~sample_size,    ~measurements_per_ind,         ~t1,       ~t2,            ~delta_t,
+0.56,      0.48,          0.64,                 104,                         15,  avg_adult_age, avg_adult_age+3,          3,
+0.31,      0.21,          0.41,                 104,                         15,  avg_adult_age, avg_adult_age + 21,      21
+ ) %>% 
+    mutate(Key = "XQZPRZ9N",
+           species_common = "guppy",
+           species_latin = "Poecilia_reticulata",
+           sex = 2,
+           behaviour = "activity",
+           context = 1, 
+           type_of_treatment = NA,
+           treatment = NA,
+           life_stage = "adult",
+           event = NA, 
+           R_se = NA,
+           p_val = NA,
+           remarks = NA,
+           max_lifespan_days = guppie_long_days) -> meta_table 
+
+write_delim(meta_table, path = "output/Mitchell_Fanson_2016.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 41: 
