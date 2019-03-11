@@ -1,0 +1,7 @@
+R R_se sex type_of_treatment treatment t1 t2 delta_t measurements_per_ind behaviour life_stage event CI_lower CI_upper remarks max_lifespan_days Key species_common species_latin sample_size context p_val
+0.03519061583577712 0.11490813334131311 1 1 control 638.75 668.75 30 2 parental_care adult NA NA NA lifespan_from_website 2555 TJB2RJWP stitchbird "Notiomystis cincta" 51 3 NA
+0.18768328445747803 0.1029385361182596 2 1 control 638.75 668.75 30 2 parental_care adult NA NA NA lifespan_from_website 2555 TJB2RJWP stitchbird "Notiomystis cincta" 51 3 NA
+0.18533724340175958 0.03949967083607637 1 1 food_supplement 638.75 668.75 30 2 parental_care adult NA NA NA lifespan_from_website 2555 TJB2RJWP stitchbird "Notiomystis cincta" 514 3 NA
+0.2346041055718475 0.03471183194685498 2 1 food_supplement 638.75 668.75 30 2 parental_care adult NA NA NA lifespan_from_website 2555 TJB2RJWP stitchbird "Notiomystis cincta" 514 3 NA
+0.1313782991202346 0.1627865222335269 1 1 food_supplement 638.75 1562.1999999999998 923.4499999999998 2.5 parental_care adult between_years NA NA lifespan_from_website 2555 TJB2RJWP stitchbird "Notiomystis cincta" 17 3 NA
+0.25337243401759524 0.14483212639894671 2 1 food_supplement 638.75 1514.75 876 2.4 parental_care adult between_years NA NA lifespan_from_website 2555 TJB2RJWP stitchbird "Notiomystis cincta" 20 3 NA

@@ -1,0 +1,7 @@
+filename variable group_id mean sd n r se error_type plot_type
+"Screenshot 2019-03-11 09.36.39.png" R nonsupplemented_female 0.03519061583577712 NA NA NA 0.11490813334131311 CI95 mean_error
+"Screenshot 2019-03-11 09.36.39.png" R nonsupplemented_male 0.18768328445747803 NA NA NA 0.1029385361182596 CI95 mean_error
+"Screenshot 2019-03-11 09.36.39.png" R supplemented_female 0.18533724340175958 NA NA NA 0.03949967083607637 CI95 mean_error
+"Screenshot 2019-03-11 09.36.39.png" R supplemented_male 0.2346041055718475 NA NA NA 0.03471183194685498 CI95 mean_error
+"Screenshot 2019-03-11 09.36.39.png" R supplemented_female_betw_yrs 0.1313782991202346 NA NA NA 0.1627865222335269 CI95 mean_error
+"Screenshot 2019-03-11 09.36.39.png" R supplemented_male_between_yrs 0.25337243401759524 NA NA NA 0.14483212639894671 CI95 mean_error

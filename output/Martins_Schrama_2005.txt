@@ -1,0 +1,5 @@
+behaviour R R_se t1 t2 Key species_common species_latin sample_size measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val delta_t remarks max_lifespan_days
+feed_intake 0.7 0.06 274 321 " AMJQ98EZ" african_catfish Clarias_gariepinus 48 2 0 1 0 NA juvenile NA NA NA NA 47 "residual feeding is feeding relative to weight and growth" 6205
+feed_intake 0.8 0.06 274 304 " AMJQ98EZ" african_catfish Clarias_gariepinus 48 2 0 1 0 NA juvenile NA NA NA NA 30 "lifespan taken from Bagrus bajad not Clarias gariepinus" 6205
+residual_feed_intake 0.49 0.1 274 321 " AMJQ98EZ" african_catfish Clarias_gariepinus 48 3 0 1 0 NA juvenile NA NA NA NA 47 NA 6205
+residual_feed_intake 0.61 0.11 274 321 " AMJQ98EZ" african_catfish Clarias_gariepinus 48 3 0 1 0 NA juvenile NA NA NA NA 47 NA 6205

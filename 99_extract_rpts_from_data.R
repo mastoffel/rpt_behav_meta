@@ -1847,4 +1847,213 @@ write_delim(meta_table, path = "output/LeCoeur_Thibault_2015.txt", delim = " ", 
 
 
     
-###### Paper 37:
+###### Paper 37: Low_Makan_2012 #####
+# Low, Matthew; Makan, Troy; Castro, Isabel	2012
+# TJB2RJWP 
+# food availability and offspring demand influence sex-specific patterns and repeatability of parental provisioning
+
+# some info: up to 2 broods, 30 days parental care per brood
+# between year: 1 year = 21 females / 16 males ,2 years = 8 females / 12 males and 3 years = 9 females / 8 males
+
+# avg between year time per individual 2.53*365 for 17 females (also avg measurements_per_ind)
+# females
+(8*2 + 3*9) / 17
+# males 2.4 * 365 for 20 males
+(2*12 + 3*8) / 20
+
+# within year =  30 days
+
+# avg age stichbird
+scrape_AnAge(latin_name = "Notiomystis cincta", vars =  "maximum_longevity_yrs")
+# NA
+# from http://www.tiritirimatangi.org.nz/stitchbird
+# 7 years
+
+lifespan_adult <- 7*365
+avg_adult_age <- lifespan_adult * 0.25
+
+# sample size (apparently) for short term:
+# 1028 supplemented
+# 102 nonsupplemented
+# so roughly half half males/females
+
+## digitise figure
+# dat <- metaDigitise("to_digitise/study7_Low_Makan_2012/")
+# write_delim(dat, "to_digitise/study7_Low_Makan_2012/digitised.txt")
+dat <- read_delim(file = "to_digitise/study7_Low_Makan_2012/digitised.txt", delim = " ")
+dat %>% 
+    select(group_id, mean, se) %>% 
+    mutate(sex = rep(c("female", "male"), 3),
+           type_of_treatment = 1,
+           treatment = c(rep("control", 2), rep("food_supplement", 4)),
+           t1 = avg_adult_age,
+           t2 = c(rep(avg_adult_age + 30, 4), avg_adult_age + 2.53*365, avg_adult_age + 2.4*365),
+           delta_t = t2-t1,
+           measurements_per_ind = c(2,2,2,2,2.5, 2.4),
+           sex = c(1,2,1,2,1,2),
+           behaviour = "parental_care",
+           life_stage = "adult",
+           event = c(rep(NA, 4), rep("between_years", 2)),
+           CI_lower = NA,
+           CI_upper = NA,
+           remarks = "lifespan_from_website",
+           max_lifespan_days = 7*365) %>% 
+    select(-group_id) %>% 
+    rename(R = mean, R_se = se) %>% 
+    mutate(Key = "TJB2RJWP",
+           species_common = "stitchbird",
+           species_latin = "Notiomystis cincta",
+           sample_size = c(51,51,514,514,17,20),
+           context = 3,
+           p_val = NA) -> meta_table
+           
+write_delim(meta_table, path = "output/Low_Makan_2012.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 38: Martins_Schrama_2005 #####
+# Martins, CIM; Schrama, JW; Verreth, JAJ	2005	
+# the consistency of individual differences in growth, feed efficiency and feeding behaviour in african catfish clarias gariepinus (burchell 1822) housed individually
+# AMJQ98EZ	
+
+# african catfish
+# 48
+# juveniles: 
+# maturity at 1.5 years (http://www.fisheriesjournal.com/archives/2017/vol5issue2/PartD/5-1-90-634.pdf)
+# 1.5*365 * 0.5 = 274 days
+
+avg_age_juvenile <- 274 
+# lifespan from african catfish Bagrus bajad not Clarias gariepinus (also AnAge)
+lifespan_adult <- 17*365 
+
+# sample size 48
+# P1: 0-15
+# P2: 16-30
+# P3: 31-47
+
+
+scrape_AnAge(latin_name = "Clarias gariepinus", download_data=FALSE, vars = c( "male_maturity_days", "maximum_longevity_yrs"))
+
+tribble(
+  ~behaviour,      ~R,         ~R_se,                ~t1,      ~t2,  
+"feed_intake",   0.70,         0.06,    avg_age_juvenile, avg_age_juvenile + 47, 
+"feed_intake",   0.80,         0.06,    avg_age_juvenile, avg_age_juvenile + 30,
+"residual_feed_intake", 0.49,  0.10,    avg_age_juvenile, avg_age_juvenile + 47,
+"residual_feed_intake", 0.61,  0.11,    avg_age_juvenile, avg_age_juvenile + 47
+) %>% 
+    mutate(
+        Key = " AMJQ98EZ",
+        species_common = "african_catfish",
+        species_latin = "Clarias_gariepinus",
+        sample_size = 48,
+        measurements_per_ind = c(2,2,3,3),
+        sex = 0,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "juvenile",
+        event = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        delta_t = t2-t1,
+        remarks = c("residual feeding is feeding relative to weight and growth", "lifespan taken from Bagrus bajad not Clarias gariepinus", NA, NA),
+        max_lifespan_days = lifespan_adult
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Martins_Schrama_2005.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 39: Milligan_Radersma_2017 #######
+# Milligan, Nicole D.; Radersma, Reinder; Cole, Ella F.; Sheldon, Benjamin C.	2017
+# to graze or gorge: consistency and flexibility of individual foraging tactics in tits
+#	JYLBGHP7
+
+dat <- read_csv("https://datadryad.org/bitstream/handle/10255/dryad.136951/parameter%20file%20for%20PCA.csv?sequence=1")
+names(dat)
+table(dat$winter)
+table(dat$age)
+
+# how many years are multiple years?
+# 1020 IDs across multiple years
+dat_mult <- dat %>% group_by(ring, winter) %>% tally() %>% count(ring) %>% arrange(ring) %>% filter(nn > 1) 
+mean(as.numeric(dat_mult$nn, na.rm = TRUE)) # ~2.3
+table(dat$age)
+# measurements_per_ind short term:
+meas_per_ind_all <- dat %>% group_by(ring) %>% tally() %>% filter(n > 1)
+mean(meas_per_ind_all$n) # 8.5
+
+meas_per_ind_long <- dat %>% filter(ring %in% dat_mult$ring) %>% group_by(ring) %>% count()
+mean(meas_per_ind_long$n) # 13.6
+
+delta_time <- 2.3*365
+
+lv <- scrape_AnAge(latin_name = c("Parus major", "Cyanistes caeruleus"), "maximum_longevity_yrs" )
+lv_long <-lv %>% mutate(max_days = as.numeric(maximum_longevity_yrs)*365,
+                  avg_adult_age = max_days * 0.25)
+
+# only five weekends (four weeks)
+dat1 <- metaDigitise("to_digitise/study8_Milligan_Radersma_2017/")
+
+dat1 %>% 
+    as_tibble() %>% 
+    select(group_id, mean, se, n) %>% 
+    rename(R = mean,
+           R_se = se, 
+           sample_size = n) %>% 
+    mutate(species_common = ifelse(str_detect(group_id, "gt"), "great_tit", "blue_tit"),
+           species_latin = ifelse(str_detect(group_id, "gt"), "Parus major", "Cyanistes caeruleus"),
+           behaviour = ifelse(str_detect(group_id, "binge"), "binge_eating_feeding_behaviour", "transience_feeding_behaviour"),
+           delta_t = ifelse(str_detect(group_id, "multyrs"), delta_time, 30),
+           t1 = case_when(
+               species_common == "great_tit" ~ as.numeric(lv_long[2, "avg_adult_age"]),
+               species_common == "blue_tit" ~ as.numeric(lv_long[1, "avg_adult_age"])
+           ),
+           t2 = 
+            case_when(
+                str_detect(group_id, "multyrs") ~ t1 + delta_time,
+                !str_detect(group_id, "multyrs") ~ t1 + 30
+            ),
+           delta_t = t2-t1) %>% 
+    select(-group_id) %>% 
+    mutate(
+        Key = "JYLBGHP7",
+        measurements_per_ind = ifelse(delta_t == 839.5, 13.6, 8.5),
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        life_stage = "both",
+        treatment = NA,
+        event = ifelse(delta_t == 839.5, "between_years", NA),
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        remarks = NA,
+        max_lifespan_days = ifelse(species_common == "great_tit", as.numeric(lv_long[2,2]), as.numeric(lv_long[1,2]))
+    ) -> meta_table
+    
+
+
+meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
+    "species_common" = NA, 
+    "species_latin" = NA,
+    "sample_size" = NA, 
+    "measurements_per_ind" = NA, # new, check papers 1-6 again
+    "sex" = NA,                # 0 = both, 1 = females, 2 = males
+    "behaviour" = NA,          # measured behaviour as stated by authors
+    "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
+    "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
+    "treatment"= NA,          # Verbal description
+    "life_stage"= NA,         # "juvenile", "adult", "both"
+    "event"= NA,              # Major life-event, such as metamorphosis between measurements
+    "R"= NA,
+    "R_se"= NA,
+    "CI_lower"= NA,
+    "CI_upper"= NA,
+    "p_val"= NA,
+    "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
+    "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
+    "delta_t"= NA,             # difference between timepoints in days
+    "remarks"= NA,
+    "max_lifespan_days" = NA)
+
