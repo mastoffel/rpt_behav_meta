@@ -1,0 +1,19 @@
+behaviour R p_val sample_size measurements_per_ind t1 t2 Key species_common species_latin sex context type_of_treatment treatment life_stage event R_se CI_lower CI_upper delta_t remarks max_lifespan_days
+song_start_time 0.205 0.019 16 4.5 1012.875 1377.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult between_years NA NA NA 365 "no se" 4051.5
+song_30min_rate 0.195 0.024 16 4.5 1012.875 1377.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult between_years NA NA NA 365 "no se" 4051.5
+actual_song_rate 0.194 0.025 16 4.5 1012.875 1377.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult between_years NA NA NA 365 "no se" 4051.5
+peak_song_rate 0.376 0 16 4.5 1012.875 1377.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult between_years NA NA NA 365 "no se" 4051.5
+song_end_time 0.04 0.306 16 4.5 1012.875 1377.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult between_years NA NA NA 365 "no se" 4051.5
+song_bout_length 0.028 0.354 16 4.5 1012.875 1377.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult between_years NA NA NA 365 "no se" 4051.5
+song_start_time 0.134 0.167 23 2.7 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_30min_rate 0.179 0.102 23 2.7 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+actual_song_rate 0.203 0.076 23 2.7 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+peak_song_rate 0.46 0.001 23 2.7 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_end_time 0.423 0.001 23 2.7 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_bout_length -0.062 0.66 23 2.7 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_start_time 0.092 0.251 35 2.3 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_30min_rate 0.226 0.051 35 2.3 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+actual_song_rate 0.374 0.003 35 2.3 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+peak_song_rate 0.385 0.002 35 2.3 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_end_time 0.023 0.428 35 2.3 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5
+song_bout_length 0.008 0.47 35 2.3 1012.875 1042.875 Q3AM687B eastern_kingbird tyrannus_tyrannus 2 3 0 NA adult within_years NA NA NA 30 "no se" 4051.5

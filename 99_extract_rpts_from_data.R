@@ -2079,4 +2079,186 @@ write_delim(meta_table, path = "output/Mitchell_Fanson_2016.txt", delim = " ", c
 
 
 
-###### Paper 41: 
+###### Paper 41: Murphy_Sexton_2008 #####
+# Murphy, M.T.; Sexton, K.; Dolan, A.C.; Redmond, L.J.2008	
+# dawn song of the eastern kingbird: an honest signal of male quality?
+# 	Q3AM687B	
+
+# eastern kingbird
+# Tyrannus Tyrannus
+# dawn songs
+# singing recorded: mid-june to third week of july: 
+# 40 individuals 2003, 88 observations
+# 47 individuals with 107 observation in 2004
+# 83 males
+# mean time between observations: 11 days, 
+# 173 song bouts with 1 obs n = 22, 2 obs N=22, three obs n = 10 four N = 10 five or more N = 6 over 2 year period
+
+# number of observation between years:
+72/16
+# number of observations within 2003
+62/23 # 2.7, i.e 11 * 2.7 = 30 days for within season
+# 2004
+82 / 35
+
+max_long <- scrape_AnAge(latin_name = "Tyrannus tyrannus", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_long <- as.numeric(max_long$maximum_longevity_yrs) * 365
+avg_adult_age <- max_long * 0.25
+
+tribble(
+   ~behaviour,        ~R,      ~p_val,        ~sample_size, ~measurements_per_ind,           ~t1,    ~t2,
+"song_start_time", 0.205,  0.019,                    16,             4.5,          avg_adult_age,  avg_adult_age + 365,
+"song_30min_rate", 0.195,  0.024,                    16,             4.5,          avg_adult_age,  avg_adult_age + 365,
+"actual_song_rate",0.194,  0.025,                    16,             4.5,           avg_adult_age,  avg_adult_age + 365,
+"peak_song_rate",  0.376,  0.000,                    16,             4.5,          avg_adult_age,  avg_adult_age + 365,
+"song_end_time",   0.040,  0.306,                    16,             4.5,          avg_adult_age,  avg_adult_age + 365,
+"song_bout_length",0.028,  0.354,                    16,             4.5,          avg_adult_age,  avg_adult_age + 365,
+
+"song_start_time", 0.134,  0.167,                    23,             2.7,          avg_adult_age,  avg_adult_age + 30,
+"song_30min_rate", 0.179,  0.102,                    23,             2.7,          avg_adult_age,  avg_adult_age + 30,
+"actual_song_rate", 0.203,  0.076,                    23,             2.7,          avg_adult_age,  avg_adult_age + 30,
+"peak_song_rate", 0.460,  0.001,                    23,             2.7,          avg_adult_age,  avg_adult_age + 30, 
+"song_end_time", 0.423,  0.001,                    23,             2.7,          avg_adult_age,  avg_adult_age + 30,  
+"song_bout_length", -0.062,  0.660,                    23,             2.7,          avg_adult_age,  avg_adult_age + 30,  
+    
+ "song_start_time", 0.092,  0.251,                    35,             2.3,          avg_adult_age,  avg_adult_age + 30,
+"song_30min_rate", 0.226,  0.051,                    35,             2.3,          avg_adult_age,  avg_adult_age + 30,
+"actual_song_rate", 0.374,  0.003,                    35,             2.3,          avg_adult_age,  avg_adult_age + 30,
+"peak_song_rate", 0.385,  0.002,                    35,             2.3,          avg_adult_age,  avg_adult_age + 30, 
+"song_end_time", 0.023,  0.428,                    35,             2.3,          avg_adult_age,  avg_adult_age + 30,  
+"song_bout_length", 0.008,  0.470,                    35,             2.3,          avg_adult_age,  avg_adult_age + 30
+) %>% 
+    mutate(Key = "Q3AM687B",
+        species_common = "eastern_kingbird",
+        species_latin = "tyrannus_tyrannus",
+        sex = 2,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = c(rep("between_years", 6), rep("within_years", 12)),
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        delta_t = t2-t1,
+        remarks = "no se",
+        max_lifespan_days= max_long) -> meta_table
+
+
+write_delim(meta_table, path = "output/Murphy_Sexton_2008.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 42: Nelson_Wilson_2008 #####
+# Nelson, Ximena J.; Wilson, David R.; Evans, Christopher S. 2008
+# behavioral syndromes in stable social groups: an artifact of external constraints?
+# 	A2UNW3XN	
+
+# 36 male / 36 female golden sebright bantam chickens (Gallus Gallus domesticus)
+# crowing: terrority
+# alarm call: antipredator
+# food call: foraging
+
+dat <- tabulizer::extract_tables("data/papers/nelson2008.pdf", pages = 6)
+
+# extract crowing
+mat1 <- dat[[1]]
+mat1 <- mat1[-1, -1]
+mat1[upper.tri(mat1)] <- NA
+mat1[mat1 == ""] <- NA
+
+crowing_df <- tibble(day1 = rep(NA, 28), day2 = rep(NA, 28), R = rep(NA,28))
+
+df_row <- 1
+for (row_mat in 1:8) {
+    for (col_mat in 1:8) {
+        if (!is.na(mat1[row_mat, col_mat])) {
+            crowing_df[df_row, ] <- c(col_mat, row_mat, mat1[row_mat, col_mat])
+            df_row <- df_row + 1
+        }
+    }
+}
+
+# extract alarm calling
+mat2 <- dat[[1]]
+mat2 <- mat2[-1, -1]
+mat2[lower.tri(mat2)] <- NA
+mat2[mat2 == ""] <- NA
+
+alarmcalling_df <-tibble(day1 = rep(NA, 28), day2 = rep(NA, 28), R = rep(NA,28))
+
+df_row <- 1
+for (row_mat in 1:8) {
+    for (col_mat in 1:8) {
+        if (!is.na(mat2[row_mat, col_mat])) {
+            alarmcalling_df[df_row, ] <- c(col_mat, row_mat, mat2[row_mat, col_mat])
+            df_row <- df_row + 1
+        }
+    }
+}
+
+
+# extract food calling
+mat3 <- dat[[2]]
+mat3 <- mat3[-1, -1]
+mat3[upper.tri(mat3)] <- NA
+mat3[mat3 == "1.0"] <- NA
+
+foodcalling_df <- tibble(day1 = rep(NA, 28), day2 = rep(NA, 28), R = rep(NA,28))
+
+df_row <- 1
+for (row_mat in 1:8) {
+    for (col_mat in 1:8) {
+        if (!is.na(mat3[row_mat, col_mat])) {
+            foodcalling_df[df_row, ] <- c(col_mat, row_mat, mat3[row_mat, col_mat])
+            df_row <- df_row + 1
+        }
+    }
+}
+
+# scrape_AnAge(latin_name = "Gallus gallus", vars =  "maximum_longevity_yrs", download_data = TRUE)
+# assumed longevity: 10 years (https://en.wikipedia.org/wiki/Chicken)
+# so
+
+longevity <- 10*365
+avg_adult_age <- 0.25 * longevity
+
+# create_meta_table
+rbind(crowing_df, alarmcalling_df, foodcalling_df) %>% 
+                 mutate(behaviour = c(rep("crowing_territory_behav", 28), rep("alarm_calling_antipredator_behav", 28), 
+                                      rep("food_calling_foraging_behav", 28))) %>%
+                 mutate(p_val = case_when(
+                     #str_detect(R, "\\*{1}")  ~ 0.05,
+                     str_detect(R, "\\*{2}") ~ 0.01
+                 )) %>% 
+                mutate(p_val = case_when(
+                    str_detect(R, "\\*{1}") & is.na(p_val) ~ 0.05,
+                    TRUE ~ p_val
+                )) %>% 
+                mutate(p_val = ifelse(is.na(p_val), ">0.05", p_val),
+                       sample_size = 72,
+                       t1 = avg_adult_age + as.numeric(day1),
+                       t2 = avg_adult_age + as.numeric(day2),
+                       delta_t = t2 -t1) %>% 
+                select(-day1, -day2) %>% 
+                mutate(
+                    Key = "A2UNW3XN",
+                    species_common = "Golden_sebright_bantam_chicken",
+                    species_latin = "Gallus_gallus_domesticus",
+                    measurements_per_ind = 2,
+                    sex = 0,
+                    context = 1,
+                    type_of_treatment = 0,
+                    treatment = NA,
+                    life_stage = "adult",
+                    event = NA,
+                    R_se = NA,
+                    CI_lower = NA,
+                    CI_upper = NA,
+                    remarks = "no se",
+                    max_lifespan_days = longevity
+                ) -> meta_table
+                
+
+write_delim(meta_table, path = "output/Nelson_Wilson_2008.txt", delim = " ", col_names = TRUE)
+
+
