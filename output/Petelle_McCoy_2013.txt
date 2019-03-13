@@ -1,0 +1,7 @@
+behaviour R R_se t1 t2 life_stage sample_size measurements_per_ind Key species_common species_latin sex context type_of_treatment treatment event CI_lower CI_upper p_val delta_t remarks max_lifespan_days
+docility 0.19 0.021 0 90 juvenile 86 5.23 CSPH9Z5D yellow_bellied_marmot Marmota_flaviventris 0 3 0 NA NA NA NA NA 90 "no longer term measurement but across the lifespan" 7738
+docility 0.27 0.033 365 455 yearling 81 5.23 CSPH9Z5D yellow_bellied_marmot Marmota_flaviventris 0 3 0 NA NA NA NA NA 90 "no longer term measurement but across the lifespan" 7738
+docility 0.29 0.039 1934.5 2024.5 adult 70 5.23 CSPH9Z5D yellow_bellied_marmot Marmota_flaviventris 0 3 0 NA NA NA NA NA 90 "no longer term measurement but across the lifespan" 7738
+boldness 0.019 0.027 0 90 juvenile 861 2.38 CSPH9Z5D yellow_bellied_marmot Marmota_flaviventris 0 3 0 NA NA NA NA NA 90 "no longer term measurement but across the lifespan" 7738
+boldness 0.373 0.146 365 455 yearling 445 2.38 CSPH9Z5D yellow_bellied_marmot Marmota_flaviventris 0 3 0 NA NA NA NA NA 90 "no longer term measurement but across the lifespan" 7738
+boldness 0.053 0.057 1934.5 2024.5 adult 266 2.38 CSPH9Z5D yellow_bellied_marmot Marmota_flaviventris 0 3 0 NA NA NA NA NA 90 "no longer term measurement but across the lifespan" 7738

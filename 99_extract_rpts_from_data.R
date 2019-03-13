@@ -2262,3 +2262,229 @@ rbind(crowing_df, alarmcalling_df, foodcalling_df) %>%
 write_delim(meta_table, path = "output/Nelson_Wilson_2008.txt", delim = " ", col_names = TRUE)
 
 
+
+###### Paper 43: Nemiroff_Deslpland_2007 ####
+# Nemiroff, L.; , Despl; , E.	2007	
+# consistent individual differences in the foraging behaviour of forest tent caterpillars (malacosoma disstria)
+# 	9K5MKM4T
+
+scrape_AnAge(latin_name = "Malacosoma disstria", vars = "maximum_longevity_yrs", download_data = FALSE)
+
+# experiment started after second instar, ~15 days
+# maximum lifespan around 3 month (https://en.wikipedia.org/wiki/Tent_caterpillar)
+
+tribble(
+    ~behaviour,                ~R,     ~p_val,    ~t1,     ~t2,
+    "latency_to_reach_food",   0.27,     0.05,       1,      2,
+    "latency_to_reach_food",   0.25,     0.05,       1,      3,
+    "latency_to_reach_food",   0.21,  ">0.05",       1,      4,
+    "latency_to_reach_food",   0.33,     0.01,       2,      3,
+    "latency_to_reach_food",   0.20,  ">0.05",       2,      4,
+    "latency_to_reach_food",   0.30,     0.01,       3,      4,
+    
+    "No_movement",             0.27,     0.05,       1,      2,
+    "No_movement",             0.38,     0.01,       1,      3,
+    "No_movement",             0.10,  ">0.05",       1,      4,
+    "No_movement",             0.37,     0.01,       2,      3,
+    "No_movement",             0.15,  ">0.05",       2,      4,
+    "No_movement",             0.42,    0.001,       3,      4,
+    
+    "walking",                 0.19,  ">0.05",       1,      2,
+    "walking",                 0.50,    0.001,       1,      3,
+    "walking",                 0.24,     0.05,       1,      4,
+    "walking",                 0.30,     0.01,       2,      3,
+    "walking",                -0.04,  ">0.05",       2,      4,
+    "walking",                 0.36,    0.001,       3,      4,
+    
+    "searching",               0.49,    0.001,       1,      2,
+    "searching",               0.53,    0.001,       1,      3,
+    "searching",               0.07,  ">0.05",       1,      4,
+    "searching",               0.48,    0.001,       2,      3,
+    "searching",               0.20,  ">0.05",       2,      4,
+    "searching",               0.21,     0.05,       3,      4,
+    
+    "Eating",               0.49,    0.001,       1,      2,
+    "Eating",                0.53,    0.001,       1,      3,
+    "Eating",                0.07,  ">0.05",       1,      4,
+    "Eating",                0.48,    0.001,       2,      3,
+    "Eating",                0.20,  ">0.05",       2,      4,
+    "Eating",                0.21,     0.05,       3,      4
+    
+  ) %>% 
+    mutate(
+        Key = "9K5MKM4T",
+        species_common = "forest_tent_caterpillar",
+        species_latin = "Malacosoma_disstria",
+        t1 = 15 + t1,
+        t2 = 15 + t2,
+        delta_t = t2 - t1,
+        sample_size = 78,
+        context = 1,
+        type_of_treatment = 0,
+        measurements_per_ind = 4,
+        sex = 0,
+        treatment = 0,
+        life_stage = "juvenile",
+        event = NA,
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        remarks = "No se, spearman correlation, testing started after 2nd instar, overall 5 instars",
+        max_lifespan_days = 90
+    ) -> meta_table
+    
+write_delim(meta_table, path = "output/Nemiroff_Deslpland_2007.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 44: Niemel_Vainikka_2012 #####
+###### Paper 45: Olsen_Heupel_2012 ####
+# Olsen, Esben Mol; Heupel, Michelle R.; Simpfendorfer, Colin A.; , Mol; , Even		2012	
+# harvest selection on atlantic cod behavioral traits: implications for spatial management
+# AS8P9MSC
+
+# atlantic cod
+#  all adults > 30cm long, maturity at 2-4 years
+cod_data <- scrape_AnAge(latin_name = "Gadus morhua", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_longevity <- as.numeric(cod_data$maximum_longevity_yrs) * 365
+avg_adult_age <- max_longevity * 0.25
+
+# 3 month period
+# 
+
+dat <- metaDigitise("to_digitise/study9_Olsen_Heupel_2012/")
+dat %>% 
+    as_tibble() %>% 
+    select(group_id, mean, se) %>% 
+    separate(group_id, into = c("behaviour", "time"), sep = "_") %>% 
+    mutate(behaviour = str_replace_all(behaviour, "-", "_")) %>% 
+    mutate(t1 = avg_adult_age,
+           t2 = rep(c(avg_adult_age + 30, avg_adult_age + 60, avg_adult_age + 90), 5),
+           delta_t = t2 - t1, 
+           sample_size = 28,
+           measurements_per_ind = 2) %>% 
+    select(-time) %>% 
+    rename(R = mean, R_se = se) %>% 
+    mutate(
+        Key = "AS8P9MSC",
+        species_common = "atlantic_cod",
+        species_latin = "Gadus_morhua",
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = "surgical transmitter implantation for all study individuals",
+        life_stage = "adult",
+        event = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        max_lifespan_days = max_longevity,
+        remarks = "study on natural fish movement using tagging"
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Olsen_Heupel_2012.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 46: Oufiero_Garl_2009 ####
+# Oufiero, C.E.; , Garl; Jr., T. 2009	
+# repeatability and correlation of swimming performances and size over varying time-scales in the guppy (poecilia reticulata)
+# 	TWIX36XY	
+
+# critical swimming speed
+# burst_speed
+
+# fish at 90 days of age
+fish_age_start <- 90
+fish_max_age <- scrape_AnAge(latin_name = "Poecilia reticulata", vars = "maximum_longevity_yrs", download_data = FALSE)
+fish_max_age <- as.numeric(fish_max_age$maximum_longevity_yrs) * 365
+
+tribble(
+    ~behaviour,              ~R,       ~p_val,        ~t1,        ~t2,       ~sample_size,    ~measurements_per_ind,
+    "burst_speed",          0.14,       0.1622,       7,           7.5,                22,                        3,
+    "burst_speed",          0.25,       0.027,        36,          36.5,               22,                        3,
+    "burst_speed",          0.38,       0.0027,       42,          42.5,               22,                        3,
+    "burst_speed",          0.27,       0.06,         510,         510.5,              22,                        3,
+    "burst_speed",          0.46,       0.03,         7,            36,                22,                        6,
+    "burst_speed",          0.76,       0.0001,       36,           42,                22,                        6,
+    "burst_speed",          0.27,         0.4,        42,           510,                22,                       6,
+    
+    "swimming_speed_max",  0.35,         0.09,         7,           36,                 22,                       2,
+    "swimming_speed_max",  0.54,         0.006,        36,          42,                 22,                       2,
+    "swimming_speed_max",  0.42,         0.048,        42,         510,                  22,                      2,
+    
+    "swimming_speed_critical", 0.74,     0.001,        7,           36,                 22,                       2,
+    "swimming_speed_critical", 0.58,     0.003,       36,           42,                 22,                       2,
+    "swimming_speed_critical", 0.34,     0.118,       42,          510 ,               22,                        2
+) %>% 
+    mutate(t1 = t1 + fish_age_start,
+           t2 = t2 + fish_age_start,
+           delta_t = t2-t1,
+          Key = "TWIX36XY",
+          species_common = "trinidadian_guppy",
+          species_latin = "Poecilia_reticulata",
+          sex = 0,
+          context = 2,
+          type_of_treatment = NA,
+          treatment =NA,
+          life_stage = "adult",
+          event = NA,
+          R_se = NA,
+          CI_lower = NA,
+          CI_upper = NA,
+          remarks = "no se",
+          max_lifespan_days = fish_max_age) -> meta_table
+    
+write_delim(meta_table, path = "output/Oufiero_Garl_2009.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 47: Petelle_McCoy_2013 #####
+# Petelle, Matthew B.; McCoy, Dakota E.; , Alej; ro, Vanessa; Martin, Julien G. A.; Blumstein, Daniel T.	2013
+# development of boldness and docility in yellow-bellied marmots
+# 	CSPH9Z5D
+
+
+# juveniles: first summer
+# yearlings: second summer of life: 365:365+90
+
+dat_marmot <- scrape_AnAge("Marmota flaviventris", vars = "maximum_longevity_yrs", download_data = FALSE)
+lifespan_marmot <- as.numeric(dat_marmot$maximum_longevity_yrs) * 365
+avg_adult_age <- lifespan_marmot * 0.25
+# very few individuals measured at different ages so adult measuring time assumed to be 90 (one summer) too
+
+# measurements per ind: 
+# boldness 563 / 237 = 2.38
+# docility 8217 / (861 + 445 + 266) = 5.23 // trapping
+
+tribble(
+    ~behaviour,     ~R,     ~R_se,      ~t1,       ~t2,              ~life_stage,   ~sample_size,
+    "docility",     0.19,   0.021,        0,         90,              "juvenile",    86,
+    "docility",     0.27,   0.033,       365,       455,               "yearling",   81,
+    "docility",     0.29,   0.039, avg_adult_age, avg_adult_age+90,    "adult",      70,
+    
+      
+    "boldness",     0.019,   0.027,     0,         90,                  "juvenile",  861, 
+    "boldness",     0.373,   0.146,     365,       455,                 "yearling",  445,
+    "boldness",     0.053,   0.057,     avg_adult_age, avg_adult_age+90,    "adult",  266
+) %>% 
+    mutate(
+        measurements_per_ind = c(rep(5.23, 3), rep(2.38, 3)),
+        Key = "CSPH9Z5D",
+        species_common = "yellow_bellied_marmot",
+        species_latin = "Marmota_flaviventris",
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        event = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        delta_t = t2 - t1,
+        remarks = "no longer term measurement but across the lifespan",
+        max_lifespan_days = lifespan_marmot) -> meta_table
+
+
+write_delim(meta_table, path = "output/Petelle_McCoy_2013.txt", delim = " ", col_names = TRUE)
+
+

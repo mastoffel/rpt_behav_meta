@@ -1,0 +1,14 @@
+behaviour R p_val t1 t2 sample_size measurements_per_ind delta_t Key species_common species_latin sex context type_of_treatment treatment life_stage event R_se CI_lower CI_upper remarks max_lifespan_days
+burst_speed 0.14 0.1622 97 97.5 22 3 0.5 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+burst_speed 0.25 0.027 126 126.5 22 3 0.5 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+burst_speed 0.38 0.0027 132 132.5 22 3 0.5 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+burst_speed 0.27 0.06 600 600.5 22 3 0.5 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+burst_speed 0.46 0.03 97 126 22 6 29 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+burst_speed 0.76 1e-4 126 132 22 6 6 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+burst_speed 0.27 0.4 132 600 22 6 468 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+swimming_speed_max 0.35 0.09 97 126 22 2 29 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+swimming_speed_max 0.54 0.006 126 132 22 2 6 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+swimming_speed_max 0.42 0.048 132 600 22 2 468 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+swimming_speed_critical 0.74 0.001 97 126 22 2 29 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+swimming_speed_critical 0.58 0.003 126 132 22 2 6 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
+swimming_speed_critical 0.34 0.118 132 600 22 2 468 TWIX36XY trinidadian_guppy Poecilia_reticulata 0 2 NA NA adult NA NA NA NA "no se" 1825
