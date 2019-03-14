@@ -1,0 +1,4 @@
+behaviour R t1 t2 sample_size measurements_per_ind Key species_common species_latin sex context type_of_treatment treatment life_stage event R_se CI_lower CI_upper p_val delta_t remarks max_lifespan_days
+feeder_sampling_actions 0.35 1460 1542 63 4.9 PHTV4Z4S Steller's_jay Cyanocitta_stelleri 0 3 0 NA adult NA NA NA NA NA 82 "no se, nopval" 5876.500000000001
+feeder_sampling_actions 0.41 1460 1529 57 7.5 PHTV4Z4S Steller's_jay Cyanocitta_stelleri 0 3 0 NA adult NA NA NA NA NA 69 "no se, nopval" 5876.500000000001
+feeder_sampling_actions 0.38 1460 1830 57 12.4 PHTV4Z4S Steller's_jay Cyanocitta_stelleri 0 3 0 NA adult between_winter_seasons NA NA NA NA 370 "no se, nopval" 5876.500000000001

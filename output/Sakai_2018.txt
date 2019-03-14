@@ -1,0 +1,5 @@
+behaviour R p_val sample_size measurements_per_ind t1 t2 life_stage Key species_common species_latin sex context type_of_treatment treatment event R_se CI_lower CI_upper delta_t remarks max_lifespan_days
+exploration 0.194 0.013 44 3 150 153 juvenile 2UYSQ68E mourning_gecko Lepidodactylus_lugubris 1 2 0 NA NA NA NA NA 3 "no se, all clonal females, no scientific source for longevity so used breeder website for estimate" 3650_noofficialsource
+boldness 0.436 0.001 44 3 150 153 juvenile 2UYSQ68E mourning_gecko Lepidodactylus_lugubris 1 2 0 NA NA NA NA NA 3 "no se, all clonal females, no scientific source for longevity so used breeder website for estimate" 3650_noofficialsource
+exploration 0.277 0.001 41 3 912.5 915.5 adult 2UYSQ68E mourning_gecko Lepidodactylus_lugubris 1 2 0 NA NA NA NA NA 3 "no se, all clonal females, no scientific source for longevity so used breeder website for estimate" 3650_noofficialsource
+boldness 0.319 0.001 41 3 912.5 915.5 adult 2UYSQ68E mourning_gecko Lepidodactylus_lugubris 1 2 0 NA NA NA NA NA 3 "no se, all clonal females, no scientific source for longevity so used breeder website for estimate" 3650_noofficialsource

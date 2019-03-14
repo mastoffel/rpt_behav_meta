@@ -2488,3 +2488,221 @@ tribble(
 write_delim(meta_table, path = "output/Petelle_McCoy_2013.txt", delim = " ", col_names = TRUE)
 
 
+
+###### Paper 48: Polverina_Cigliano_2016 #######
+# Polverino, Giovanni; Cigliano, Claudia; Nakayama, Shinnosuke; Mehner, Thomas		2016
+# emergence and development of personality over the ontogeny of fish in absence of environmental stress factors
+# AIP8SGJE
+
+# 30 days old
+# subadult stage event: morphogenesis of anal fin
+# mosquitofish
+# all within-stage tests 7 days apart
+# 30 days old / 7 days juvenile test / 67 days: 7 days subadult tests / 134 days: 7 days adult experiment: final age: 141
+# mosquitofish lifespan : 1 year / Haake and Dean 1983 cited in paper
+
+tribble(
+    ~behaviour,              ~R,      ~CI_lower,     ~CI_upper,      ~p_val,     ~t1,     ~t2,   ~event,
+    "emergence_latency",   0.11,            NA,              NA,      0.03,      30,      141,  "ontogeny",
+    "hiding_time",         0.15,            NA,              NA,      0.01,      30,      141,  "ontogeny",
+    "distance_moved",      0.25,            NA ,             NA,      0.01,      30,      141,  "ontogeny",
+    "freezing_time",       0.20,            NA,              NA,      0.01,      30,      141,  "ontogeny",
+    
+    "emergence_latency",   0.06,            0,              0.30,     0.99,      30,      37,   NA,
+    "hiding_time",         0.08,            0,              0.35,     0.64,      30,      37,   NA,
+    "distance_moved",      0.06,            0 ,             0.31,     0.87,      30,      37,   NA,
+    "freezing_time",       0.02,            0,              0.17,     0.99,      30,      37,   NA,
+    
+    "emergence_latency",   0.08,            0,              0.33,     0.87,      67,      74,   NA,
+    "hiding_time",         0.62,          0.36,             0.82,     0.01,      67,      74,   NA,
+    "distance_moved",      0.21,            0 ,             0.50,     0.18,      67,      74,   NA,
+    "freezing_time",       0.20,            0,              0.50,     0.11,      67,      74,   NA,
+
+    "emergence_latency",   0.04,            0,              0.26,     0.87,      134,     141,   NA,
+    "hiding_time",         0.44,          0.09,             0.72,     0.01,      134,     141,   NA,
+    "distance_moved",      0.48,            0.13,           0.74,     0.01,      134,     141,   NA,
+    "freezing_time",       0.55,           0.24,            0.78,     0.11,      134,     141,   NA
+) %>% 
+    mutate(
+        Key = "AIP8SGJE",
+        species_common = "eastern_mosquitofish",
+        species_latin = "Gambusia_holbrooki",
+        sample_size = 40,
+        measurements_per_ind = c(rep(6, 4), rep(2, 12)),
+        sex = 0,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = "add libitum food",
+        life_stage = c(rep("across_ontogeny", 4), rep("juvenile", 4), rep("subadult", 4), rep("adult", 4)),
+        R_se = NA,
+        delta_t = t2 - t1,
+        remarks = "R_se for ontogeny taking as mean R_se from across other stages",
+        max_lifespan_days = 365
+    ) %>% 
+    mutate(R_se = (CI_upper - R) / 1.96) %>% 
+    select(behaviour, R, R_se, everything()) %>% 
+    # calculate ontogeny se as mean of other ses per behaviour
+    group_by(behaviour) %>% 
+    mutate(R_se = ifelse(is.na(R_se), mean(R_se, na.rm = TRUE), R_se)) -> meta_table
+
+write_delim(meta_table, path = "output/Polverina_Cigliano_2016.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 49: Redmond_Murphy_2009 #####
+# Redmond, Lucas J.; Murphy, Michael T.; Dolan, Amy C.; Sexton, Karen 2009	
+# parental investment theory and nest defense by eastern kingbirds
+# 	KN8NUB8J	
+
+# nest defense behaviour
+# only for males within and between years
+# between: r = 0.739, p = 0.004, n = 9
+
+
+incub_to_nest <- 32
+lv_dat <- scrape_AnAge(latin_name = "Tyrannus tyrannus", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_longevity <- as.numeric(lv_dat$maximum_longevity_yrs) * 365
+avg_adult_age <- max_longevity * 0.25
+
+
+
+tribble(
+    ~R,        ~CI_lower,      ~CI_upper,   ~R_se,    ~sample_size,              ~t1,                        ~t2, 
+0.284,         -0.200,         0.686,        0.21,           11,           avg_adult_age,  avg_adult_age + incub_to_nest,
+0.687,          0.471,         0.828,        0.07,            44,     avg_adult_age + 365,  avg_adult_age + 365 + incub_to_nest, 
+0.739,          NA,              NA,         0.21,           9,            avg_adult_age,  avg_adult_age + 365 + incub_to_nest
+) %>% 
+    mutate(
+        Key = "KN8NUB8J",
+        species_common = "eastern_kingbird",
+        species_latin = "tyrannus_tyrannus",
+        measurements_per_ind = 2,
+        sex = 2,
+        behaviour = "nest_defense",
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = c(rep("incubation_to_nestling",2), "between_years"),
+        p_val = NA,
+        delta_t = t2 - t1,
+        remarks = NA,
+        max_lifespan_days = max_longevity
+    ) -> meta_table
+    
+write_delim(meta_table, path = "output/Redmond_Murphy_2009.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 50: Rockwell_Gabriel_2012 #####
+# Rockwell, Christina; Gabriel, Pia O.; Black, Jeffrey M.	2012
+# bolder, older, and selective: factors of individual-specific foraging behaviors in steller's jays
+# 	PHTV4Z4S
+
+# steller's jay
+# short: 19.12.2008-11.03.2009 = 82 days long
+dmy(11032009) - dmy(19122008)
+# second short : 16.10.2009 to 24.12.2009 = 69 days long
+dmy(24122009) - dmy(16102009) 
+# between winter seasons: 370 days
+dmy(24122009) - dmy(19122008)
+
+# bird age on average 1460 days
+avg_adult_age <- 1460
+
+max_life <- as.numeric(scrape_AnAge("Cyanocitta stelleri", vars = "maximum_longevity_yrs", download_data = FALSE)$maximum_longevity_yrs)*365
+
+
+
+tribble(
+             ~behaviour,  ~R,             ~t1,              ~t2,      ~sample_size, ~measurements_per_ind,
+"feeder_sampling_actions", 0.35, avg_adult_age, avg_adult_age + 82,         63,                   4.9,
+"feeder_sampling_actions", 0.41, avg_adult_age, avg_adult_age + 69,         57,                   7.5,
+"feeder_sampling_actions", 0.38, avg_adult_age, avg_adult_age + 370,        57,                   12.4
+) %>% 
+    mutate(
+        Key = "PHTV4Z4S",
+        species_common = "Steller's_jay",
+        species_latin = "Cyanocitta_stelleri",
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = c(NA, NA, "between_winter_seasons"),
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        delta_t = t2 - t1,
+        remarks = "no se, nopval",
+        max_lifespan_days = max_life
+    ) -> meta_table 
+
+
+write_delim(meta_table, path = "output/Rockwell_Gabriel_2012.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 51: Sakai_2018  ######
+# Sakai, Osamu	2018
+# comparison of personality between juveniles and adults in clonal gecko species
+# 	2UYSQ68E
+
+# all delta ts within 3 days, 3 measuremnts
+# 41 adult, 44 juvenile
+# Lepidodactylus lugubris
+# mourning gecko
+
+scrape_AnAge(latin_name = "Lepidodactylus lugubris", vars = "maximum_longevity_yrs", download_data = FALSE)
+
+avg_adult_age <- 0.25 * 10 * 365    # maximum of 10 years, non-official source www.joshsfrogs.com/mourning-gecko-lepidodactylus-lugubris.html
+avg_juvenile_age <- 0.5 * 300       # again joshsfrogs as source. ...
+
+tribble(
+ ~behaviour,    ~R,  ~p_val,    ~sample_size,   ~measurements_per_ind,     ~t1,                            ~t2,     ~life_stage,
+"exploration",  0.194, 0.013,     44,                         3,            avg_juvenile_age, avg_juvenile_age + 3,  "juvenile",
+"boldness",     0.436, 0.001,     44,                    3,            avg_juvenile_age, avg_juvenile_age + 3,  "juvenile",
+"exploration",  0.277, 0.001,     41,                      3,             avg_adult_age,      avg_adult_age + 3,  "adult",
+"boldness",     0.319, 0.001,     41,                       3,            avg_adult_age,      avg_adult_age + 3,  "adult"
+) %>% 
+    mutate(
+        Key = "2UYSQ68E",
+        species_common = "mourning_gecko",
+        species_latin = "Lepidodactylus_lugubris",
+        sex = 1,
+        context = 2,
+        type_of_treatment = 0,
+        treatment = NA,
+        event = NA,
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        delta_t = t2 - t1,
+        remarks = "no se, all clonal females, no scientific source for longevity so used breeder website for estimate",
+        max_lifespan_days = "3650_noofficialsource"
+    ) -> meta_table
+write_delim(meta_table, path = "output/Sakai_2018.txt", delim = " ", col_names = TRUE)
+
+
+
+meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
+    "species_common" = NA, 
+    "species_latin" = NA,
+    "sample_size" = NA, 
+    "measurements_per_ind" = NA, # new, check papers 1-6 again
+    "sex" = NA,                # 0 = both, 1 = females, 2 = males
+    "behaviour" = NA,          # measured behaviour as stated by authors
+    "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
+    "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
+    "treatment"= NA,          # Verbal description
+    "life_stage"= NA,         # "juvenile", "adult", "both"
+    "event"= NA,              # Major life-event, such as metamorphosis between measurements
+    "R"= NA,
+    "R_se"= NA,
+    "CI_lower"= NA,
+    "CI_upper"= NA,
+    "p_val"= NA,
+    "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
+    "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
+    "delta_t"= NA,             # difference between timepoints in days
+    "remarks"= NA,
+    "max_lifespan_days" = NA)
