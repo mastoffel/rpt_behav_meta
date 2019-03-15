@@ -1,0 +1,7 @@
+R sample_size R_se t1 t2 measurements_per_ind Key species_common species_latin sex behaviour context type_of_treatment treatment life_stage event CI_lower CI_upper p_val delta_t remarks max_lifespan_days
+0.8 65 0.04 1916.25 1946.25 2.3692307692307693 9BYQMQXW common_eider Somateria_mollissima 1 flight_initiation_distance_FID 3 NA NA adult NA NA NA 0.001 30 NA 7665
+0.76 60 0.04 1916.25 1946.25 2.7666666666666666 9BYQMQXW common_eider Somateria_mollissima 1 flight_initiation_distance_FID 3 NA NA adult NA NA NA 0.001 30 NA 7665
+0.76 66 0.04 1916.25 1946.25 2.5454545454545454 9BYQMQXW common_eider Somateria_mollissima 1 flight_initiation_distance_FID 3 NA NA adult NA NA NA 0.001 30 NA 7665
+0.69 26 0.06 1916.25 2281.25 3.8846153846153846 9BYQMQXW common_eider Somateria_mollissima 1 flight_initiation_distance_FID 3 NA NA adult between_years NA NA 0.001 365 NA 7665
+0.54 22 0.12 1916.25 2281.25 4.409090909090909 9BYQMQXW common_eider Somateria_mollissima 1 flight_initiation_distance_FID 3 NA NA adult between_years NA NA 0.001 365 NA 7665
+0.37 7 0.14 1916.25 2646.25 5.714285714285714 9BYQMQXW common_eider Somateria_mollissima 1 flight_initiation_distance_FID 3 NA NA adult between_years NA NA 0.05 730 NA 7665

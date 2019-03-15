@@ -1,0 +1,17 @@
+behaviour sample_size R R_se t1 t2 life_stage event measurements_per_ind sex Key species_common species_latin context p_val type_of_treatment treatment CI_lower CI_upper delta_t remarks max_lifespan_days
+activity_openfield 38 0.45 0.13 42 49 juvenile NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 7 NA 330
+boldness 38 0.27 0.13 42 49 juvenile NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 7 NA 330
+activity_ymaze 39 0.05 0.11 42 49 juvenile NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 7 NA 330
+exploration 39 0.39 0.14 42 49 juvenile NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 7 NA 330
+activity_openfield 31 0.49 0.17 84 168 adult NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 84 NA 330
+boldness 31 0.2 0.15 84 168 adult NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 84 NA 330
+activity_ymaze 31 0.11 0.1 84 168 adult NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 84 NA 330
+exploration 31 0 0.11 84 168 adult NA 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 84 NA 330
+activity_openfield 52 0.47 0.11 42 84 both maturation 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 42 NA 330
+boldness 52 0.36 0.13 42 84 both maturation 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 42 NA 330
+activity_ymaze 51 0.07 0.09 42 84 both maturation 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 42 NA 330
+exploration 52 0.13 0.11 42 84 both maturation 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 NA NA NA 42 NA 330
+activity_openfield 16 0.77 0.13 84 168 adult sexual_contact 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 sexual_contact NA NA 84 NA 330
+boldness 16 0.53 0.13 84 168 adult sexual_contact 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 sexual_contact NA NA 84 NA 330
+activity_ymaze 16 0 0.11 84 168 adult sexual_contact 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 sexual_contact NA NA 84 NA 330
+exploration 16 0 0.14 84 168 adult sexual_contact 2 0 PTJDWIY8 eurasian_harvest_mouse Micromys_minutus 1 NA 1 sexual_contact NA NA 84 NA 330

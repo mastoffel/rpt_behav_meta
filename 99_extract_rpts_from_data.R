@@ -2683,26 +2683,132 @@ tribble(
 write_delim(meta_table, path = "output/Sakai_2018.txt", delim = " ", col_names = TRUE)
 
 
+###### Paper 52: Schuster_Carl_2017 ######
+# Schuster, Andrea C.; Carl, Teresa; Foerster, Katharina	2017
+# repeatability and consistency of individual behaviour in juvenile and adult eurasian harvest mice
+# PTJDWIY8
 
-meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
-    "species_common" = NA, 
-    "species_latin" = NA,
-    "sample_size" = NA, 
-    "measurements_per_ind" = NA, # new, check papers 1-6 again
-    "sex" = NA,                # 0 = both, 1 = females, 2 = males
-    "behaviour" = NA,          # measured behaviour as stated by authors
-    "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
-    "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
-    "treatment"= NA,          # Verbal description
-    "life_stage"= NA,         # "juvenile", "adult", "both"
-    "event"= NA,              # Major life-event, such as metamorphosis between measurements
-    "R"= NA,
-    "R_se"= NA,
-    "CI_lower"= NA,
-    "CI_upper"= NA,
-    "p_val"= NA,
-    "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
-    "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
-    "delta_t"= NA,             # difference between timepoints in days
-    "remarks"= NA,
-    "max_lifespan_days" = NA)
+max_lifespan <- 11*30 # in the wild according to paper
+
+tribble(
+    ~behaviour,            ~sample_size,   ~R,      ~R_se,        ~t1,        ~t2,       ~life_stage,  
+    "activity_openfield",            38,  0.45,     0.13,       42,        49,            "juvenile",   
+    "boldness",                      38,  0.27,     0.13,       42,        49,            "juvenile",
+    "activity_ymaze",                39,  0.05,     0.11,       42,        49,            "juvenile",
+    "exploration",                   39,  0.39,     0.14,       42,        49,            "juvenile",
+    "spatial_recognition",           39,  0.00,       NA,        42,       49,            "juvenile",
+
+    "activity_openfield",            31,  0.49,     0.17,       84,        168,           "adult",
+    "boldness",                      31,  0.20,     0.15,       84,        168,           "adult",
+    "activity_ymaze",                31,  0.11,     0.10,       84,        168,           "adult",
+    "exploration",                   31,  0.00,     0.11,       84,        168,           "adult",
+    "spatial_recognition",           31,  0.00,       NA,       84,        168,           "adult",
+    
+    "activity_openfield",            52,  0.47,     0.11,       42,        84,            "both",   
+    "boldness",                      52,  0.36,     0.13,       42,        84,            "both",
+    "activity_ymaze",                51,  0.07,     0.09,       42,        84,            "both",
+    "exploration",                   52,  0.13,     0.11,       42,        84,            "both",
+    "spatial_recognition",           51,  0.00,       NA,       42,        84,            "both",
+    
+    "activity_openfield",            16,  0.77,     0.13,       84,        168,            "adult",   
+    "boldness",                      16,  0.53,     0.13,       84,        168,            "adult",
+    "activity_ymaze",                16,  0.00,     0.11,       84,        168,            "adult",
+    "exploration",                   16,  0.00,     0.14,       84,        168,            "adult",
+    "spatial_recognition",           16,  0.00,       NA,       84,        168,            "adult"
+) %>% 
+    filter(behaviour != "spatial_recognition") %>% 
+    mutate(event = c(rep(NA, 8), rep("maturation", 4), rep("sexual_contact", 4)),
+           measurements_per_ind = 2,
+           sex = 0,
+           Key = "PTJDWIY8",
+           species_common = "eurasian_harvest_mouse",
+           species_latin = "Micromys_minutus",
+           context = 1,
+           p_val = NA,
+           type_of_treatment = 1,
+           treatment = c(rep(NA, 12), rep("sexual_contact", 4)),
+           CI_lower =NA,
+           CI_upper = NA,
+           delta_t = t2 - t1,
+           remarks = NA,
+           max_lifespan_days = max_lifespan) -> meta_table
+
+write_delim(meta_table, path = "output/Schuster_Carl_2017.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 53: Seltman_Ose_2012 ####
+# Seltmann, Martin W.; Ost, Markus; Jaatinen, Kim; Atkinson, Shannon; Mashburn, Kendall; Hollmen, Tuula	2012
+# stress responsiveness, age and body condition interactively affect flight initiation distance in breeding female eiders
+# 9BYQMQXW
+
+# females
+# eider ducks
+# trapping: end of incubation period: may / early june
+# measurements within season per female:  
+# 2009: 2.4, N = 154;  #
+# 2010: 2.7, N = 166, 
+# 2011: 2.6, N = 168
+
+# Between breeding seasons: 
+# 2009-2010: 3.9, N = 101, 
+# 2010-2011 4.4, N = 22
+# 2009-2011: 5.7, N = 40
+
+# longevity (according to paper) : 21 years
+lifespan_eider <- 21 * 365
+avg_adult_age <- lifespan_eider * 0.25 
+# within season delta_t ~ 30 (end of incubation period in may / early june)
+
+dat <- tabulizer::extract_areas("data/papers/Seltmann et al. - 2012 - stress responsiveness, age and body condition inte.pdf",
+                                  pages = 4)
+
+dat %>% .[[1]] %>% 
+    .[-c(1), 1:6] %>% 
+    as_tibble() %>%
+    mutate(R_se = str_extract(V3, "^.{4}")) %>% 
+    select(-V3, -V4, -V5) %>% 
+    rename(year = V1, R = V2) %>% 
+    separate(V6, into = c("obs", "sample_size"), sep = " ") %>% 
+    mutate(sample_size = str_replace(sample_size, "\\(", ""),
+        sample_size = str_replace(sample_size, "\\)", "")) %>% 
+    mutate_at(vars(R:R_se), funs(as.numeric)) %>% 
+    mutate(t1 = avg_adult_age,
+           t2 = c(rep(avg_adult_age + 30, 3), rep(avg_adult_age + 365, 2), avg_adult_age + 730)) %>% 
+    select(-year) %>% 
+    mutate(measurements_per_ind = obs/sample_size) %>% 
+    select(-obs) %>% 
+    mutate(
+        Key = "9BYQMQXW",
+        species_common = "common_eider",
+        species_latin = "Somateria_mollissima",
+        sex = 1,
+        behaviour = "flight_initiation_distance_FID",
+        context = 3,
+        type_of_treatment = NA,
+        treatment = NA,
+        life_stage = "adult",
+        event = c(rep(NA, 3), rep("between_years", 3)),
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = c(rep(0.001, 5),0.05),
+        delta_t = t2 - t1,
+        remarks = NA,
+        max_lifespan_days = lifespan_eider
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Seltman_Ose_2012.txt", delim = " ", col_names = TRUE)
+
+
+
+
+###### Paper 54:
+
+
+
+
+
+
+
+
+
+
