@@ -1,0 +1,3 @@
+R R_se t1 t2 Key species_common species_latin sample_size measurements_per_ind sex behaviour context type_of_treatment treatment life_stage event CI_lower CI_upper delta_t remarks p_val max_lifespan_days
+0.7806931521989983 0.10819040062971957 1095 1282 F3ESMMAM bull_trout Salvelinus_confluentus 17 2 0 movement_telemetry 3 0 NA adult NA NA NA 187 NA NA 4380
+0.8238083794514266 0.09260149205305696 1095 1095.5 F3ESMMAM bull_trout Salvelinus_confluentus 17 2 0 movement_telemetry 3 0 NA adult autumn_to_spring NA NA 0.5 NA NA 4380

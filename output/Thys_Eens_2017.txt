@@ -1,0 +1,14 @@
+behaviour R CI_lower CI_upper delta_t t1 t2 Key species_common species_latin sample_size measurements_per_ind sex context type_of_treatment treatment life_stage event R_se p_val remarks max_lifespan_days
+exploratory_behaviour 0.34 0.23 0.47 741 1070.5 1811.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 4 2 2 0 NA adult overall NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_combined 0.44 0.24 0.64 720 1077.5 1797.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 3 2 2 0 NA adult overall NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_nestbox 0.46 0.26 0.68 720 1077.5 1797.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 3 2 2 0 NA adult overall NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_near_female 0.33 0.15 0.55 720 1077.5 1797.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 3 2 2 0 NA adult overall NA NA "one sociability measure is the sum of the other two" 8358.5
+exploratory_behaviour 0.33 0.20 0.49 11 1070.5 1081.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult short_term NA NA "one sociability measure is the sum of the other two" 8358.5
+exploratory_behaviour 0.25 0.09 0.57 182 1070.5 1252.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_season NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_combined 0.41 0.17 0.66 174 1077.5 1251.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_season NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_nestbox 0.35 0.15 0.58 174 1077.5 1251.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_season NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_near_female 0.35 0.13 0.60 174 1077.5 1251.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_season NA NA "one sociability measure is the sum of the other two" 8358.5
+exploratory_behaviour 0.30 0.10 0.55 724 1070.5 1794.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_year NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_combined 0.31 0.12 0.56 716 1077.5 1793.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_year NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_nestbox 0.41 0.20 0.64 716 1077.5 1793.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_year NA NA "one sociability measure is the sum of the other two" 8358.5
+sociability_near_female 0.25 0.09 0.49 716 1077.5 1793.5 A5QEWIB6 european_starling Sturnus_vulgaris 30 2 2 2 0 NA adult across_year NA NA "one sociability measure is the sum of the other two" 8358.5

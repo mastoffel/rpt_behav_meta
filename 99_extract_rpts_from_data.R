@@ -2801,7 +2801,262 @@ write_delim(meta_table, path = "output/Seltman_Ose_2012.txt", delim = " ", col_n
 
 
 
-###### Paper 54:
+###### Paper 54: St-Hilaire_Reale_2017 #####
+# St-Hilaire, Etienne; Reale, Denis; Garant, Dany 2017
+# determinants, selection and heritability of docility in wild eastern chipmunks (tamias striatus)
+# 	TBSUDC6R	
+
+all_dat <- scrape_AnAge(latin_name = "Tamias striatus", vars = c("maximum_longevity_yrs", "male_maturity_days", "female_maturity_days"),
+             download_data = FALSE)
+
+avg_adult_age <- as.numeric(all_dat$maximum_longevity_yrs) * 365 * 0.25
+avg_juvenile_age <- (as.numeric(all_dat$male_maturity_days) + as.numeric(all_dat$female_maturity_days)) / 2 * 0.5
+
+# 4690 tests on 601 individuals for site 1
+4690 / 601
+# 1754 tests on 311 individuals on other sites
+1754 / 311
+# trapping in active period: april to october ~ 183 days
+
+tribble(
+    ~R,    ~CI_lower,  ~CI_upper,      ~sample_size,     ~measurements_per_ind,      ~life_stage,     ~t1,                  ~t2,                           ~remarks,        ~sex,          
+ 0.41,         0.36,      0.46,           3551,                 7.8,                  "adult",        avg_adult_age,         avg_adult_age + 183,            "study_site1",     0,
+ 0.31,         0.22,      0.40,           1139,                 7.8,                  "juvenile",     avg_juvenile_age,       avg_juvenile_age + 183,      "study_site1",     0,
+ 0.37,         0.28,      0.46,            908,                 5.6,                  "adult",        avg_adult_age,        avg_adult_age + 183,            "study_site2",     0,
+ 0.52,         0.43,      0.63,            846,                 5.6,                  "juvenile",     avg_juvenile_age,       avg_juvenile_age + 183,       "study_site2",     0,
+    
+ 0.43,        0.37,       0.49,          2249,                  7.8,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site1",    2,
+ 0.46,        0.37,       0.57,           779,                  5.6,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site2",    2,
+ 0.32,        0.26,       0.38,          2441,                  7.8,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site1",    1,
+ 0.42,        0.33,       0.51,           975,                  5.6,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site2",    1,
+
+ 0.43,        0.37,       0.49,          2249,                  7.8,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site1",    2,
+ 0.46,        0.37,       0.57,           779,                  5.6,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site2",    2,
+ 0.32,        0.26,       0.38,          2441,                  7.8,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site1",    1,
+ 0.42,        0.33,       0.51,           975,                  5.6,                  "both",   avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site2",    1,
+
+ 0.40,       0.35,        0.45,          3358,                  7.8,                  "both",  avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site1_reproductive_season", 0, 
+ 0.47,       0.39,        0.53,          1448,                  5.6,                  "both",  avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site2_reproductive_season", 0, 
+ 0.32,       0.27,        0.41,          1332,                  7.8,                  "both",  avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site1_non_reproductive_season", 0, 
+ 0.36,       0.22,        0.54,          306,                   5.6,                  "both",  avg_adult_age-avg_juvenile_age, avg_adult_age-avg_juvenile_age + 183, "study_site2_non_reproductive_season", 0
+) %>% 
+    mutate(Key = "TBSUDC6R",
+         species_common = "eastern_chipmunk",
+         species_latin = "Tamias_striatus",
+         behaviour = "docility",
+         context = 3,
+         type_of_treatment = 0,
+         treatment = c(rep(NA, 12), rep("reproductive_season", 2), rep("non_reproductive_season", 2)),
+         event = c(rep(NA, 12), rep("reproductive_season", 2), rep("non_reproductive_season", 2)),
+         R_se = NA,
+         p_val = NA,
+         delta_t = t2 - t1,
+         remarks = "same data, but adult vs juv, male vs fem and reprod. vs nonreprod. season",
+         max_lifespan_days = as.numeric(all_dat$maximum_longevity_yrs) * 365) -> meta_table
+         
+write_delim(meta_table, path = "output/St-Hilaire_Reale_2017.txt", delim = " ", col_names = TRUE)
+
+
+
+
+###### Paper 55: Svartberg_Tapper_2005 #####
+# Svartberg, K; Tapper, I; Temrin, H; Radesater, T; Thorman, S 2005
+# 	consistency of personality traits in dogs
+# TLYD3J7U
+
+
+# first to second test : 30 days
+# second to third: 35 days
+# age: 453 days
+
+avg_age_dogs <- 453
+dog <- scrape_AnAge(latin_name = "canis familiaris", vars =c("maximum_longevity_yrs", "male_maturity_days", "female_maturity_days"),
+             download_data = FALSE)
+
+lifespan_dog <- as.numeric(dog$maximum_longevity_yrs) * 365
+
+tribble(
+    ~behaviour,     ~R,    ~t1,      ~t2,
+    "boldness",    .89,      1,       30,
+    "boldness",    .77,      31,      66,
+    "boldness",    .83,      1,       66,
+    
+    "playfulness",  .77,     1,       30,
+    "playfulness",  .89,    31,       66,
+    "playfulness",  .76,     1,       66,
+    
+    "chase_proneness",  .70,     1,       30,
+    "chase_proneness",  .80,    31,       66,
+    "chase_proneness",  .61,     1,       66,
+
+    "curiosity_fearlessness",  .72,     1,       30,
+    "curiosity_fearlessness",  .75,    31,       66,
+    "curiosity_fearlessness",  .58,     1,       66,
+    
+    "sociability",  .72,     1,       30,
+    "sociability",  .57,    31,       66,
+    "sociability",  .57,     1,       66,
+    
+    "aggressiveness",  .72,     1,       30,
+    "aggressiveness",  .57,    31,       66,
+    "aggressiveness",  .57,     1,       66
+) %>% 
+    mutate(t1 = t1 + avg_age_dogs,
+           t2 = t2 + avg_age_dogs,
+           delta_t = t2 - t1,
+           Key = "TLYD3J7U",
+           species_common = "dog",
+           species_latin = "Canis_familiaris",
+           sample_size = 40,
+           measurements_per_ind = 2,
+           sex = 0,
+           context = 1,
+           type_of_treatment  = 0,
+           treatment = NA,
+           life_stage = "both",
+           event = "maturation?",
+           R_se = NA,
+          CI_lower = NA,
+          CI_upper = NA,
+          p_val = 0.001,
+          remarks = NA,
+          max_lifespan_days = lifespan_dog) -> meta_table
+
+    
+write_delim(meta_table, path = "output/Svartberg_Tapper_2005.txt", delim = " ", col_names = TRUE)
+
+###### Paper 56: Taylor_Cooke_2014 ####
+# Taylor, M. K.; Cooke, S. J.	F3ESMMAM	2014	repeatability of movement behaviour in a wild salmonid revealed by telemetry
+
+
+scrape_AnAge(latin_name = "Salvelinus confluentus", vars = "maximum_longevity_yrs", download_data = FALSE)
+# longevity: 12 years ( Schemmel, E. & Dunham, J. Environ Biol Fish (2010) 89: 161. https://doi.org/10.1007/s10641-010-9708-8)
+
+max_lifespan <- 12 * 365
+avg_adult_age <- max_lifespan * 0.25
+
+library(digitize)
+dat <- digitize("to_digitise/study10_Taylor_Cooke_2014/Screenshot 2019-03-15 11.18.06.png")
+dat2 <- digitize("to_digitise/study10_Taylor_Cooke_2014/Screenshot 2019-03-15 11.18.12.png")
+
+dat_df <- dat %>% 
+    rename(autumn = x, spring = y) %>% 
+    gather(key = "time", value = "mean_movement") %>% 
+    mutate(ID = rep(1:(n() / 2), 2)) 
+
+dat_df2 <- dat2 %>% 
+    rename(pm = x, am = y) %>% 
+    gather(key = "time", value = "mean_movement") %>% 
+    mutate(ID = rep(1:(n() / 2), 2)) 
+
+
+# write_delim(rbind(dat_df, dat_df2), path = "to_digitise/study10_Taylor_Cooke_2014/digitised.txt")
+ 
+rpt1 <- rptGaussian(mean_movement ~ (1|ID), data = dat_df, grname = "ID")
+rpt2 <- rptGaussian(mean_movement ~ (1|ID), data = dat_df2, grname = "ID")
+
+# season delta
+mid_spring <- dmy(21042009) + (dmy(15062009) - dmy(21042009)) / 2
+mid_autumn <- dmy(20102008) + (dmy(08122008) -  dmy(20102008)) / 2
+
+delta_season <- ymd(mid_spring) - ymd(mid_autumn) # 187
+
+# Salvelinus confluentus
+
+tribble(
+    ~R,                 ~R_se,                 ~t1,       ~t2,
+    as.numeric(rpt1$R), as.numeric(rpt1$se),  avg_adult_age, avg_adult_age + as.numeric(delta_season),
+    as.numeric(rpt2$R), as.numeric(rpt2$se),  avg_adult_age, avg_adult_age + 0.5
+) %>% 
+    mutate(Key = "F3ESMMAM",
+          species_common = "bull_trout",
+          species_latin = "Salvelinus_confluentus",
+          sample_size = 17,
+          measurements_per_ind = 2,
+          sex = 0,
+          behaviour = "movement_telemetry",
+          context = 3,
+          type_of_treatment = 0,
+          treatment = NA,
+          life_stage = "adult",
+          event = c(NA, "autumn_to_spring"),
+          CI_lower = NA,
+          CI_upper = NA,
+          delta_t = t2 - t1,
+          remarks = NA,
+          p_val = NA,
+          max_lifespan_days = max_lifespan) -> meta_table
+    
+write_delim(meta_table, path = "output/Taylor_Cooke_2014.txt", delim = " ", col_names = TRUE)
+
+    
+
+###### Paper 57: Thys_Eens_2017 ####
+# Thys, Bert; Eens, Marcel; Aerts, Silke; Delory, Am; , ine; Iserbyt, Arne; Pinxten, Rianne	2017
+# exploration and sociability in a highly gregarious bird are repeatable across seasons and in the long term but are unrelated
+# A5QEWIB6
+
+dat <- extract_areas("data/papers/Thys et al. - 2017 - exploration and sociability in a highly gregarious.pdf",
+                     pages = 7)
+
+# starlings
+# 30 juvenile males captured from the wild in October 2008, experiments started in spring 2011 and
+# ended in spring 2013
+dmy(06042011) - dmy(30102008)  # 888 days
+
+starling_data <- scrape_AnAge(latin_name = "Sturnus vulgaris", vars = c("male_maturity_days", "maximum_longevity_yrs"),
+             download_data = FALSE)
+
+avg_age_juvenile <- as.numeric(starling_data$male_maturity_days) * 0.5
+avg_age_thisstudy <- avg_age_juvenile + 888
+max_lifespan_days <- as.numeric(starling_data$maximum_longevity_yrs) * 365
+# calculating delta_ts
+dmy(16042013) - dmy(06042011)
+dmy(16042013) - dmy(27042011)
+
+dat %>% 
+    .[[1]] %>% 
+    as_tibble() %>% 
+    .[-c(1,2), ] %>% 
+    filter(!(V1 %in% c("Overall", "Short term", "Across season" , "Across year"))) %>% 
+    mutate(time = c(rep("overall", 4), "short_term", rep("across_season", 4), rep("across_year", 4))) %>% 
+    select(V1, V4, time) %>% 
+    separate(V4, into = c("R", "CI_lower", "CI_upper"), sep = " ") %>% 
+    mutate(CI_lower = str_replace(CI_lower, "\\(", ""),
+           CI_lower = str_replace(CI_lower, ";", ""),
+           CI_upper = str_replace(CI_upper, "\\)", "")) %>% 
+    rename(behaviour = V1) %>% 
+    mutate(delta_t = c(741, 720, 720, 720, 11, 182, rep(174, 3), 724, rep(716, 3)),
+           t1 = avg_age_thisstudy + c(0,7,7,7,0,0,7,7,7,0,7,7,7),
+           t2 = t1 + delta_t) %>% 
+    mutate(behaviour = case_when(
+        str_detect(behaviour, "Expl") ~ "exploratory_behaviour",
+        str_detect(behaviour, "TR") ~ "sociability_combined",
+        str_detect(behaviour, "NB") ~ "sociability_nestbox",
+        str_detect(behaviour, "FE") ~ "sociability_near_female"
+    )) %>% 
+    mutate(Key = "A5QEWIB6",
+           species_common = "european_starling",
+           species_latin = "Sturnus_vulgaris",
+           sample_size = 30,
+           measurements_per_ind = c(4,3,3,3,2,2,2,2,2,2,2,2,2),
+           sex = 2,
+           context = 2,
+           type_of_treatment = 0,
+           treatment = NA,
+           life_stage = "adult",
+           event = time,
+           R_se = NA,
+           p_val = NA,
+           remarks = "one sociability measure is the sum of the other two",
+           max_lifespan_days = max_lifespan_days) %>% 
+    select(-time) -> meta_table
+
+write_delim(meta_table, path = "output/Thys_Eens_2017.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 58: 
 
 
 
@@ -2809,6 +3064,56 @@ write_delim(meta_table, path = "output/Seltman_Ose_2012.txt", delim = " ", col_n
 
 
 
+###### Paper 58: Twiss_Cairns_2012 #####
+# Twiss, Sean D.; Cairns, Charlotte; Culloch, Ross M.; Richards, Shane A.; Pomeroy, Patrick P.		2012
+# variation in female grey seal (halichoerus grypus) reproductive performance correlates to proactive-reactive behavioural types
+# THVJK6B7
 
+# data within season:
+dmy(311009) - dmy(290909)   # 32 days
+dmy(011110) - dmy(290910)    # 33 days
+
+# RCV tests:
+# 2009: N = 19 (2 test)
+# 2010: N = 17
+# 2009-2010: N = 7
+# only adult females
+
+dat_seal <- scrape_AnAge(latin_name = "halichoerus grypus", vars = "maximum_longevity_yrs", download_data = FALSE)
+avg_adult_age <- as.numeric(dat_seal$maximum_longevity_yrs) * 365 * 0.25
+
+avg_age_female <- 1
+
+tribble(
+    ~R,   ~CI_lower,    ~CI_upper,             ~t1,            ~t2,    ~sample_size,
+    0.81,  0.58,          0.92,     avg_age_female, avg_age_female + 32, 19,
+    0.70,  0.34,          0.88,     avg_age_female, avg_age_female + 33, 17,
+    0.72,  0.011,         0.95,     avg_age_female, avg_age_female + 365, 7
+) %>% 
+    mutate(
+        Key = "THVJK6B7",
+        species_common = "grey_seal",
+        species_latin = "halichoerus_grypus",
+        measurements_per_ind = 2,
+        sex = 1,
+        behaviour = "pup_checking_by_mothers",
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        p_val = NA,
+        event = NA,
+        R_se = NA,
+        delta_t = t2 - t1,
+        remarks = "wolf_sound_during_all_trials",
+        max_lifespan_days = as.numeric(dat_seal$maximum_longevity_yrs) * 365
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Twiss_Cairns_2012.txt", delim = " ", col_names = TRUE)
+
+
+
+
+###### Paper 59: 
 
 
