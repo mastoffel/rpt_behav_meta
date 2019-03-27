@@ -1,0 +1,7 @@
+behaviour R CI_lower CI_upper t1 t2 Key species_common species_latin sample_size measurements_per_ind sex context type_of_treatment treatment life_stage event R_se p_val delta_t remarks max_lifespan_days
+bite_rate 0.64 0.39 0.83 21 21.002083333333335 ES4ET2BP ambon_damselfish Pomacentrus_amboinensis 18 2 0 3 0 NA juvenile NA NA NA 0.0020833333333349913 NA 2372.5
+distance_ventured 0.69 0.46 0.86 21 21.002083333333335 ES4ET2BP ambon_damselfish Pomacentrus_amboinensis 18 2 0 3 0 NA juvenile NA NA NA 0.0020833333333349913 NA 2372.5
+reef_height 0.52 0.24 0.76 21 21.002083333333335 ES4ET2BP ambon_damselfish Pomacentrus_amboinensis 18 2 0 3 0 NA juvenile NA NA NA 0.0020833333333349913 NA 2372.5
+bite_rate 0.77 0.64 0.88 21 24 ES4ET2BP ambon_damselfish Pomacentrus_amboinensis 21 9 0 3 0 NA juvenile NA NA NA 3 NA 2372.5
+distance_ventured 0.62 0.45 0.79 21 24 ES4ET2BP ambon_damselfish Pomacentrus_amboinensis 21 9 0 3 0 NA juvenile NA NA NA 3 NA 2372.5
+reef_height 0.33 0.16 0.55 21 24 ES4ET2BP ambon_damselfish Pomacentrus_amboinensis 21 9 0 3 0 NA juvenile NA NA NA 3 NA 2372.5

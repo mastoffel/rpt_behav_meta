@@ -1,0 +1,12 @@
+sample_size R R_se measurements_per_ind behaviour t1 t2 Key species_common species_latin sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val delta_t remarks max_lifespan_days
+17 0.03 0.27 2 boldness 2098.75 2248.75 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult within_year NA NA NA 150 NA 8395
+36 0.3 0.14 2.2222222222222223 boldness 2098.75 2248.75 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult within_year NA NA NA 150 NA 8395
+30 0.23 0.16 2.2 boldness 2098.75 2248.75 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult within_year NA NA NA 150 NA 8395
+43 0.14 0.13 2.2325581395348837 boldness 2098.75 2548.6337209302324 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult between_years NA NA NA 449.88372093023236 NA 8395
+25 0.13 0.18 2.24 exploration 2098.75 2188.75 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult within_year NA NA NA 90 NA 8395
+33 0.25 0.12 2.303030303030303 exploration 2098.75 2188.75 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult within_year NA NA NA 90 NA 8395
+24 0.47 0.13 2.1666666666666665 exploration 2098.75 2188.75 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult within_year NA NA NA 90 NA 8395
+55 0.32 0.1 2.1636363636363636 exploration 2098.75 2523.4772727272725 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA adult between_years NA NA NA 424.7272727272725 NA 8395
+468 0.36 0.03 2.9957264957264957 activity 10 10.5 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA juvenile within_day NA NA NA 0.5 NA 8395
+455 0.47 0.03 2.9956043956043956 activity 12 12.5 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA juvenile within_day NA NA NA 0.5 NA 8395
+479 0.18 0.04 2.0334029227557413 activity 10 13 DBYUTD2X house_sparrow "Passer domesticus" 0 3 0 NA juvenile between_days NA NA NA 3 NA 8395

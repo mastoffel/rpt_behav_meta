@@ -1,0 +1,5 @@
+R CI_lower CI_upper t1 t2 type_of_treatment treatment behaviour species_common species_latin delta_t sample_size measurements_per_ind sex context life_stage event R_se p_val remarks max_lifespan_days Key
+0.54 0.39 0.71 638.75 643.75 2 NA boldness hermit_crab Pagurus_bernhardus 5 32 5 0 2 adult NA NA NA NA 1277.5 BSARAJJ5
+0.7 0.56 0.81 646.75 651.75 2 NA boldness hermit_crab Pagurus_bernhardus 5 32 5 0 2 adult NA NA NA NA 1277.5 BSARAJJ5
+0.59 0.43 0.72 638.75 643.75 2 copper boldness hermit_crab Pagurus_bernhardus 5 32 5 0 2 adult copper NA NA NA 1277.5 BSARAJJ5
+0.59 0.46 0.75 646.75 651.75 2 copper boldness hermit_crab Pagurus_bernhardus 5 32 5 0 2 adult copper NA NA NA 1277.5 BSARAJJ5

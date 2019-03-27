@@ -12,6 +12,7 @@ library(tidyverse)
 library(metaDigitise)
 library(AnAgeScrapeR)
 library(lubridate)
+library(digitize)
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
@@ -3114,6 +3115,459 @@ write_delim(meta_table, path = "output/Twiss_Cairns_2012.txt", delim = " ", col_
 
 
 
-###### Paper 59: 
+###### Paper 59: Wang_Brennan_2015 ####
+# Wang, Mu-Yun; Brennan, Caroline H.; Lachlan, Robert F.; Chittka, Lars	2015
+# speed-accuracy trade-offs and individually consistent decision making by individuals and dyads of zebrafish in a colour discrimination task
+# KZDWYY3T
+
+dat_day_1 <- digitize("to_digitise/study11_Wang_Brennan_2015/l7Q1lLBm.png")
+#write_delim(dat_day_1, path = "to_digitise/study11_Wang_Brennan_2015/digitised.txt")
+
+dat <- dat_day_1
+dat %>% 
+    mutate(day = rep(1:3, 17),
+           ID = rep(1:17, each = 3)) %>% 
+    rename(accuracy = x, decision_time = y) %>% 
+    select(-accuracy)%>% 
+    .[-c(13:15, 19:21), ] -> dat_final
+
+# del: 13-15
+# 19-21
+
+# age around 360 days
+avg_adult_age <- 360
+# max lifespan?
+lifespan <- scrape_AnAge("danio rerio", vars = "maximum_longevity_yrs",
+        download_data = FALSE)
 
 
+dat12 <- filter(dat_final, day != 3)
+rpt12 <- rptGaussian(decision_time ~ (1|ID), grname = "ID", data = dat12)
+dat23 <- filter(dat_final, day != 1)
+rpt23 <- rptGaussian(decision_time ~ (1|ID), grname = "ID", data = dat23)
+dat13 <- filter(dat_final, day != 2)
+rpt13 <- rptGaussian(decision_time ~ (1|ID), grname = "ID", data = dat13)
+
+tribble(
+    ~R,           ~R_se,       ~t1,          ~t2,
+0.397,           0.205,         1,             2,
+0.442,           0.204,         2,             3,
+0.705,           0.144,         1,             3
+) %>% 
+    mutate(
+        behaviour = "decision_time",
+        t1 = avg_adult_age+t1,
+        t2 = avg_adult_age+t2,
+        delta_t = t2-t1,
+        Key = "KZDWYY3T",
+        species_common = "zebrafish",
+        species_latin = "danio_rerio",
+        sample_size = 15,
+        measurements_per_ind = 2,
+        sex = 0,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        remarks = NA,
+        max_lifespan_days = as.numeric(lifespan$maximum_longevity_yrs) * 365
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Wang_Brennan_2015.txt", delim = " ", col_names = TRUE)
+
+
+# zebrafish
+# danio rerio
+
+###### Paper 60: Watkins_1997 #####
+# Watkins, TB 1997	
+# the effect of metamorphosis on the repeatability of maximal locomotor performance in the pacific tree frog hyla regilla
+# 	AZY734PE	
+
+# timeline:
+# jump_distance: 38 days after metamorphosis
+# trials adult frogs within a few hours
+# hyla regilla
+# larval stage ~ 2 month
+# stage 37: premetamorphic: 2 month - 15 days
+# stage 42: start of metamorphosis around 2 month 
+# from 42 to frog jump distance measurements ~ 2 month
+
+scrape_AnAge(latin_name = "Pseudacris regilla", vars = "maximum_longevity_yrs")
+# lifespan in the wild: 3 years
+# https://pages.uoregon.edu/titus/herp_old/regillahistory.htm
+
+
+tribble(
+    ~R,     ~p_val,    ~sample_size,    ~t1,     ~t2,   ~event,    ~life_stage,
+0.65,         0.01,     29,               45,     46,       NA,     "juvenile",
+-0.029,       0.88,     29,               45,     60,    "hindlimps_grew", "juvenile",
+-0.009,       -0.009,   29,               45,    105,    "metamorphosis",  "both",
+-0.157,       0.42,     29,               60,    105,     "metamorphosis",  "both",
+0.791,       0.001,     29,               105,   105.5,   NA,         "adult"
+) %>% 
+    mutate(
+        Key = "AZY734PE",
+        species_common = "pacific_tree_frog",
+        species_latin = "hyla_regilla/Pseudacris_regilla",
+        measurements_per_ind = c(rep(2, 4), 5),
+        sex  = 0,
+        behaviour = "burst_locomotor_performance",
+        context = 2,
+        type_of_treatment = 0,
+        treatment = NA,
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        delta_t = t2 - t1,
+        remarks = c(rep("pearson", 4), "kendall"),
+        max_lifespan_days = 365 * 3
+    ) -> meta_table
+
+write_delim(meta_table, path = "output/Watkins_1997.txt", delim = " ", col_names = TRUE)
+
+
+
+###### Paper 61: Wexler_Subach_2016 ####
+
+#Wexler, Yonatan; Subach, Aziz; Pruitt, Jonathan N.; Scharf, Inon	2016
+# behavioral repeatability of flour beetles before and after metamorphosis and throughout aging
+# RKZ9H5QA
+
+
+# Islam, W. (2017). Eco-Friendly Approaches for the Management of Red Flour Beetle: Tribolium castaneum (Herbst). Science Letters, 5(2), 105-114.
+# life cycle:
+# 9 days egg
+# 7 weeks larvae
+# 8 days pupae
+# 2 years adult
+
+# red flour beetle 
+# larvae 2-4 days before population, t
+# movement activity and adge prefewrence twice, with a 1-day interval
+# adults 4 days after eclosion, twice with a 1-day interval
+# adults 18 days after eclosion, twice with a 1 day interval
+# 27 females / 29 males
+
+# second set of beetles:
+# tested after populaiton for 4 month, 9 pairs of 2 measurements
+# 25 male / 25 female / starting from adult age onwards
+
+age_larv <- 56
+age_adult <- 56 + 14
+
+tribble(
+~behaviour,       ~R,      ~p_val,    ~t1,     ~t2,    ~sex,     ~event,
+"activity",   0.63,    0.004,    age_larv, age_larv + 1, 1,       NA,
+"activity",   0.53,    0.003,    age_larv, age_larv + 1, 2,       NA,
+"activity",   0.45,    0.019,    age_adult, age_adult + 1, 1,     NA,
+"activity",   0.77,    0.001,    age_adult, age_adult + 1, 2,     NA,
+"activity",  -0.15,    0.45,    age_larv,  age_adult,      1,     "metamorphosis",
+"activity",  -0.29,    0.13,    age_larv,  age_adult,      2,     "metamorphosis",
+"activity",  0.61,     0.001,   age_adult, age_adult + 14, 1,     NA,
+"activity",  0.59,     0.001,   age_adult, age_adult + 14, 2,     NA,   
+    
+"edge_preference",   0.44,    0.023,    age_larv, age_larv + 1, 1,       NA,
+"edge_preference",   0.49,    0.007,    age_larv, age_larv + 1, 2,       NA,
+"edge_preference",   0.48,    0.011,    age_adult, age_adult + 1, 1,     NA,
+"edge_preference",   0.32,    0.086,    age_adult, age_adult + 1, 2,     NA,
+"edge_preference",   0.10,    0.61,    age_larv,  age_adult,      1,     "metamorphosis",
+"edge_preference",  -0.003,   0.99,    age_larv,  age_adult,      2,     "metamorphosis",
+"edge_preference",  0.16,     0.43,   age_adult, age_adult + 14, 1,     NA,
+"edge_preference",  0.27,     0.18,   age_adult, age_adult + 14, 2,     NA
+             
+) %>% 
+    mutate(
+        Key = "RKZ9H5QA",
+        species_common = "red_flour_beetle",
+        species_latin = "Tribolium_castaneum",
+        sample_size = 58,
+        measurements_per_ind = 2,
+        sex = 0,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        R_se = NA,
+        p_val = NA,
+        CI_lower = NA,
+        CI_upper =NA,
+        delta_t = t2 - t1,
+        remarks = "some more data across the lifespan, but not sure about it, check with holger",
+        max_lifespan_days = 787
+    ) -> meta_table
+
+
+write_delim(meta_table, path = "output/Wexler_Subach_2016.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 62: White_Meekan_2015 #########
+# White, James R.; Meekan, Mark G.; McCormick, Mark I.	2015	
+# individual consistency in the behaviors of newly-settled reef fish
+# ES4ET2BP
+
+# Ambon damsel
+# Pomacentrus amboinensis
+
+# newly metamorphosed juveniles
+
+# field:
+# short term: 3 minutes, n = 18
+# days: 9 observations over 3 days, n = 21
+avg_juvenile_age <- 21
+
+# scrape_AnAge(latin_name = "Pomacentrus amboinensis", vars = "maximum_longevity_yrs", download_data = FALSE)
+adult_lifespan <- 6.5*365 # McCormick, M. I. (2016). Protogyny in a tropical damselfish: females queue for future benefit. PeerJ, 4, e2198.
+
+tribble(
+    ~behaviour,              ~R,    ~CI_lower,   ~CI_upper,   ~t1,                 ~t2,
+    "bite_rate",            .64,      .39,       .83,        avg_juvenile_age,  avg_juvenile_age + 3/ (24*60),
+    "distance_ventured",    .69,      .46,       .86,        avg_juvenile_age,  avg_juvenile_age + 3/ (24*60),
+    "reef_height",          .52,      .24,       .76,        avg_juvenile_age,  avg_juvenile_age + 3/ (24*60),
+    
+    "bite_rate",            .77,      .64,       .88,        avg_juvenile_age,  avg_juvenile_age + 3,
+    "distance_ventured",    .62,      .45,       .79,        avg_juvenile_age,  avg_juvenile_age + 3,
+    "reef_height",          .33,      .16,       .55,        avg_juvenile_age,  avg_juvenile_age + 3
+) %>% 
+    mutate(Key = "ES4ET2BP",
+        species_common = "ambon_damselfish",
+        species_latin = "Pomacentrus_amboinensis",
+        sample_size = rep(c(18,21), each = 3),
+        measurements_per_ind = rep(c(2,9), each = 3),
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "juvenile",
+        event = NA,
+        R_se = NA,
+        p_val = NA,
+        delta_t = t2 - t1,
+        remarks = NA,
+        max_lifespan_days = adult_lifespan) -> meta_table
+
+write_delim(meta_table, path = "output/White_Meekan_2015.txt", delim = " ", col_names = TRUE)
+
+    
+###### Paper 63: White_Briffa_2017 ####
+# White, Stephen J.; Briffa, Mark	2017
+# how do anthropogenic contaminants (acs) affect behaviour? multi-level analysis of the effects of copper on boldness in hermit crabs
+# BSARAJJ5	
+
+# females, males
+# NN 17, 15
+# NC 11, 21
+# sample size n = 32 in each group
+# 10 observations / 5 per period per individual
+
+avg_adult_age <- 1
+
+scrape_AnAge(latin_name = "Pagurus bernhardus", vars = "maximum_longevity_yrs", download_data = FALSE) # no
+
+# 3-10 years / Bridger, D., Bonner, S. J., & Briffa, M. (2015). Individual quality and personality: bolder males are less fecund in the hermit crab Pagurus bernhardus. Proceedings of the Royal Society B: Biological Sciences, 282(1803), 20142492.
+
+avg_adult_age <- 3.5*365 * 0.25
+
+tribble(
+    ~R,       ~CI_lower,        ~CI_upper,              ~t1,              ~t2,   ~type_of_treatment,     ~treatment, 
+    .54,            .39,             .71,     avg_adult_age, avg_adult_age + 5,                 2,               NA,
+    .70,            .56,             .81,     avg_adult_age + 8, avg_adult_age + 13,            2,               NA,
+    
+    .59,            .43,             .72,     avg_adult_age, avg_adult_age + 5,                 2,               "copper",
+    .59,            .46,             .75,     avg_adult_age + 8, avg_adult_age + 13,            2,               "copper"
+) %>% 
+    mutate(behaviour = "boldness",
+        species_common = "hermit_crab",
+        species_latin = "Pagurus_bernhardus",
+        t1 = t1 + avg_adult_age,
+        t2 = t2 + avg_adult_age,
+        delta_t = t2 - t1,
+        sample_size = rep(32, 4),
+        measurements_per_ind = 5,
+        sex = 0,
+        context = 2,
+        life_stage = "adult",
+        event = c(NA, NA, "copper", "copper"),
+        R_se = NA,
+        p_val = NA,
+        remarks = NA,
+        max_lifespan_days = 3.5*365,
+        Key = "BSARAJJ5") -> meta_table
+
+write_delim(meta_table, path = "output/White_Briffa_2017.txt", delim = " ", col_names = TRUE)
+
+
+
+
+
+###### Paper 64: Winney_Schroeder_2018 #####
+## Winney, I. S.; Schroeder, J.; Nakagawa, S.; Hsu, Y. -H.; Simons, M. J. P.; Sanchez-Tojar, A.; Mannarelli, M. -E.; Burke, T.	2018	
+# DBYUTD2X
+# heritability and social brood effects on personality in juvenile and adult life-history stages in a wild passerine
+
+# breeding season april-august 
+# boldness: 2011 - 2014 during breeding season delta_t ~5 month max
+# exploration: 2010-2014, during non-breeding season delta_t ~ 3 month
+# between year always just first measure in a season
+
+# boldness: 90 inds more than once (between two and 9) (adults
+# exploration: 117 between two and six times (adults
+# activiity: 
+# 
+
+delta_t_breed <- 5*30
+delta_t_nonbreed <- 3*30
+
+library(tabulizer)
+
+location <- "data/papers/Winney et al. - 2018 - heritability and social brood effects on personali.pdf"
+
+R_table <- extract_areas(location, pages = 6)
+
+# figure out average age
+
+sparrow_dat <- scrape_AnAge("Passer domesticus", vars = "maximum_longevity_yrs", download_data = FALSE)
+sparrow_lv <- as.numeric(sparrow_dat$maximum_longevity_yrs) * 365
+avg_adult_age <- sparrow_lv * 0.25
+
+
+R_table %>% .[[1]] %>% as_tibble() %>% 
+    select(V1, V2, V3, V4, V11, V12) %>% 
+    rename(group = V1, Nind = V2, sample_size = V3, Nobs = V4, R = V11, R_se = V12) %>% 
+    filter(group != "" & Nind != "" & R_se != "") %>% 
+    mutate_at(vars(Nind:R_se), as.numeric) %>% 
+    mutate(measurements_per_ind = (Nobs - (Nind- sample_size)) / sample_size) %>% 
+    select(-Nind, -Nobs) %>% 
+    .[-c(1,2,3,8,9,10,15), ] %>% 
+    mutate(behaviour = c(rep("boldness", 4), rep("exploration", 4), rep("activity", 3))) %>% 
+    mutate(t1 = c(rep(avg_adult_age, 8), 10, 12, 10),
+           t2 = case_when(
+                str_detect(group, pattern = "Within") & (behaviour == "boldness") ~ t1 + delta_t_breed,
+                str_detect(group, pattern = "Within") & (behaviour == "exploration") ~ t1 + delta_t_nonbreed,
+                str_detect(group, pattern = "Across year") ~ t1 + (measurements_per_ind - 1) * 365,
+                str_detect(group, pattern = "Across days") ~ t1 + 3,
+                str_detect(group, pattern = "Day 10") ~ t1 + 0.5,
+                str_detect(group, pattern = "Day 12") ~ t1 + 0.5)
+    ) %>% 
+    select(-group) %>% 
+    mutate(
+        Key = "DBYUTD2X",
+        species_common = "house_sparrow",
+        species_latin = "Passer domesticus",
+        sex = 0,
+        context = 3,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = c(rep("adult", 8), rep("juvenile", 3)),
+        event = c(rep("within_year", 3), "between_years", rep("within_year", 3), "between_years", "within_day", "within_day", "between_days"),
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        delta_t = t2-t1,
+        remarks = NA,
+        max_lifespan_days = sparrow_lv
+    ) -> meta_table
+    
+
+write_delim(meta_table, path = "output/Winney_Schroeder_2018.txt", delim = " ", col_names = TRUE)
+
+
+    
+###### Paper 65: Wuerz_Krueger_2015 ####
+# Wuerz, Yvonne; Krueger, Oliver 2015	
+# 3T3APIHX	
+# personality over ontogeny in zebra finches: long-term repeatable traits but unstable behavioural syndromes
+
+# 
+# test days
+t1 <- c(56, 103, 367)
+t2 <- c(73, 121, 381)
+
+filepath <- "data/papers/Wuerz and Krueger - 2015 - personality over ontogeny in zebra finches long-t.pdf"
+R_table <- tabulizer::extract_areas(file = filepath, pages = 5)
+
+R_table %>% .[[1]] %>% as_tibble() %>% 
+    select(-V12, -V8, -V11) %>% 
+    filter(V2 != "") %>% 
+    mutate(behaviour = c("", rep(c("fearlessness", "exploration", "boldness", "activity", "aggression"), each = 3))) %>% 
+    filter(behaviour != "") %>% 
+   # separate(V4, into = c("CI_lower", "CI_upper"), sep = "-") %>% 
+    separate(V7, into = c("CI", "p_val"), sep = " ", extra = "merge") %>% 
+    separate(V10, into = c("CI2", "p_val2"),  sep = " ", extra = "merge") %>% 
+    select(-V1) %>% 
+    separate(V13, into = c("R4", "CI4", "p_val4"), sep = " ", extra = "merge") %>% 
+    rename(sex = V2, R1 = V3, CI1 = V4, p_val1 = V5, R2 = V6, CI2 = CI, p_val2 = p_val,
+           R3 = V9, CI3 = CI2, p_val3 = p_val2 ) -> meta_table_raw
+
+
+meta_table_raw2 <- map(list(meta_table_raw[c(1:4, 14)], meta_table_raw[c(1, 5:7, 14)], meta_table_raw[c(1, 8:10, 14)],
+               meta_table_raw[c(1, 11:13, 14)]), function(x) {
+                   names(x) <- c("sex", "R", "CI", "p_val", "behaviour")
+                   x
+               }) %>% 
+               bind_rows() %>% 
+               mutate(timeperiod = rep(rep(c("subadult", "young_adult", "mature_adult", "long_interval"), each = 3), each = 5))
+
+# lifespan from paper
+maximum_lifespan_wild <- 5*365
+
+# check
+ggplot(meta_table_raw2, aes(timeperiod, as.numeric(R), fill = behaviour)) +
+    geom_boxplot()
+
+meta_table_raw2 %>% 
+    separate(CI, into = c("CI_lower", "CI_upper"), sep = "-") %>% 
+    mutate(t1 = c(rep(56, 15), rep(103, 15), rep(367, 15), rep(56, 15)),
+           t2 = c(rep(73, 15), rep(121, 15), rep(381, 15), rep(381, 15))) %>% 
+    mutate(sex = case_when(
+        sex == "both" ~ 0,
+        sex == "males" ~ 2,
+        sex == "females" ~ 1
+    )) %>% 
+    mutate(
+        Key = "3T3APIHX",
+        species_common = "zebra_finch",
+        species_latin = "Taeniopygia_guttata",
+        sample_size = rep(c(52, 22, 30), 20),
+        measurements_per_ind = 2,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = 0,
+        event = c(rep(NA, 45), rep("maturation", 15)),
+        R_se = NA,
+        delta_t = t2 - t1,
+        remarks = NA,
+        max_lifespan_days = maximum_lifespan_wild
+    ) -> meta_table
+
+
+write_delim(meta_table, path = "output/Wuerz_Krueger_2015.txt", delim = " ", col_names = TRUE)
+
+
+
+
+meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
+    "species_common" = NA, 
+    "species_latin" = NA,
+    "sample_size" = NA, 
+    "measurements_per_ind" = NA, # new, check papers 1-6 again
+    "sex" = NA,                # 0 = both, 1 = females, 2 = males
+    "behaviour" = NA,          # measured behaviour as stated by authors
+    "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
+    "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
+    "treatment"= NA,          # Verbal description
+    "life_stage"= NA,         # "juvenile", "adult", "both"
+    "event"= NA,              # Major life-event, such as metamorphosis between measurements
+    "R"= NA,
+    "R_se"= NA,
+    "CI_lower"= NA,
+    "CI_upper"= NA,
+    "p_val"= NA,
+    "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
+    "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
+    "delta_t"= NA,             # difference between timepoints in days
+    "remarks"= NA,
+    "max_lifespan_days" = NA)

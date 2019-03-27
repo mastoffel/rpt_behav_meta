@@ -1,0 +1,4 @@
+R R_se t1 t2 behaviour delta_t Key species_common species_latin sample_size measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val remarks max_lifespan_days
+0.397 0.205 361 362 decision_time 1 KZDWYY3T zebrafish danio_rerio 15 2 0 1 0 NA adult NA NA NA NA NA 2007.5
+0.442 0.204 362 363 decision_time 1 KZDWYY3T zebrafish danio_rerio 15 2 0 1 0 NA adult NA NA NA NA NA 2007.5
+0.705 0.144 361 363 decision_time 2 KZDWYY3T zebrafish danio_rerio 15 2 0 1 0 NA adult NA NA NA NA NA 2007.5

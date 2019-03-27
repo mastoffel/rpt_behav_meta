@@ -1,0 +1,6 @@
+R p_val sample_size t1 t2 event life_stage Key species_common species_latin measurements_per_ind sex behaviour context type_of_treatment treatment R_se CI_lower CI_upper delta_t remarks max_lifespan_days
+0.65 0.01 29 45 46 NA juvenile AZY734PE pacific_tree_frog hyla_regilla/Pseudacris_regilla 2 0 burst_locomotor_performance 2 0 NA NA NA NA 1 pearson 1095
+-0.029 0.88 29 45 60 hindlimps_grew juvenile AZY734PE pacific_tree_frog hyla_regilla/Pseudacris_regilla 2 0 burst_locomotor_performance 2 0 NA NA NA NA 15 pearson 1095
+-0.009 -0.009 29 45 105 metamorphosis both AZY734PE pacific_tree_frog hyla_regilla/Pseudacris_regilla 2 0 burst_locomotor_performance 2 0 NA NA NA NA 60 pearson 1095
+-0.157 0.42 29 60 105 metamorphosis both AZY734PE pacific_tree_frog hyla_regilla/Pseudacris_regilla 2 0 burst_locomotor_performance 2 0 NA NA NA NA 45 pearson 1095
+0.791 0.001 29 105 105.5 NA adult AZY734PE pacific_tree_frog hyla_regilla/Pseudacris_regilla 5 0 burst_locomotor_performance 2 0 NA NA NA NA 0.5 kendall 1095
