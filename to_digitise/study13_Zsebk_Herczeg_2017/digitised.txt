@@ -1,0 +1,22 @@
+filename variable group_id mean sd n r se error_type plot_type
+"Screenshot 2019-03-28 08.23.47.png" R song_length_within_day 0.06944444444444475 NA NA NA 0.023620559334845012 CI95 mean_error
+"Screenshot 2019-03-28 08.23.47.png" R song_length_between_days 0.027777777777778012 NA NA NA 0.03779289493575211 CI95 mean_error
+"Screenshot 2019-03-28 08.23.47.png" R song_length_between_years 0.04166666666666696 NA NA NA 0.044879062736205594 CI95 mean_error
+"Screenshot 2019-03-28 08.23.51.png" R mean_freq_within_day 0.179372197309417 NA NA NA 0.038894481559439975 CI95 mean_error
+"Screenshot 2019-03-28 08.23.51.png" R mean_freq_between_days 0.03139013452914796 NA NA NA 0.04118239223940698 CI95 mean_error
+"Screenshot 2019-03-28 08.23.51.png" R mean_freq_between_years 0.13901345291479822 NA NA NA 0.06634940971904456 CI95 mean_error
+"Screenshot 2019-03-28 08.23.55.png" R freq_bandwidth_within_day 0.1000000000000002 NA NA NA 0.027829313543599268 CI95 mean_error
+"Screenshot 2019-03-28 08.23.55.png" R freq_bandwidth_between_days -0.009090909090908927 NA NA NA 0.0417439703153989 CI95 mean_error
+"Screenshot 2019-03-28 08.23.55.png" R freq_bandwidth_between_years -0.009090909090908927 NA NA NA 0.0649350649350649 CI95 mean_error
+"Screenshot 2019-03-28 08.24.00.png" R tempo_within_day 0.21559633027522923 NA NA NA 0.039786556824564674 CI95 mean_error
+"Screenshot 2019-03-28 08.24.00.png" R tempo_between_days 0.036697247706421965 NA NA NA 0.044467328215689966 CI95 mean_error
+"Screenshot 2019-03-28 08.24.00.png" R tempo_between_years 0.07798165137614671 NA NA NA 0.05616925669350315 CI95 mean_error
+"Screenshot 2019-03-28 08.24.05.png" R complexity_within_day 0.19282511210762332 NA NA NA 0.0434703029193741 CI95 mean_error
+"Screenshot 2019-03-28 08.24.05.png" R complexity_between_days 0.17937219730941706 NA NA NA 0.05948567767914344 CI95 mean_error
+"Screenshot 2019-03-28 08.24.05.png" R complexity_between_years 5.551115123125783e-17 NA NA NA 0.06634940971904456 CI95 mean_error
+"Screenshot 2019-03-28 08.24.13.png" R repertoire_size_within_day 0.5023041474654377 NA NA NA 0.17398664534938393 CI95 mean_error
+"Screenshot 2019-03-28 08.24.13.png" R repertoire_size_between_days 0.2488479262672812 NA NA NA 0.17633781623248374 CI95 mean_error
+"Screenshot 2019-03-28 08.24.13.png" R repertoire_size_between_years 0.5115207373271891 NA NA NA 0.14812376563528612 CI95 mean_error
+"Screenshot 2019-03-28 08.24.19.png" R songrate_within_day 0.44600938967136167 NA NA NA 0.10299894605729609 CI95 mean_error
+"Screenshot 2019-03-28 08.24.19.png" R songrate_between_days 0.2300469483568079 NA NA NA 0.1461147839417457 CI95 mean_error
+"Screenshot 2019-03-28 08.24.19.png" R songrate_between_years 0.1032863849765262 NA NA NA 0.23953243269138635 CI95 mean_error

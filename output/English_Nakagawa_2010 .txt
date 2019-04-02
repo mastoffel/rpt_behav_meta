@@ -1,0 +1,9 @@
+R R_se p_val sample_size behaviour t1 t2 delta_t Key species_common species_latin measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper remarks max_lifespan_days
+0.166 0.056 0.005 562 babysitting 182.5 365 182.5 XR32CK8A meerkat Suricata_suricatta 1.594306049822064 0 3 NA NA juvenile NA NA NA NA 1460
+0.221 0.047 <0.0001 521 babysitting 365 730 365 XR32CK8A meerkat Suricata_suricatta 1.8195777351247602 0 3 NA NA adult NA NA NA NA 1460
+0.288 0.042 <0.0001 250 babysitting 730 1460 730 XR32CK8A meerkat Suricata_suricatta 2.952 0 3 NA NA adult NA NA NA NA 1460
+0.510 0.039 <0.0001 562 provisioning_pup 182.5 365 182.5 XR32CK8A meerkat Suricata_suricatta 1.594306049822064 0 3 NA NA juvenile NA NA NA NA 1460
+0.513 0.035 <0.0001 521 provisioning_pup 365 730 365 XR32CK8A meerkat Suricata_suricatta 1.8195777351247602 0 3 NA NA adult NA NA NA NA 1460
+0.513 0.036 <0.0001 250 provisioning_pup 730 1460 730 XR32CK8A meerkat Suricata_suricatta 2.952 0 3 NA NA adult NA NA NA NA 1460
+0.218 0.046 NA 1333 babysitting 182.5 1460 1277.5 XR32CK8A meerkat Suricata_suricatta 1.9369842460615154 0 3 NA NA both maturation_growth NA NA NA 1460
+0.513 0.02 NA 1333 provisioning_pup 182.5 1460 1277.5 XR32CK8A meerkat Suricata_suricatta 1.9369842460615154 0 3 NA NA both maturation_growth NA NA NA 1460

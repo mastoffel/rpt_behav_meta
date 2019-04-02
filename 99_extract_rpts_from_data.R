@@ -131,7 +131,7 @@ dat <- read_delim(url2, delim = "\t")
 length(table(dat$tag))
 
 
-###### Paper 3, Bierbach_Laskowski 2017 incomplete #######
+###### Paper 3, Bierbach_Laskowski 2017 not included #######
 ### Bierbach, David; Laskowski, Kate L.; Wolf, Max
 ### behavioural individuality in clonal fish arises despite near-identical rearing conditions
 ### MV5GA8PC
@@ -230,26 +230,59 @@ meta_table
 write_delim(meta_table, path = "output/Aplin_Firth_2015.txt", delim = " ", col_names = TRUE)
 
 
-###### Paper 5, Arroyo_Mougeot 2017 incomplete #######
+###### Paper 5, Arroyo_Mougeot 2017 #######
 # Arroyo, Beatriz; Mougeot, Francois; Bretagnolle, Vincent
 # individual variation in behavioural responsiveness to humans leads to differences in breeding success and long-term population phenotypic changes
 # Key: V5R8XCKE
 # DOI: 10.1111/ele.12729
 
 # a bit tricky: Sample sizes are a bit unclear (number of measurements are reported only, see table)
-# between years consists of 30 individuals with 2-7 years 
+# between years consists of 30 individuals with 2-7 years observation
+# as only range given, simulate potential poisson
+num_obs <- (rpois(n = 10000, lambda = 3 ))
+delta_years_in_days <- (mean(num_obs[num_obs >= 2]) - 1) * 365
 
-meta_table <- tribble(
-    ~behaviour,                   ~R,  ~R_se, ~sample_size, ~t1, ~t2, ~delta_t, ~remarks, ~sex,
-    "nest_departure_distance", 0.001,  0.023,         1662,  NA,  NA,      365, 'within-year-repeatability', 1,
-    "fleeing probability",     0.541,  0.049,         2399,  NA,  NA,      365, 'within-year-repeatability', 1,    
-    "passive_if_present",      0.520,  0.059,         1844,  NA,  NA,      365, 'within-year-repeatability', 1, 
-    "defence_intensity_PCA",   0.518,  0.033,         1014,  NA,  NA,      365, 'within-year-repeatability', 1,        
-    "nest_departure_distance", 0.001,  0.017,          197,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1,
-    "fleeing probability",     0.341,  0.135,          299,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1,    
-    "passive_if_present",      0.522,  0.194,          252,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1, 
-    "defence_intensity_PCA",   0.131,  0.073,          189,  NA,  NA,      365, 'between-year-repeatability (range 2-7 years)', 1
-)
+# within year delta (breeding season) ~ 75 days
+# https://onlinelibrary.wiley.com/doi/full/10.1046/j.0019-1019.2001.00009.x
+
+# total: 833 nests, 2402 visity
+# number of visits per nest: 3.1, n = 98 
+
+
+harrier_data <- scrape_AnAge("Circus pygargus", vars = "maximum_longevity_yrs", download_data = FALSE)
+harrier_ls_max <- as.numeric(harrier_data$maximum_longevity_yrs) * 365
+avg_adult_age <- harrier_ls_max * 0.25
+
+tribble(
+    ~behaviour,                   ~R,  ~R_se,        ~Nobs, ~t1,               ~t2,                             ~delta_t,                           ~remarks, ~sex,
+    "nest_departure_distance", 0.001,  0.023,         1662,  avg_adult_age,  avg_adult_age + 75,                     75, 'within-year-repeatability', 1,
+    "fleeing probability",     0.541,  0.049,         2399,  avg_adult_age,  avg_adult_age + 75,                     75, 'within-year-repeatability', 1,    
+    "passive_if_present",      0.520,  0.059,         1844,  avg_adult_age,  avg_adult_age + 75,                     75, 'within-year-repeatability', 1, 
+    "defence_intensity_PCA",   0.518,  0.033,         1014,  avg_adult_age,  avg_adult_age + 75,                     75, 'within-year-repeatability', 1,        
+    "nest_departure_distance", 0.001,  0.017,          197,  avg_adult_age,  avg_adult_age +delta_years_in_days,      delta_years_in_days, 'between-year-repeatability (range 2-7 years)', 1,
+    "fleeing probability",     0.341,  0.135,          299,  avg_adult_age,  avg_adult_age +delta_years_in_days,      delta_years_in_days, 'between-year-repeatability (range 2-7 years)', 1,    
+    "passive_if_present",      0.522,  0.194,          252,  avg_adult_age,  avg_adult_age +delta_years_in_days,      delta_years_in_days, 'between-year-repeatability (range 2-7 years)', 1, 
+    "defence_intensity_PCA",   0.131,  0.073,          189,  avg_adult_age,  avg_adult_age +delta_years_in_days,      delta_years_in_days, 'between-year-repeatability (range 2-7 years)', 1
+) %>% 
+    mutate(Key = "V5R8XCKE",
+           species_common = "montagus_harrier",
+           species_latin = "Circus_pygargus",
+           sample_size = Nobs / 3.1,
+           measurements_per_ind = 3.1,
+           context = 3,
+           type_of_treatment = NA,
+           treatment = NA,
+           life_stage = "adult",
+           event = remarks,
+           CI_lower = NA,
+           CI_upper = NA,
+          p_val = NA,
+          max_lifespan_days = harrier_ls_max) %>% 
+    select(-Nobs) -> meta_table
+    
+write_delim(meta_table, path = "output/Arroyo_Mougeot 2017 .txt", delim = " ", col_names = TRUE)
+    
+
 
 ###### Paper 6: Ballew_Mittelbach 2017 ########
 # Ballew, Nicholas G.; Mittelbach, Gary G.; Scribner, Kim T. 2017	
@@ -752,7 +785,7 @@ write_delim(meta_table, path = "output/Gabriel_Black_2010.txt", delim = " ", col
 
 
 
-###### Paper 20: Garamszegi_Mark_2015 ######
+###### Paper 20: Garamszegi_Marko_2015 ######
 
 # Garamszegi, L.Z.; Mark, G.; Szsz, E.; Zsebk, S.; Azcrate, M.; Herczeg, G.; Trk, J. 2015
 # among-year variation in the repeatability, within- and between-individual, and phenotypic correlations of behaviors in a natural population
@@ -778,6 +811,16 @@ R_table <- extract_tables(location,
     ),
     guess = FALSE
 )
+
+# breeding season measurements within one month
+
+# not mentioned how far apart between year measurements were, so 1.5 years between measurements on average assumed
+# 8 year study period, most of the 19 between year individuals will have been observed in consecutive years,
+# but some further apart, so 1.5*365 days between measurements seems reasonable
+
+flycatch_lf <- scrape_AnAge("Ficedula albicollis", "maximum_longevity_yrs", download_data = FALSE)
+max_lifespan <- as.numeric(flycatch_lf$maximum_longevity_yrs) * 365
+avg_adult_age <- max_lifespan*0.25
 
 # over course of 8 years, but unclear whats the average distance, so minimum 2 years taken
 extract_table <- function(trait) {
@@ -813,9 +856,19 @@ meta_table <- bind_rows(lapply(c("Novelty.avoidance", "Aggression", "Risk.taking
                     t2 = rep(c(rep("average_age_plus_365", 5), "average_age_plus_at_least_2times365"), 3)
                 )
 
+# write_delim(meta_table, path = "output/Garamszegi_Mark_2015.txt", delim = " ", col_names = TRUE)
+
+dat <- read_delim("data/Garamszegi_Mark_2015_old.txt", delim = " ")
+dat$t2
+dat %>% 
+    mutate(t1 = avg_adult_age,
+           t2 = ifelse(delta_t == 365, avg_adult_age + 30, avg_adult_age + 547.5)) %>% 
+    mutate(delta_t = t2 - t1,
+           sex = 2,
+           species_latin = "Ficedula_albicollis",
+           max_lifespan_days = max_lifespan) -> meta_table
+
 write_delim(meta_table, path = "output/Garamszegi_Mark_2015.txt", delim = " ", col_names = TRUE)
-
-
 
 
 ###### Paper 21: Gifford_Clay_2014 : FROM here also species_latin variable and avg_adult var when age not reported ######
@@ -3548,26 +3601,288 @@ write_delim(meta_table, path = "output/Wuerz_Krueger_2015.txt", delim = " ", col
 
 
 
+###### Paper 66: Zsebk_Herczeg_2017 ######
+# Zsebk, S.; Herczeg, G.; Blzi, G.; Laczi, M.; Nagy, G.; Szsz, E.; Mark, G.; Trk, J.; Garamszegi, L.Z.	2017	
+# short- and long-term repeatability and pseudo-repeatability of bird song: sensitivity of signals to varying environments
+# IM7M86ND	
 
-meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
-    "species_common" = NA, 
-    "species_latin" = NA,
-    "sample_size" = NA, 
-    "measurements_per_ind" = NA, # new, check papers 1-6 again
-    "sex" = NA,                # 0 = both, 1 = females, 2 = males
-    "behaviour" = NA,          # measured behaviour as stated by authors
-    "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
-    "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
-    "treatment"= NA,          # Verbal description
-    "life_stage"= NA,         # "juvenile", "adult", "both"
-    "event"= NA,              # Major life-event, such as metamorphosis between measurements
-    "R"= NA,
-    "R_se"= NA,
-    "CI_lower"= NA,
-    "CI_upper"= NA,
-    "p_val"= NA,
-    "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
-    "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
-    "delta_t"= NA,             # difference between timepoints in days
-    "remarks"= NA,
-    "max_lifespan_days" = NA)
+library(metaDigitise)
+
+# sample sizes: 54 within-day, 29 between days, 16 between year
+# male collared flycatchers (Ficedula albicollis)
+
+# within day : 6 minutes
+# between day: 2.92 days
+# between years: 1.36 years
+
+# all mature males
+flycatcher_data <- scrape_AnAge("Ficedula albicollis", vars = "maximum_longevity_yrs", download_data = FALSE)
+maximum_long_flycatcher <- as.numeric(flycatcher_data$maximum_longevity_yrs) * 365
+avg_adult_age <- maximum_long_flycatcher * 0.25
+
+dat <- metaDigitise("to_digitise/study13_Zsebk_Herczeg_2017/")
+# write_delim(dat, "to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt")
+
+dat %>% 
+    as_tibble() %>% 
+    select(group_id, mean, se) %>% 
+    rename(R = mean, R_se = se) %>% 
+    mutate(R = ifelse(R<0, 0, R)) %>% 
+    mutate(timeperiod = rep(c("within_day", "between_days", "between_years"), 7)) %>% 
+    mutate(group_id = str_replace(group_id, paste0("_", timeperiod), "")) %>% 
+    mutate(t1 = avg_adult_age,
+           t2 = case_when(
+               timeperiod == "within_day" ~ avg_adult_age + 0.004,
+               timeperiod == "between_days" ~ avg_adult_age + 2.92,
+               timeperiod == "between_years" ~avg_adult_age + 1.36*365
+           )) %>% 
+    select(-timeperiod) %>% 
+    rename(behaviour = group_id) %>% 
+    mutate(
+        Key = "IM7M86ND",
+        species_common = "collared_flycatcher",
+        species_latin = "ficedula_albicollis",
+        sample_size = rep(c(54, 29, 16), 7),
+        measurements_per_ind = 2,
+        sex = 2,
+        context = 3,
+        type_of_treatment = NA,
+        treatment = NA,
+        life_stage = "adult",
+        event = rep(c(NA, NA, "between_years"), 7),
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        delta_t = t2 - t1,
+        remarks = "20 song recordings averaged per measurement",
+        max_lifespan_days = maximum_long_flycatcher
+    ) -> meta_table
+
+
+write_delim(meta_table, path = "output/Zsebk_Herczeg_2017.txt", delim = " ", col_names = TRUE)
+
+    
+
+
+###### Paper 67: Amy_Ung_2017 ####
+# Amy, Mathieu; Ung, Davy; Beguin, Nathalie; Leboucher, Gerard 2017	
+# personality traits and behavioural profiles in the domestic canary are affected by sex and photoperiod
+# 	GUF3YCJ4	
+
+# this data I already extracted, so it's loaded here from an excel sheet
+
+meta_table_raw <- read_xlsx(path = "data/amy_ung_2017.xlsx") %>% 
+    select(species_common:remarks)
+
+canary_longevity <- scrape_AnAge("Serinus canaria", vars = "maximum_longevity_yrs", download_data = FALSE)
+canary_max_life <- as.numeric(canary_longevity$maximum_longevity_yrs) * 365
+
+
+names(meta_table)[which(!(names(meta_table) %in% names(meta_table_raw) ))]
+
+meta_table_raw %>% 
+    mutate(measurements_per_ind = ifelse(delta_t == 190, 4, 2),
+           Key = "GUF3YCJ4",
+           species_latin = "Serinus_canaria",
+           max_lifespan_days = canary_max_life) -> meta_table
+
+write_delim(meta_table, path = "output/Amy_Ung_2017.txt", delim = " ", col_names = TRUE)
+
+###### Paper 68: Boulton_Grimmer_2014 ####
+# Boulton, Kay; Grimmer, Andrew J.; Rosenthal, Gil G.; Walling, Craig A.; Wilson, Alastair J.	2014	
+# how stable are personalities? a multivariate view of behavioural variation over long and short timescales in the sheepshead swordtail, xiphophorus birchmanni
+# PYZL2E8A
+
+## 373 for long term
+## 32 for short term
+## Open field trial (OFT), emergence and exploration (EET) (both sort of boldness)
+## LT: 30 weeks
+## four OFT and four EET per fish
+## ST: 4 days interval, 5 times
+
+# mean longevity lab = 450 days reported
+max_lifespan_fish <- 450 + 2*8.10 # mean and se
+
+dat <- metaDigitise("to_digitise/study14_boulton_grimmer/")
+#write_delim(dat, path = "to_digitise/study14_boulton_grimmer/digitised.txt")
+scrape_AnAge(latin_name = "Xiphophorus birchmanni", vars = "maximum_longevity_yrs", download_data = FALSE)
+
+dat %>% 
+    as_tibble() %>% 
+    select(group_id, mean, se) %>% 
+    rename(R = mean, R_se = se) %>% 
+    mutate(
+        sample_size = rep(c(373, 32), 5),
+        measurements_per_ind = rep(c(4,5), 5),
+        sex = 0,
+        behaviour = group_id,
+        context = 1,
+        type_of_treatment =0,
+        treatment = NA,
+        life_stage = "adult",
+        event = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        p_val = NA,
+        t1 = rep(c(203, 715), 5),
+        t2 = rep(c(427, 732), 5),
+        delta_t = t2-t1,
+        remarks = c("open field test and emergence and exploration test, both should measure boldness"),
+        max_lifespan_days = max_lifespan_fish,
+        Key = "PYZL2E8A",
+        species_common = "sheepshead_swordtail",
+        species_latin = "Xiphophorus_birchmanni"
+    ) %>% 
+    select(-group_id) %>% 
+    mutate(behaviour = str_remove(behaviour, pattern = "st_"),
+           behaviour = str_remove(behaviour, pattern = "lt_"),
+           behaviour = ifelse(behaviour == "emergence", paste0("eet_", behaviour), paste0("oft_", behaviour))) -> meta_table
+
+write_delim(meta_table, path = "output/Boulton_Grimmer_2014.txt", delim = " ", col_names = TRUE)
+
+
+###### Paper 69: English_Nakagawa_2010 ####
+# English, S.; Nakagawa, S.; Clutton-Brock, T. H.	2010	
+# consistent individual differences in cooperative behaviour in meerkats (suricata suricatta)
+# 	XR32CK8A
+
+# max_age = 4 years (paper)
+# 2-19 measures per individual
+
+dat <- tabulizer::extract_areas("data/papers/English et al. - 2010 - consistent individual differences in cooperative b.pdf",
+                                pages = 4)
+dat <- dat[[1]]
+dat_df <- rbind(dat[,1:3], dat[,4:6])
+
+# age classes: <1, 1-2, >2. avg_ages simply as minimum here and delta_t as spanning the whole period
+dat_df %>% 
+    as_tibble() %>% 
+    separate(V1, into = c("R", "R_se"), sep = " \\(") %>% 
+    mutate(R_se = str_replace(R_se, "\\)", "")) %>% 
+    separate(V3, into = c("nobs", "sample_size")) %>% 
+    rename(p_val = V2) %>% 
+    mutate(behaviour = c(rep("babysitting", 3), rep("provisioning_pup", 3))) %>% 
+    mutate(t1 = rep(c(182.5, 365, 730), 2),
+           t2 = rep(c(365, 730, 1460), 2),
+           delta_t = t2-t1) -> meta_table_raw
+
+tribble(
+    ~R,       ~R_se,     ~nobs,     ~sample_size,      ~behaviour,     ~t1,       ~t2,   
+    0.218,     0.046,     896+948+738, 562+521+250,    "babysitting",  182.5,     1460,  
+    0.513,     0.020,     896+948+738, 562+521+250,    "provisioning_pup", 182.5,  1460
+) %>% 
+    mutate(delta_t = t2-t1,
+            p_val =  NA) -> meta_table_raw2
+
+rbind(meta_table_raw, meta_table_raw2) %>% 
+    mutate(Key = "XR32CK8A",
+           species_common = "meerkat",
+           species_latin = "Suricata_suricatta",
+           measurements_per_ind = as.numeric(nobs)/as.numeric(sample_size),
+           sex = 0,
+           context = 3,
+           type_of_treatment = NA,
+           treatment = NA,
+           life_stage = c("juvenile", "adult", "adult", "juvenile", "adult", "adult", "both", "both"),
+           event = c(rep(NA, 6), "maturation_growth", "maturation_growth"),
+           CI_lower = NA,
+           CI_upper = NA,
+           remarks = NA,
+           max_lifespan_days = 4*365) %>% 
+    select(-nobs) -> meta_table
+           
+write_delim(meta_table, path = "output/English_Nakagawa_2010 .txt", delim = " ", col_names = TRUE)
+
+    
+
+###### Paper 69: Hirata_Taketomi_2013 ####
+# Hirata, Masahiko; Taketomi, Ikuko; Matsumoto, Yuka; Kubo, Shotaro	2013
+# trade-offs between feeding and social companionship in cattle: intra-animal consistency over short and extended periods
+# 76WVUJ9V
+
+# 3 and 6 November 2010 (Experiment 1), 27–30
+# November 2010 (Experiment 2) and 22–23 November 2011 (Experiment 3)
+# 1,2,3: 8,16,12     1and2: 8, 1and3 7, 2and3: 12
+#maximum (Dmax) and mean (Dmean) distance from the group, number of total (Ntotal) and different (Ndiff) tub visits, and
+# proportion of time eating concentrate (Peatconc) and grazing sward (Pgraze)
+
+# behaviours: willingness to trade sociability for feeding
+
+# mean age see:
+# T. Gotoh, H. Takahashi, T. Nishimura, K. Kuchida, H. Mannen, Meat produced by Japanese Black cattle and Wagyu, Animal Frontiers, Volume 4, Issue 4, October 2014, Pages 46–54, https://doi.org/10.2527/af.2014-0033
+# slaughter age ~ 28-30 month
+# minus 1 year ~18 max
+# so probably around one year
+
+avg_adult_age <- 365
+# pval of 0.5 translated from NS in the paper
+dat_bos <- scrape_AnAge("bos taurus", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_long_bos <- as.numeric(dat_bos$maximum_longevity_yrs) * 365
+
+tribble(
+    ~behaviour,              ~R,   ~p_val,   ~sample_size,   ~t1,   ~t2,
+    "max_dist_from_group",  0.86,   0.01,             8, avg_adult_age, avg_adult_age + 3,  
+    "mean_dist_from_group", 0.75,   0.05,             8, avg_adult_age, avg_adult_age + 3,
+    "total_tubs_visited",   0.92,   0.01,             8, avg_adult_age, avg_adult_age + 3,
+    "different_tubs_visited", 0.83, 0.05,             8, avg_adult_age, avg_adult_age + 3,
+    "prop_eating_tub",      0.53,   0.5,              8, avg_adult_age, avg_adult_age + 3,
+    "prop_grazing",         0.63,   0.5,              8, avg_adult_age, avg_adult_age + 3,
+    
+    "max_dist_from_group",  0.72,   0.01,             16, avg_adult_age, avg_adult_age + 3,  
+    "mean_dist_from_group", 0.63,   0.01,             16, avg_adult_age, avg_adult_age + 3,
+    "total_tubs_visited",   0.82,   0.001,             16, avg_adult_age, avg_adult_age + 3,
+    "different_tubs_visited", 0.60, 0.05,             16, avg_adult_age, avg_adult_age + 3,
+    "prop_eating_tub",      0.30,   0.5,              16, avg_adult_age, avg_adult_age + 3,
+    "prop_grazing",         0.34,   0.5,              16, avg_adult_age, avg_adult_age + 3,
+    
+    "max_dist_from_group",  0.43,   0.5,             12, avg_adult_age, avg_adult_age +  2,  
+    "mean_dist_from_group", 0.41,   0.5,             12, avg_adult_age, avg_adult_age +  2,
+    "total_tubs_visited",   0.84,   0.001,            12, avg_adult_age, avg_adult_age + 2,
+    "different_tubs_visited", 0.67, 0.05,             12, avg_adult_age, avg_adult_age + 2,
+    "prop_eating_tub",      0.68,   0.05,              12, avg_adult_age, avg_adult_age +2,
+    "prop_grazing",         0.59,   0.05,              12, avg_adult_age, avg_adult_age +2,
+    
+    "max_dist_from_group",  0.89,   0.01,             8, avg_adult_age, avg_adult_age + 21,  
+    "mean_dist_from_group", 0.91,   0.01,             8, avg_adult_age, avg_adult_age + 21,
+    "total_tubs_visited",   0.88,   0.01,             8, avg_adult_age, avg_adult_age + 21,
+    "different_tubs_visited", 0.81, 0.05,             8, avg_adult_age, avg_adult_age + 21,
+    "prop_eating_tub",      0.75,   0.05,              8, avg_adult_age, avg_adult_age + 21,
+    "prop_grazing",         0.83,   0.05,              8, avg_adult_age, avg_adult_age + 21,
+    
+    "max_dist_from_group",  0.72,   0.01,            12,  avg_adult_age, avg_adult_age +  365,  
+    "mean_dist_from_group", 0.57,   0.5,             12, avg_adult_age, avg_adult_age +  365,
+    "total_tubs_visited",   0.68,   0.05,            12,  avg_adult_age, avg_adult_age +  365,
+    "different_tubs_visited", 0.52, 0.5,             12, avg_adult_age, avg_adult_age +  365,
+    "prop_eating_tub",      0.30,   0.5,             12,  avg_adult_age, avg_adult_age + 365,
+    "prop_grazing",         0.31,   0.5,             12,  avg_adult_age, avg_adult_age + 365,
+
+    "max_dist_from_group",  0.72,   0.05,            7, avg_adult_age, avg_adult_age + 386,  
+    "mean_dist_from_group", 0.57,   0.5,             7,avg_adult_age, avg_adult_age +  386,
+    "total_tubs_visited",   0.68,   0.01,            7, avg_adult_age, avg_adult_age + 386,
+    "different_tubs_visited", 0.52, 0.05,             7,avg_adult_age, avg_adult_age +  386,
+    "prop_eating_tub",      0.30,   0.5,             7, avg_adult_age, avg_adult_age + 386,
+    "prop_grazing",         0.31,   0.5,             7, avg_adult_age, avg_adult_age + 386
+
+) %>% 
+    mutate(
+        Key = "76WVUJ9V",
+        species_common = "japanese_black_cattle",
+        species_latin = "bos_taurus",
+        measurements_per_ind = 2,
+        sex = 1,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = NA,
+        R_se = NA,
+        CI_lower =NA,
+        CI_upper = NA,
+        delta_t = t2 - t1,
+        remarks = "all pearson correlation",
+        max_lifespan_days = max_long_bos) -> meta_table
+    
+
+write_delim(meta_table, path = "output/Hirata_Taketomi_2013.txt", delim = " ", col_names = TRUE)
+
+

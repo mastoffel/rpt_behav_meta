@@ -1,0 +1,11 @@
+filename variable group_id mean sd n r se error_type plot_type
+uRblNwAw.png R lt_track_length 0.1709401709401708 NA NA NA 0.03418803418803423 se mean_error
+uRblNwAw.png R st_track_length 0.46495726495726486 NA NA NA 0.09572649572649572 se mean_error
+uRblNwAw.png R lt_activity 0.19999999999999987 NA NA NA 0.03247863247863253 se mean_error
+uRblNwAw.png R st_activity 0.37948717948717936 NA NA NA 0.09572649572649583 se mean_error
+uRblNwAw.png R lt_area_covered 0.15555555555555542 NA NA NA 0.03076923076923077 se mean_error
+uRblNwAw.png R st_area_covered 0.21025641025641015 NA NA NA 0.08717948717948723 se mean_error
+uRblNwAw.png R lt_time_in_middle 0.22905982905982888 NA NA NA 0.0324786324786325 se mean_error
+uRblNwAw.png R st_time_in_middle 0.3008547008547008 NA NA NA 0.09401709401709402 se mean_error
+uRblNwAw.png R lt_emergence 0.07692307692307679 NA NA NA 0.025641025641025605 se mean_error
+uRblNwAw.png R st_emergence 0.06495726495726484 NA NA NA 0.07008547008547009 se mean_error

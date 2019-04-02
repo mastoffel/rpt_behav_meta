@@ -1,19 +1,19 @@
-sample_size R CI_lower CI_upper delta_t remarks measurements_per_ind behaviour sex Key species_common context type_of_treatment treatment life_stage event R_se p_val t1 t2
-27 0.449 0.003 0.774 365 year_2009 2.7 Novelty_avoidance 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-16 0.047 0.000 0.482 365 year_2011 2.7 Novelty_avoidance 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-25 0.235 0.000 0.629 365 year_2013 2.7 Novelty_avoidance 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-16 0.046 0.000 0.403 365 year_2014 2.7 Novelty_avoidance 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-18 0.104 0.000 0.525 365 year_2015 2.7 Novelty_avoidance 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-19 0.021 0.000 0.251 730 year_Between-year 2 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_at_least_2times365
-27 0.345 0.032 0.631 365 year_2009 2.7 Aggression 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-16 0.037 0.001 0.218 365 year_2011 2.7 Aggression 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-28 0.061 0.002 0.232 365 year_2013 2.7 Aggression 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-17 0.185 0.002 0.565 365 year_2014 2.7 Aggression 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-19 0.147 0.002 0.535 365 year_2015 2.7 Aggression 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-21 0.058 0.001 0.314 730 year_Between-year 2 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_at_least_2times365
-26 0.652 0.406 0.837 365 year_2009 2.7 Risk_taking 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-16 0.116 0.011 0.432 365 year_2011 2.7 Risk_taking 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-28 0.414 0.153 0.646 365 year_2013 2.7 Risk_taking 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-17 0.517 0.070 0.820 365 year_2014 2.7 Risk_taking 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-19 0.109 0.006 0.402 365 year_2015 2.7 Risk_taking 0 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_365
-21 0.117 0.009 0.450 730 year_Between-year 2 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA average_age average_age_plus_at_least_2times365
+sample_size R CI_lower CI_upper delta_t remarks measurements_per_ind behaviour sex Key species_common context type_of_treatment treatment life_stage event R_se p_val t1 t2 species_latin max_lifespan_days
+27 0.449 0.003 0.774 30 year_2009 2.7 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+16 0.047 0 0.482 30 year_2011 2.7 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+25 0.235 0 0.629 30 year_2013 2.7 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+16 0.046 0 0.403 30 year_2014 2.7 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+18 0.104 0 0.525 30 year_2015 2.7 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+19 0.021 0 0.251 547.4999999999999 year_Between-year 2 Novelty_avoidance 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 1441.75 Ficedula_albicollis 3577.0000000000005
+27 0.345 0.032 0.631 30 year_2009 2.7 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+16 0.037 0.001 0.218 30 year_2011 2.7 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+28 0.061 0.002 0.232 30 year_2013 2.7 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+17 0.185 0.002 0.565 30 year_2014 2.7 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+19 0.147 0.002 0.535 30 year_2015 2.7 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+21 0.058 0.001 0.314 547.4999999999999 year_Between-year 2 Aggression 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 1441.75 Ficedula_albicollis 3577.0000000000005
+26 0.652 0.406 0.837 30 year_2009 2.7 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+16 0.116 0.011 0.432 30 year_2011 2.7 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+28 0.414 0.153 0.646 30 year_2013 2.7 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+17 0.517 0.07 0.82 30 year_2014 2.7 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+19 0.109 0.006 0.402 30 year_2015 2.7 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 924.2500000000001 Ficedula_albicollis 3577.0000000000005
+21 0.117 0.009 0.45 547.4999999999999 year_Between-year 2 Risk_taking 2 WFBJ35EC collared_flycatcher 3 0 NA both NA NA NA 894.2500000000001 1441.75 Ficedula_albicollis 3577.0000000000005
