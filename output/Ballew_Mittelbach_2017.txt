@@ -1,4 +1,4 @@
-Key species_common sample_size sex behaviour context type_of_treatment treatment life_stage event R R_se CI_lower CI_upper p_val t1 t2 delta_t remarks
-RR968ED6 largemouth_bass 93 0 boldness 2 0 NA both NA 0.54 NA 0.38 0.67 NA 1098 1464 NA "Boldness was a PC from 4 different behaviours"
-RR968ED6 largemouth_bass 71 0 boldness 2 0 NA adult NA 0.75 NA 0.63 0.84 NA 1464 1830 NA "Boldness was a PC from 4 different behaviours"
-RR968ED6 largemouth_bass 71 0 boldness 2 0 NA both NA 0.5 NA 0.3 0.65 NA 1098 1830 NA "Boldness was a PC from 4 different behaviours"
+behaviour R R_se CI_lower CI_upper sample_size t1 t2 delta_t life_stage sex remarks Key species_common species_latin context type_of_treatment treatment p_val event measurements_per_ind max_lifespan_days
+boldness 0.54 NA 0.38 0.67 93 1098 1464 NA both 0 "Boldness was a PC from 4 different behaviours" RR968ED6 largemouth_bass Micropterus_salmoides 2 0 NA NA NA 2 8395
+boldness 0.75 NA 0.63 0.84 71 1464 1830 NA adult 0 "Boldness was a PC from 4 different behaviours" RR968ED6 largemouth_bass Micropterus_salmoides 2 0 NA NA NA 2 8395
+boldness 0.5 NA 0.3 0.65 71 1098 1830 NA both 0 "Boldness was a PC from 4 different behaviours" RR968ED6 largemouth_bass Micropterus_salmoides 2 0 NA NA NA 2 8395

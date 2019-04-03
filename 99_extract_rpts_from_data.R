@@ -41,7 +41,7 @@ meta_table_template <- tibble("Key" = NA,                # identifier in meta-ta
 ###### Paper 1: Baker_Goodman 2018 ##########
 # Baker, Matthew R.; Goodman, Alex; C., er; Santo, Jonathan B.; Wong, Ryan Y. (2018)
 # Repeatability and reliability of exploratory behavior in proactive and reactive zebrafish, Danio rerio
-# 
+# 9Z5A7EQB
 url <- "https://static-content.springer.com/esm/art%3A10.1038%2Fs41598-018-30630-3/MediaObjects/41598_2018_30630_MOESM1_ESM.xlsx"
 
 # download xlsx file
@@ -111,8 +111,24 @@ meta_table <- data.frame(Key = "9Z5A7EQB", species_common = "zebrafish",
 
 # decided to always write first two authors and year
 meta_table <- select(meta_table, names(meta_table_template))
-write_delim(meta_table, path = "output/Baker_Goodman_2018.txt", delim = " ", col_names = TRUE)
+# write_delim(meta_table, path = "output/Baker_Goodman_2018.txt", delim = " ", col_names = TRUE)
 # meta_table <- read_delim(file = "output/Baker_Goodman_2018.txt", delim = " ", col_names = TRUE)
+
+max_life <- scrape_AnAge(latin_name = c("Danio rerio"), vars = "maximum_longevity_yrs", download_data = FALSE)
+max_lifespan <- as.numeric(max_life$maximum_longevity_yrs) * 365
+
+# add on
+meta_table_new <- read_delim("data/meta_tables_to_be_updated/Baker_Goodman_2018_old.txt", delim = " ") %>% 
+        mutate(species_latin = "Danio_rerio",
+               max_lifespan_days = max_lifespan,
+               t1 = t1 + 21*30,
+               t2 = t2 + 21*30,
+               measurements_per_ind = 2)
+
+write_delim(meta_table_new, path = "output/Baker_Goodman_2018.txt", delim = " ", col_names = TRUE)
+
+
+
 
 
 
@@ -129,22 +145,6 @@ url2 <- "https://ore.exeter.ac.uk/repository/bitstream/handle/10871/16930/ae.l-w
 dat <- read_delim(url2, delim = "\t")
 # how many individuals?
 length(table(dat$tag))
-
-
-###### Paper 3, Bierbach_Laskowski 2017 not included #######
-### Bierbach, David; Laskowski, Kate L.; Wolf, Max
-### behavioural individuality in clonal fish arises despite near-identical rearing conditions
-### MV5GA8PC
-
-url <- "https://datadryad.org/bitstream/handle/10255/dryad.140031/Bierbach%20et%20al%20clonal%20molly%20behav%20development_data%20for%20deposit.xlsx?sequence=1"
-
-# download xlsx file
-tmp <- tempfile(fileext = ".xlsx")
-httr::GET(url = url,
-    write_disk( tmp) )
-# read data table
-dat <- read_excel(tmp) # skip = n
-dat
 
 
 ###### Paper 4: Aplin_Firth 2015 ##########
@@ -227,8 +227,24 @@ meta_table <- meta_table %>%
 # order columns by meta_table_template
 meta_table <- select(meta_table, names(meta_table_template))
 meta_table
-write_delim(meta_table, path = "output/Aplin_Firth_2015.txt", delim = " ", col_names = TRUE)
+# write_delim(meta_table, path = "output/Aplin_Firth_2015.txt", delim = " ", col_names = TRUE)
 
+# update meta table
+dat_tit <- scrape_AnAge(latin_name = "Parus major", vars = "maximum_longevity_yrs", download_data = FALSE)
+tit_lifespan <- as.numeric(dat_tit$maximum_longevity_yrs) * 365
+avg_age_adult <- tit_lifespan*0.25
+
+# measurements_per_ind 
+mes_per_ind <- (9835 + 6853 + 7940) / (1053 + 729 + 816)
+
+meta_table_new <- read_delim("data/meta_tables_to_be_updated/Aplin_Firth_2015_old.txt", delim = " ") %>% 
+                        mutate(t1 = avg_age_adult,
+                               t2 = avg_age_adult + delta_t,
+                               species_latin = "patus_major",
+                               measurements_per_ind = mes_per_ind,
+                               max_lifespan_days = tit_lifespan)
+
+write_delim(meta_table_new, path = "output/Aplin_Firth_2015.txt", delim = " ", col_names = TRUE)
 
 ###### Paper 5, Arroyo_Mougeot 2017 #######
 # Arroyo, Beatriz; Mougeot, Francois; Bretagnolle, Vincent
@@ -297,14 +313,20 @@ meta_table <- tribble(
     "boldness",  0.50,     NA,       0.30,      0.65,           71, 36*30.5, 60*30.5,       NA,   "both",       0, "Boldness was a PC from 4 different behaviours"   
 )
     
+bass_data <- scrape_AnAge(latin_name = "Micropterus salmoides", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_bass <- as.numeric(bass_data$maximum_longevity_yrs) * 365
+
 meta_table <- meta_table %>% 
     mutate(Key = "RR968ED6",
            species_common = "largemouth_bass",
+           species_latin = "Micropterus_salmoides",
            context = 2,
            type_of_treatment = 0,
            treatment = NA,
            p_val = NA,
-           event = NA)
+           event = NA, 
+           measurements_per_ind = 2,
+           max_lifespan_days = max_bass)
 
 # order columns by meta_table_template
 meta_table <- select(meta_table, names(meta_table_template))
@@ -394,20 +416,17 @@ meta_table <- meta_table %>%
     mutate(delta_t = t2 - t1,
            remarks = "timings in days assumed from standard life-cycle of Agelenopsis")
             
-write_delim(meta_table, path = "output/Bosco_Riechert_2016.txt", delim = " ", col_names = TRUE)
+#write_delim(meta_table, path = "output/Bosco_Riechert_2016.txt", delim = " ", col_names = TRUE)
 
 
+scrape_AnAge("agelenopsis lisa", download_data = FALSE, vars = "maximum_longevity_yrs")
 
-###### Paper 8 Boulton et al 2014 To be discussed ####
-# Boulton, Kay; Grimmer, Andrew J.; Rosenthal, Gil G.; Walling, Craig A.; Wilson, Alastair J. 2014		
-# PYZL2E8A	
-# how stable are personalities? a multivariate view of behavioural variation over long and short 
-#timescales in the sheepshead swordtail, xiphophorus birchmanni
+# lifespan roughly a year (see paper discussion)
+meta_table_new <- read_delim("data/meta_tables_to_be_updated/Bosco_Riechert_2016_old.txt", delim = " ") %>% 
+                        mutate(species_latin = "Micropterus_salmoides",
+                            max_lifespan_days = 365)
 
-
-### talk to holger, not sure this is ok, as individuals for short and long timescales are different! ##
-
-
+write_delim(meta_table_new, path = "output/Bosco_Riechert_2016.txt", delim = " ", col_names = TRUE)
 
 
 
@@ -431,6 +450,8 @@ write_delim(meta_table, path = "output/Bosco_Riechert_2016.txt", delim = " ", co
 # adult female grey seals were 6 to 43 years old, so mean age is 18.5 years or 6753 days
 # data was collected over a 9 year period with an average of 5.5 measurments per female, so over a minimum of 5.5 years or 2008 days (t2 = 6753 + 2008)
 
+max_age <- scrape_AnAge("Halichoerus grypus", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_age_greyseal <- as.numeric(max_age$maximum_longevity_yrs) * 365
 
 meta_table <- tribble(
     ~behaviour,              ~R,  ~R_se, ~CI_lower, ~CI_upper, ~sample_size,  ~t1,   ~t2, ~delta_t, ~measurements_per_ind, ~remarks,
@@ -441,13 +462,15 @@ meta_table <- tribble(
 meta_table <- meta_table %>% 
     mutate(Key = "AKG6LAL3",
            species_common = "grey_seal",
+           species_latin = "Halichoerus grypus",
            sex = 1,
            context = 3,
            type_of_treatment = NA,
            treatment = NA,
            life_stage = "adult",
            event = NA,
-           p_val = NA)
+           p_val = NA,
+        max_lifespan_days = max_age_greyseal)
 
 write_delim(meta_table, path = "output/Bubac_Coltman_2018.txt", delim = " ", col_names = TRUE)
 
@@ -504,10 +527,21 @@ meta_table <- R_table[[1]] %>%
                        species_common = "eastern_bluebird")
 
 
-write_delim(meta_table, path = "output/Burtka_Grindstaff_2013.txt", delim = " ", col_names = TRUE)
+# write_delim(meta_table, path = "output/Burtka_Grindstaff_2013.txt", delim = " ", col_names = TRUE) 
+
+
+# lifespan
+max_lifespan_bluebird <- as.numeric(scrape_AnAge("sialia sialis", vars = "maximum_longevity_yrs", download_data = FALSE)$maximum_longevity_yrs) * 365
+
+meta_table_new <- read_delim("data/meta_tables_to_be_updated/Burtka_Grindstaff_2013_old.txt", delim = " ") %>% 
+    mutate(species_latin = "sialia_sialis",
+        max_lifespan_days = max_lifespan_bluebird)
+
+write_delim(meta_table_new, path = "output/Burtka_Grindstaff_2013.txt", delim = " ", col_names = TRUE)
 
 
 
+# check again from here 
 
 ###### Paper 11: Cabrera_Andres_2017 #######
  #Cabrera, Doreen; Andres, Daniel; McLoughlin, Philip D.; Debeffe, Lucie; Medill, Sarah A.; Wilson, Alastair J.; Poissant, Jocelyn	2017	
@@ -871,6 +905,7 @@ dat %>%
 write_delim(meta_table, path = "output/Garamszegi_Mark_2015.txt", delim = " ", col_names = TRUE)
 
 
+
 ###### Paper 21: Gifford_Clay_2014 : FROM here also species_latin variable and avg_adult var when age not reported ######
 
 # Gifford, Matthew E.; Clay, Timothy A.; Careau, Vincent 2014	
@@ -907,6 +942,7 @@ tribble(
            remarks = NA) -> meta_table
 
 write_delim(meta_table, path = "output/Gifford_Clay_2014.txt", delim = " ", col_names = TRUE)
+
 
 
 
@@ -1275,9 +1311,12 @@ write_delim(meta_table, path = "output/Hammond-Tooke_Cally_2012.txt", delim = " 
 
 
 
+
 ###### from now on: avg_adult_age = 0.25 * max_longevity (from http://genomics.senescence.info/species/) ######
 #####              avg_juvenile_age = 0.5 * age_maturity
 ##### variable    max_lifespan_days added to meta_table
+
+
 
 ###### Paper 28: Herde_Eccard_2013, tabulizer here ##############     
 ## tabulized extractio here
@@ -3795,7 +3834,7 @@ write_delim(meta_table, path = "output/English_Nakagawa_2010 .txt", delim = " ",
 
     
 
-###### Paper 69: Hirata_Taketomi_2013 ####
+###### Paper 70: Hirata_Taketomi_2013 ####
 # Hirata, Masahiko; Taketomi, Ikuko; Matsumoto, Yuka; Kubo, Shotaro	2013
 # trade-offs between feeding and social companionship in cattle: intra-animal consistency over short and extended periods
 # 76WVUJ9V
@@ -3885,4 +3924,95 @@ tribble(
 
 write_delim(meta_table, path = "output/Hirata_Taketomi_2013.txt", delim = " ", col_names = TRUE)
 
+
+
+###### Paper 71: Spinka_Stehulova_2002 #####
+# Spinka, M; Stehulova, I; Zacharova, J; Maletinska, J; Illmann, G	2002
+# nursing behaviour and nursing vocalisations in domestic sows: repeatability and relationship with maternal investment
+# P8R6KJHZ
+
+# 2 lactations: 6 month
+# 2-5: 6 month to 3 years, avg: 365+365*0.25 = 456.25
+
+
+scrape_AnAge(latin_name = "Sus domesticus", vars = c("maximum_longevity_yrs", "female_maturity_days"), 
+            download_data = FALSE)
+
+# assumed average age: one and a half years
+avg_adult_age <- 547.5
+max_adult_age <- 3650 # needs citation, from wikipedia
+
+tribble(
+    ~behaviour,                                ~R,     ~p_val,    ~t1,                                      ~t2,  ~sample_size,               
+    "behaviour_nursing_interval",             0.04,     "NS",  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_interval_nutritive",   0.09,     "NS",  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_prop_non_nutrative",   0.09,     "NS",  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_udder_massage_duration",   0.08, "NS",  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_udder_massage_duration2", 0.07,  "NS",  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_prop_terminated",       0.23,     "NS", avg_adult_age + 11,  avg_adult_age + 11 + 456.25,   11,
+    "behaviour_nursing_prop_initiated",        0.28,     0.1,  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_preference_left_side",  0.27,     0.1,  avg_adult_age + 11, avg_adult_age +  11 + 456.25,   11,
+    "behaviour_nursing_preference_one_side",   0.35,     0.05, avg_adult_age + 11,  avg_adult_age + 11 + 456.25,   11,
+    "vocalisation_nursing_rate",               0.91,    0.001, avg_adult_age + 11,  avg_adult_age + 11 + 456.25,   11,
+    "vocalisation_nursing_total",              0.88,    0.001, avg_adult_age + 11,  avg_adult_age + 11 + 456.25,   11,
+    "vocalisation_grunt_rate_increase",        0.73,    0.001, avg_adult_age + 11,  avg_adult_age + 11 + 456.25,   11,
+    
+    "behaviour_nursing_interval",             0.05,     "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_interval_nutritive",   0.04,     "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_prop_non_nutrative",   0.01,     "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_udder_massage_duration",   0.23, "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_udder_massage_duration2", 0.37,  "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_prop_terminated",       0.40,     0.1, avg_adult_age + 7,  avg_adult_age + 7 + 182.5,   14,
+    "behaviour_nursing_prop_initiated",        0.04,     "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_preference_left_side",  0.15,     "NS",  avg_adult_age + 7, avg_adult_age +  7 + 182.5,   14,
+    "behaviour_nursing_preference_one_side",   0.03,     "NS", avg_adult_age + 7,  avg_adult_age + 7 + 182.5,   14,
+    "vocalisation_nursing_rate",               0.80,    0.01, avg_adult_age + 7,  avg_adult_age + 7 + 182.5,   14,
+    "vocalisation_nursing_total",              0.63,    0.01, avg_adult_age + 7,  avg_adult_age + 7 + 182.5,   14,
+    "vocalisation_grunt_rate_increase",        0.66,    0.05, avg_adult_age + 7,  avg_adult_age + 7 + 182.5,   14,
+    
+    "behaviour_nursing_interval",             0.02,     "NS",  avg_adult_age  + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_interval_nutritive",   0.01,     "NS",  avg_adult_age  + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_prop_non_nutrative",   0.10,     "NS",  avg_adult_age  + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_udder_massage_duration",   0.24, "NS",  avg_adult_age  + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_udder_massage_duration2", 0.00,  "NS",  avg_adult_age  + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_prop_terminated",       0.04,     0.1, avg_adult_age  + 28,  avg_adult_age + 28 + 182.5,   14,
+    "behaviour_nursing_prop_initiated",        0.09,     "NS",  avg_adult_age + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_preference_left_side",  0.58,     0.05,  avg_adult_age + 28, avg_adult_age + 28  + 182.5,   14,
+    "behaviour_nursing_preference_one_side",   0.05,     "NS", avg_adult_age  + 28, avg_adult_age + 28 + 182.5,   14,
+    "vocalisation_nursing_rate",               0.92,    0.001, avg_adult_age  + 28,  avg_adult_age + 28 + 182.5,   14,
+    "vocalisation_nursing_total",              0.88,    0.001, avg_adult_age  + 28,  avg_adult_age + 28 + 182.5,   14,
+    "vocalisation_grunt_rate_increase",        0.65,    0.1, avg_adult_age  + 28,  avg_adult_age + 28 + 182.5,   14,
+    
+    "behaviour_nursing_interval",             0.35,      0.1,  avg_adult_age  + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_interval_nutritive",   -0.26,     "NS",  avg_adult_age  + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_prop_non_nutrative",   -0.03,     "NS",  avg_adult_age  + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_udder_massage_duration",   0.24, "NS",  avg_adult_age  + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_udder_massage_duration2", -0.05,  "NS",  avg_adult_age  + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_prop_terminated",       0.06,     0.1, avg_adult_age   + 11,  avg_adult_age + 28  , 14,
+    "behaviour_nursing_prop_initiated",        0.19,     "NS",  avg_adult_age + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_preference_left_side",  0.22,     0.05,  avg_adult_age + 11,  avg_adult_age + 28  ,  14,
+    "behaviour_nursing_preference_one_side",   0.01,     "NS", avg_adult_age  + 11,  avg_adult_age + 28  , 14,
+    "vocalisation_nursing_rate",               0.83,    0.001, avg_adult_age  + 11,   avg_adult_age + 28 ,  14,
+    "vocalisation_nursing_total",              0.83,    0.001, avg_adult_age  + 11,   avg_adult_age + 28 ,  14,
+    "vocalisation_grunt_rate_increase",        0.65,    0.01, avg_adult_age  + + 11,  avg_adult_age + 28  , 14
+   
+) %>% 
+    mutate(Key = "P8R6KJHZ",
+        species_common = "domestic_pig",
+        species_latin = "Sus_domesticus",
+        measurements_per_ind = 2,
+        sex = 1,
+        context = 1,
+        type_of_treatment = 0,
+        treatment = NA,
+        life_stage = "adult",
+        event = c(rep("between_lactations", 36), rep("within_lactation", 12)),
+        R_se = NA,
+        CI_lower = NA,
+        CI_upper = NA,
+        delta_t = t2 - t1,
+        remarks = "pearson correlation",
+        max_lifespan_days = max_adult_age) -> meta_table
+
+write_delim(meta_table, path = "output/Spinka_Stehulova_2002.txt", delim = " ", col_names = TRUE)
 
