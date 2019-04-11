@@ -540,7 +540,6 @@ meta_table_new <- read_delim("data/meta_tables_to_be_updated/Burtka_Grindstaff_2
 write_delim(meta_table_new, path = "output/Burtka_Grindstaff_2013.txt", delim = " ", col_names = TRUE)
 
 
-
 # check again from here 
 
 ###### Paper 11: Cabrera_Andres_2017 #######
@@ -553,8 +552,13 @@ location <- "data/papers/Cabrera et al. - 2017 - island tameness and the repeata
 # average time of measurements among days: 
 delta_t_among <- 10.2
 # all data from foles (maximum of one year old, but rather a few days to a few months)
-# assumed here: 365/2 = 182.5 days
-age_fole <- 365/2
+# few days to few month old, so take 3 month
+age_fole <- 90
+# measurements_per_ind
+378/105 # 3.6
+
+max_ls_data <- scrape_AnAge("Equus caballus", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_ls_horse <- as.numeric(max_ls_data$maximum_longevity_yrs) * 365
 
 tribble(
     ~timespan,         ~sample_size, ~measurements_per_ind,    ~R, ~R_se,     ~t1,                           ~t2,      ~delta_t,
@@ -564,6 +568,7 @@ tribble(
 ) %>% 
     mutate(Key = "ESF6PD88",
            species_common = "horse",
+           species_latin = "Equus caballus",
            sex = 0,
            behaviour = "flight_initiation_distance",
            context = 3,
@@ -574,7 +579,8 @@ tribble(
            CI_lower = NA,
            CI_upper = NA,
            p_val = NA,
-           remarks = "foles under 1 year") %>% 
+           remarks = "foles under 1 year",
+           max_lifespan_days = max_ls_horse) %>% 
     select(-timespan) -> meta_table
 
 write_delim(meta_table, path = "output/Cabrera_Andres_2017.txt", delim = " ", col_names = TRUE)
@@ -584,6 +590,9 @@ write_delim(meta_table, path = "output/Cabrera_Andres_2017.txt", delim = " ", co
 # D'Eath, RB 2004	
 # 2WGN2QQC		
 # consistency of aggressive temperament in domestic pigs: the effects of social experience and social disruption
+
+pig_ls <- scrape_AnAge("Sus scrofa", vars = "maximum_longevity_yrs", download_data = FALSE)
+pig_max_ls <- as.numeric(pig_ls$maximum_longevity_yrs) * 365
 
 # pigs were tested with two different intruders on the same day
 tribble(
@@ -595,6 +604,7 @@ tribble(
 ) %>% 
     mutate(Key = "2WGN2QQC",
            species_common = "domestic_pig",
+           species_latin = "Sus_scrofa",
            sex = 0,
            behaviour = "aggressiveness",
            context = 1,
@@ -604,7 +614,8 @@ tribble(
            event = NA,
            CI_lower = NA,
            CI_upper = NA,
-           remarks = c("correlation", "correlation", "correlation", "repeatability")
+           remarks = c("correlation", "correlation", "correlation", "repeatability"),
+           max_lifespan_days = pig_max_ls
            ) -> meta_table
 
 write_delim(meta_table, path = "output/D'eath_2004.txt", delim = " ", col_names = TRUE)
@@ -625,6 +636,8 @@ write_delim(meta_table, path = "output/D'eath_2004.txt", delim = " ", col_names 
 # only females, two month of age
 # 20 for explor, 17 for struggling
 
+zf <- scrape_AnAge("Taeniopygia guttata", "maximum_longevity_yrs", download_data = FALSE)
+zf_lv <- as.numeric(zf$maximum_longevity_yrs) * 365
 
 tribble(
     ~behaviour,   ~sample_size, ~measurements_per_ind,    ~R, ~CI_lower, ~CI_upper, ~p_val,    ~t1,   ~t2,      ~delta_t,
@@ -637,6 +650,7 @@ tribble(
 ) %>% 
     mutate(Key = "Z9FL9L9P",
            species_common = "zebra_finch",
+           species_latin = "Taeniopygia_guttata",
            sex = 1,
            context = 1,
            type_of_treatment = 0,
@@ -644,8 +658,9 @@ tribble(
            life_stage = "adult",
            event = NA,
            R_se = NA,
-           remarks = NA
-    ) -> meta_table
+           remarks = NA,
+        max_lifespan_days = zf_lv
+         ) -> meta_table
     
 write_delim(meta_table, path = "output/David_Auclair_2012.txt", delim = " ", col_names = TRUE)
 
@@ -656,15 +671,23 @@ write_delim(meta_table, path = "output/David_Auclair_2012.txt", delim = " ", col
 
 # snail were wild caught
 
+# longevity: 14.5 months
+# citation: DeWitt, R. M. (1954). Reproductive capacity in a pulmonate snail (Physa gyrina Say). The American Naturalist, 88(840), 159-164.
+
+max_lifespan_snail <- 14.5*30
+avg_adult_age <- max_lifespan_snail * 0.25
+
 # To quantify the repeatability of individual variation in antipredator behaviour, we repeated our
 # behavioural assays on 6 days spread over a 13-day period.
 tribble(
     ~behaviour,   ~sample_size, ~measurements_per_ind,    ~R, ~CI_lower, ~CI_upper,  ~p_val,    ~t1,   ~t2, ~delta_t,
-    "antipredator_behaviour",         96,           3,   0.33,      NA,        NA,   0.0001,     NA,    NA,         3,  
-    "antipredator_behaviour",         96,           6,   0.27,      NA,        NA,   0.0001,     NA,    NA,        13     
+    "antipredator_behaviour",         96,           3,   0.33,      NA,        NA,   0.0001,     avg_adult_age,    NA,         3,  
+    "antipredator_behaviour",         96,           6,   0.27,      NA,        NA,   0.0001,     avg_adult_age,    NA,        13     
 ) %>% 
     mutate(Key = "7QAACTY6",
            species_common = "physid_snail",
+           species_latin = "Physa_gyrina",
+           t2 = t1 + delta_t,
            context = 2,
            remarks = "No SE/CI, also data was obtained by pooling across video observation, i.e. measurement per ind not reliable",
            sex = 0,
@@ -673,7 +696,8 @@ tribble(
            treatment = NA, 
            lifes_stage = NA,
            event = NA,
-           R_se = NA) -> meta_table
+           R_se = NA,
+           max_lifespan_days = max_lifespan_snail) -> meta_table
 write_delim(meta_table, path = "output/DeWitt_Sih_1999.txt", delim = " ", col_names = TRUE)
 
 ###### Paper 15: Debeffe_Lemaitre_2015 #######
@@ -698,6 +722,9 @@ write_delim(meta_table, path = "output/DeWitt_Sih_1999.txt", delim = " ", col_na
 
 #### sex difference is reported but not split into long and short term
 
+deer_data <- scrape_AnAge("Capreolus capreolus", vars = "maximum_longevity_yrs", download_data = FALSE)
+deer_max <- as.numeric(deer_data$maximum_longevity_yrs) * 365
+
 delta_t_between <- (1.7*365)+185
 
 tribble(
@@ -707,13 +734,15 @@ tribble(
 ) %>% 
     mutate(Key = "4ABCSFR6",
            species_common = "roe_deer",
+           species_latin = "Capreolus_capreolus",
            sex = 0,
            context = 3,
            type_of_treatment = 0,
            life_stage = "both",
            event = NA,
            treatment = NA,
-           R_se = NA) -> meta_table
+           R_se = NA,
+        max_lifespan_days = deer_max) -> meta_table
 
 write_delim(meta_table, path = "output/Debeffe_Lemaitre_2015.txt", delim = " ", col_names = TRUE)
 
@@ -724,19 +753,6 @@ write_delim(meta_table, path = "output/Debeffe_Lemaitre_2015.txt", delim = " ", 
 
 
 
-###### Paper 16: English_Nakagawa_2010 incomplete, longitudinal? #######
-# English, S.; Nakagawa, S.; Clutton-Brock, T. H. 2010	
-# XR32CK8A	
-# consistent individual differences in cooperative behaviour in meerkats (suricata suricatta)
-
-# 2-19 measures per individual (average 10 ?)
-# few individuals survive beyond 4 years of age
-# tribble(
-#     ~behaviour,     ~R,   ~R_se, ~p_val, ~N_o, N_i,   ~t1,                    ~t2,        ~delta_t, ~remarks,
-#   #  "babysitting",  0.218, 0.046, 0.0001, 6460, 646,                              
-# )
-
-
 ###### Paper 17: Erhard_Mendl_1997 #######
 
 # Erhard, HW; Mendl, M		1997	
@@ -744,6 +760,8 @@ write_delim(meta_table, path = "output/Debeffe_Lemaitre_2015.txt", delim = " ", 
 # measuring aggressiveness in growing pigs in a resident-intruder situation
 
 # 1 and 2: 11 weeks of age and 1 day later
+pig_ls <- scrape_AnAge("Sus scrofa", vars = "maximum_longevity_yrs", download_data = FALSE)
+pig_max_ls <- as.numeric(pig_ls$maximum_longevity_yrs) * 365
 
 tribble(
     ~behavior,         ~R, ~R_se, ~p_val, ~sample_size, ~measurements_per_ind, ~t1, ~t2, ~delta_t,
@@ -753,6 +771,7 @@ tribble(
 ) %>% 
     mutate(Key = "SX3CYX5C",
            species_common = "pig",
+           species_latin = "sus_scrofa",
            sex = 0,
            context = 1,
            type_of_treatment = 0,
@@ -761,7 +780,8 @@ tribble(
            event = NA,
            CI_lower = NA,
            CI_upper = NA,
-           remarks = "All spearman rank correlations, no SE, not the same individuals for short and long term rpt") -> meta_table
+           remarks = "All spearman rank correlations, no SE, not the same individuals for short and long term rpt",
+           max_lifespan_days = pig_max_ls) -> meta_table
 
 write_delim(meta_table, path = "output/Erhard_Mendl_1997.txt", delim = " ", col_names = TRUE)
 
@@ -795,7 +815,8 @@ table(wild_shy$date)
 # could be double checked
 # I think measures have been averaged across years for long term, so only one datapoint for 2006 and one for 2008
 
-
+jay_data <- scrape_AnAge(latin_name = "Cyanocitta stelleri", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_ls_jay <- as.numeric(jay_data$maximum_longevity_yrs)*365
 
 tribble(
       ~R, ~CI_lower, ~CI_upper, ~sample_size, ~measurements_per_ind,        ~t1,       ~t2,   ~delta_t,  ~p_val, 
@@ -805,6 +826,7 @@ tribble(
 ) %>% 
     mutate(Key = "NWYGHZWI",
            species_common = "stellers_jay",
+           species_latin = "Cyanocitta_stelleri",
            behaviour = "risk_taking",
            sex = 0,
            context = 3,
@@ -813,7 +835,8 @@ tribble(
            life_stage = "adult",
            event = "between_season",
            R_se = NA,
-           remarks = "sample sizes and measurement were a bit of guesswork") -> meta_table
+           remarks = "sample sizes and measurement were a bit of guesswork",
+           max_lifespan_days = max_ls_jay ) -> meta_table
 
 write_delim(meta_table, path = "output/Gabriel_Black_2010.txt", delim = " ", col_names = TRUE)
 
@@ -892,6 +915,7 @@ meta_table <- bind_rows(lapply(c("Novelty.avoidance", "Aggression", "Risk.taking
 
 # write_delim(meta_table, path = "output/Garamszegi_Mark_2015.txt", delim = " ", col_names = TRUE)
 
+# redone 
 dat <- read_delim("data/Garamszegi_Mark_2015_old.txt", delim = " ")
 dat$t2
 dat %>% 
@@ -906,7 +930,8 @@ write_delim(meta_table, path = "output/Garamszegi_Mark_2015.txt", delim = " ", c
 
 
 
-###### Paper 21: Gifford_Clay_2014 : FROM here also species_latin variable and avg_adult var when age not reported ######
+
+###### Paper 21: Gifford_Clay_2014 ###### ######
 
 # Gifford, Matthew E.; Clay, Timothy A.; Careau, Vincent 2014	
 # D4KRF54L	
@@ -939,7 +964,8 @@ tribble(
            CI_lower = NA,
            CI_upper = NA,
            p_val = NA,
-           remarks = NA) -> meta_table
+           remarks = "lifetime without academic source",
+           max_lifespan_days = 3650) -> meta_table
 
 write_delim(meta_table, path = "output/Gifford_Clay_2014.txt", delim = " ", col_names = TRUE)
 
@@ -952,11 +978,6 @@ write_delim(meta_table, path = "output/Gifford_Clay_2014.txt", delim = " ", col_
 
 
 
-###### Paper 22: Goold_Newberry_2017 incomplete, data_to_be_analysed #######
-
-url <- "https://github.com/ConorGoold/GooldNewberry_aggression_shelter_dogs/blob/master/raw_data.csv"
-
-dat <- read_csv(url)
 
 ###### Paper 23: Grace_Anderson_2014 #####
 # Grace, Jacquelyn K.; Anderson, David J. 2014
@@ -991,9 +1012,12 @@ dat <- read_csv(url)
 todigit <- metaDigitise("to_digitise/study3_grace2014/")
  # write_delim(todigit, path = "to_digitise/study3_grace2014/digitized_figure.txt")
 todigit <- read_delim("to_digitise/study3_grace2014/digitized_figure.txt", delim = " ")
-# to be figured out
-avg_adult <- NA
 
+
+boobie_ls <- scrape_AnAge(latin_name = "sula granti", vars = "maximum_longevity_yrs", download_data = FALSE)
+# to be figured out
+booby_max <- as.numeric(boobie_ls$maximum_longevity_yrs)*365
+avg_adult_age <- booby_max * 0.25
 
 todigit %>% 
     select(group_id, mean, se, n) %>% 
@@ -1012,12 +1036,13 @@ todigit %>%
            CI_lower = NA,
            CI_upper = NA,
            p_val = NA,
-           t1 = NA,
-           t2 = NA,
+           t1 = avg_adult_age,
+           t2 = t1 + delta_t,
            remarks = "age_unknown",
            Key = "X75NVMBP",
            species_common = "nazca_booby",
-           species_latin = "sula_granti") -> meta_table
+           species_latin = "sula_granti",
+           max_lifespan_days = booby_max) -> meta_table
 
 write_delim(meta_table, path = "output/Grace_Anderson_2014.txt", delim = " ", col_names = TRUE)
 
@@ -1044,6 +1069,10 @@ write_delim(meta_table, path = "output/Grace_Anderson_2014.txt", delim = " ", co
 # breeding to non-breeding season ~ 365/2
 # assumed length of breeding season ~1 month
 # assumed length of non-breeding season measurements: ~1 month
+
+rook_data <- scrape_AnAge(latin_name = "Corvus frugilegus", vars = "maximum_longevity_yrs", download_data = FALSE)
+rook_max <- as.numeric(rook_data$maximum_longevity_yrs) * 365
+
 tribble(
     ~behaviour,          ~R, ~CI_lower, ~CI_upper,  ~t1,  ~t2, ~delta_t,                                              ~event,   ~remarks,
     "dominance_ranks", 0.77,      0.45,      0.91, 2555, 4015,     1460,             "across_breeding_seasons_in_both_years",   "spearman_corr",
@@ -1064,9 +1093,11 @@ tribble(
            sex = 0,
            context = 1,
            type_of_treatment = 0,
+           treatment = NA,
            life_stage = "adult",
            R_se = NA,
-           p_val = NA) -> meta_table
+           p_val = NA,
+           max_lifespan_days = rook_max) -> meta_table
 
 write_delim(meta_table, path = "output/Greggor_Jolles_2016.txt", delim = " ", col_names = TRUE)
 
@@ -1233,6 +1264,8 @@ rpt(Struggle ~ sex + testround + testround * sex + (1 | ID) + (1 | mother), data
 
 avg_adult <- 1095
 
+# mink_data <- scrape_AnAge("european mink", vars = "maximum_longevity_yrs", download_data = FALSE)
+max_age_mink <- 3650 # citation https://en.wikipedia.org/wiki/Mink
 
 tribble(
     ~R,    ~behaviour,     ~sample_size, ~measurements_per_ind, ~delta_t,   ~t1, ~t2,  ~event,
@@ -1252,7 +1285,8 @@ tribble(
         CI_lower = NA,
         CI_upper = NA,
         p_val = NA,
-        remarks = "no se or ci or pval, maybe simulation?") -> meta_table
+        remarks = "no se or ci or pval, maybe simulation?",
+        max_lifespan_days = max_age_mink) -> meta_table
     
 write_delim(meta_table, path = "output/Haage_Bergvall_2013.txt", delim = " ", col_names = TRUE)
 
@@ -1263,6 +1297,8 @@ write_delim(meta_table, path = "output/Haage_Bergvall_2013.txt", delim = " ", co
 # 6TGIGAET	
 # parasitism and behavioural syndromes in the fish gobiomorphus cotidianus
 
+# max age giant bully: 10 years #Jellyman, D. J., Sagar, P. M., Glova, G. J., & Sykes, J. R. E. (2000). Age, growth, and movements of giant bullies (Gobiomorphus gobioides) in the Kakanui River estuary, South Island, New Zealand. New Zealand Journal of Marine and Freshwater Research, 34(3), 523-530.
+max_age_bully <- 3650
 # common_bullies
 # Gobiomorphus cotidianus
 # "Young bullies" between 25 and 55 mm in length
@@ -1275,10 +1311,12 @@ write_delim(meta_table, path = "output/Haage_Bergvall_2013.txt", delim = " ", co
 # all young fish, so guess: half a year old (they mature at 1 year)
 avg_juvenile <- 183
 
+scrape_AnAge(latin_name = "Gobiomorphus cotidianus", vars = "maximum_longevity_yrs", download_data = FALSE)
+
 # digitalise
 # todigit <- metaDigitise("to_digitise/study4_hammond-tooke_cally2012/")
 # write_delim(x = todigit, path = "to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt")
-todigit <- read_delim(path = "to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt")
+todigit <- read_delim("to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt", delim = " ")
 
 todigit %>% 
     select(group_id, mean, n, se) %>% 
@@ -1301,14 +1339,14 @@ todigit %>%
            event = NA,
            CI_lower = NA,
            CI_upper = NA,
-           remarks = "age_guessed") -> meta_table
+           remarks = "age_guessed, double check",
+           max_lifespan_days = max_age_bully) -> meta_table
     
 write_delim(meta_table, path = "output/Hammond-Tooke_Cally_2012.txt", delim = " ", col_names = TRUE)
 
 
 
  
-
 
 
 
@@ -1431,6 +1469,9 @@ avg_juvenile_age <- 1
 # juveniles measured over 3 weeks
 library(tibble)
 
+# Pietrzak, B., Bednarska, A., & Grzesiuk, M. (2010). Longevity of Daphnia magna males and females. Hydrobiologia, 643(1), 71-75.
+max_age_daphnia <- 100 
+
 tribble(
              ~behaviour,    ~R, ~CI_lower, ~CI_upper, ~delta_t,           ~t1,              ~t2,     ~type_of_treatment,            ~treatment,
     "swimming_velocity",  0.73,      0.45,     0.92,        3, avg_adult_age,        avg_adult_age + 3,     2,            "before_UV_radiation",
@@ -1452,6 +1493,7 @@ tribble(
      event = rep(c(NA, "maturation"), each = 3),
      R_se = NA,
      p_val = NA,
+     max_lifespan_days = max_age_daphnia,
      remarks = "juveniles tested long term are offspring of mothers tested short term, i.e. same genes because clonal"
     ) -> meta_table
 
@@ -2122,10 +2164,11 @@ dat1 %>%
         CI_upper = NA,
         p_val = NA,
         remarks = NA,
-        max_lifespan_days = ifelse(species_common == "great_tit", as.numeric(lv_long[2,2]), as.numeric(lv_long[1,2]))
+        max_lifespan_days = ifelse(species_common == "great_tit", as.numeric(lv_long[2,3]), as.numeric(lv_long[1,3]))
     ) -> meta_table
     
 write_delim(meta_table, path = "output/Milligan_Radersma_2017.txt", delim = " ", col_names = TRUE)
+
 
 
 ###### Paper 40: Mitchell_Fanson_2016 ####
@@ -2740,6 +2783,10 @@ write_delim(meta_table, path = "output/Rockwell_Gabriel_2012.txt", delim = " ", 
 # comparison of personality between juveniles and adults in clonal gecko species
 # 	2UYSQ68E
 
+# lifespan: Brown, S.G., Murphy-Walker, S., 1996. Behavioural interactions between a rare male phenotype and female unisexual Lepidodactylus lugubris. Herpetol. J. 6, 69–73
+# 5 years
+max_life_gecko <- 5*365
+
 # all delta ts within 3 days, 3 measuremnts
 # 41 adult, 44 juvenile
 # Lepidodactylus lugubris
@@ -2771,7 +2818,7 @@ tribble(
         CI_upper = NA,
         delta_t = t2 - t1,
         remarks = "no se, all clonal females, no scientific source for longevity so used breeder website for estimate",
-        max_lifespan_days = "3650_noofficialsource"
+        max_lifespan_days = max_life_gecko
     ) -> meta_table
 write_delim(meta_table, path = "output/Sakai_2018.txt", delim = " ", col_names = TRUE)
 
@@ -4016,3 +4063,23 @@ tribble(
 
 write_delim(meta_table, path = "output/Spinka_Stehulova_2002.txt", delim = " ", col_names = TRUE)
 
+
+
+### meta tables merged in different file
+
+###### Paper 72: Goold_Newberry_2017 #####
+# Goold, Conor; Newberry, Ruth C.	2017
+# aggressiveness as a latent personality trait of domestic dogs: testing local independence and measurement invariance
+# C993NZT8
+
+url <- "https://github.com/ConorGoold/GooldNewberry_aggression_shelter_dogs/blob/master/raw_data.csv?raw=true"
+
+dat <- read_csv(url)
+names(dat)
+hist(as.numeric(dat$mean_age))
+
+dat$id  
+
+dat[dat$id == 18, ]
+dat %>% 
+    select(site, neutered, total_days, source_type)

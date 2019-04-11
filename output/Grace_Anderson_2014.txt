@@ -1,25 +1,25 @@
-behaviour R R_se sample_size delta_t measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val t1 t2 remarks Key species_common species_latin
-shaking_ni 0.14516129032258118 0.10903554970375254 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_no1 0.6250000000000004 0.06789005924950625 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_no2 0.2379032258064524 0.10080645161290308 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_ss 0.09677419354838768 0.10903554970375248 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_ni 0.45161290322580694 0.08640552995391709 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_no1 0.3346774193548392 0.10080645161290319 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_no2 0.18951612903225867 0.10492100065832781 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_ss 0.12500000000000056 0.10903554970375248 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-aggression_ni 0.4556451612903234 0.09052007899934171 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-agression_no1 0.7016129032258072 0.0555464121132324 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-agression_no2 0.3024193548387103 0.10080645161290314 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-agression_ss 0.15725806451612956 0.10697827518104024 86 548 2 0 3 0 NA adult between_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_ni 0.33333333333333337 0.07138657932308727 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_no1 0.5308641975308642 0.05668934240362826 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_no2 0.3580246913580247 0.06928697404887883 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-shaking_ss 0.15637860082304544 0.0776853951457126 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_ni 0.49382716049382724 0.060888552952045025 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_no1 0.48559670781893016 0.06298815822625352 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_no2 -0.36213991769547305 0.06718736877467037 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-gardening_ss 0.374485596707819 0.0671873687746704 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-aggression_ni 0.5596707818930041 0.052490131855211265 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-aggression_so1 0.7407407407407408 0.035693289661543524 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-aggression_so2 0.2386831275720166 0.07768539514571254 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
-aggression_ss 0.09053497942386834 0.07768539514571265 157 14 2 0 3 0 NA adult within_season NA NA NA NA NA age_unknown X75NVMBP nazca_booby sula_granti
+behaviour R R_se sample_size delta_t measurements_per_ind sex context type_of_treatment treatment life_stage event CI_lower CI_upper p_val t1 t2 remarks Key species_common species_latin max_lifespan_days
+shaking_ni 0.14516129032258118 0.10903554970375254 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_no1 0.6250000000000004 0.06789005924950625 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_no2 0.2379032258064524 0.10080645161290308 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_ss 0.09677419354838768 0.10903554970375248 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_ni 0.45161290322580694 0.08640552995391709 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_no1 0.3346774193548392 0.10080645161290319 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_no2 0.18951612903225867 0.10492100065832781 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_ss 0.12500000000000056 0.10903554970375248 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+aggression_ni 0.4556451612903234 0.09052007899934171 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+agression_no1 0.7016129032258072 0.0555464121132324 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+agression_no2 0.3024193548387103 0.10080645161290314 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+agression_ss 0.15725806451612956 0.10697827518104024 86 548 2 0 3 0 NA adult between_season NA NA NA 1916.25 2464.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_ni 0.33333333333333337 0.07138657932308727 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_no1 0.5308641975308642 0.05668934240362826 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_no2 0.3580246913580247 0.06928697404887883 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+shaking_ss 0.15637860082304544 0.0776853951457126 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_ni 0.49382716049382724 0.060888552952045025 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_no1 0.48559670781893016 0.06298815822625352 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_no2 -0.36213991769547305 0.06718736877467037 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+gardening_ss 0.374485596707819 0.0671873687746704 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+aggression_ni 0.5596707818930041 0.052490131855211265 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+aggression_so1 0.7407407407407408 0.035693289661543524 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+aggression_so2 0.2386831275720166 0.07768539514571254 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665
+aggression_ss 0.09053497942386834 0.07768539514571265 157 14 2 0 3 0 NA adult within_season NA NA NA 1916.25 1930.25 age_unknown X75NVMBP nazca_booby sula_granti 7665

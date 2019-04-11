@@ -1,10 +1,10 @@
-behaviour R CI_lower CI_upper t1 t2 delta_t event remarks Key species_common species_latin sample_size measurements_per_ind sex context type_of_treatment life_stage R_se p_val
-dominance_ranks 0.77 0.45 0.91 2555 4015 1460 across_breeding_seasons_in_both_years spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-dominance_ranks 0.42 -0.1 0.76 4015 4198 183 within_year_change_breeding_to_nonbreeding_season spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-novel_object 0.28 0.16 0.49 4015 4045 30 within_breeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-novel_object 0.15 0.06 0.34 4198 4228 30 within_nonbreeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-novel_object 0.49 -0.01 0.79 4015 4198 183 change_breeding_to_nonbreeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 4 0 1 0 adult NA NA
-novel_object 0.48 0 0.78 2555 4015 1460 across_breeding_seasons_in_both_years spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-novel_people 0.16 0.06 0.36 4015 4045 30 within_breeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-novel_people 0 0 0.07 4198 4228 30 within_nonbreeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 adult NA NA
-novel_people 0.55 0.07 0.82 4015 4198 183 within_year_change_breeding_to_nonbreeding_season spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 4 0 1 0 adult NA NA
+behaviour R CI_lower CI_upper t1 t2 delta_t event remarks Key species_common species_latin sample_size measurements_per_ind sex context type_of_treatment treatment life_stage R_se p_val max_lifespan_days
+dominance_ranks 0.77 0.45 0.91 2555 4015 1460 across_breeding_seasons_in_both_years spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+dominance_ranks 0.42 -0.1 0.76 4015 4198 183 within_year_change_breeding_to_nonbreeding_season spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+novel_object 0.28 0.16 0.49 4015 4045 30 within_breeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+novel_object 0.15 0.06 0.34 4198 4228 30 within_nonbreeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+novel_object 0.49 -0.01 0.79 4015 4198 183 change_breeding_to_nonbreeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 4 0 1 0 NA adult NA NA 8358.5
+novel_object 0.48 0 0.78 2555 4015 1460 across_breeding_seasons_in_both_years spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+novel_people 0.16 0.06 0.36 4015 4045 30 within_breeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+novel_people 0 0 0.07 4198 4228 30 within_nonbreeding_season neophobia 6GYLQSZ7 rook Corvus_frugilegus 16 2 0 1 0 NA adult NA NA 8358.5
+novel_people 0.55 0.07 0.82 4015 4198 183 within_year_change_breeding_to_nonbreeding_season spearman_corr 6GYLQSZ7 rook Corvus_frugilegus 16 4 0 1 0 NA adult NA NA 8358.5

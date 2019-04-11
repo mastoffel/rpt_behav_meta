@@ -1,7 +1,7 @@
-behaviour sample_size measurements_per_ind R CI_lower CI_upper p_val t1 t2 delta_t Key species_common sex context type_of_treatment treatment life_stage event R_se remarks
-exploration 17 2 0.81 0.59 0.95 0.001 61 68 7 Z9FL9L9P zebra_finch 1 1 0 NA adult NA NA NA
-exploration 17 2 0.35 0 0.73 0.14 322.5 325.5 3 Z9FL9L9P zebra_finch 1 1 0 NA adult NA NA NA
-exploration 17 4 0.76 0.46 0.92 0.001 61 324 263 Z9FL9L9P zebra_finch 1 1 0 NA adult NA NA NA
-struggling_rate 20 2 0.54 0.21 0.88 0.005 61 68 7 Z9FL9L9P zebra_finch 1 1 0 NA adult NA NA NA
-struggling_rate 20 2 0.88 0.78 0.99 0.001 268.5 271.5 3 Z9FL9L9P zebra_finch 1 1 0 NA adult NA NA NA
-struggling_rate 20 4 0.15 -0.31 0.61 0.25 61 270 209 Z9FL9L9P zebra_finch 1 1 0 NA adult NA NA NA
+behaviour sample_size measurements_per_ind R CI_lower CI_upper p_val t1 t2 delta_t Key species_common species_latin sex context type_of_treatment treatment life_stage event R_se remarks max_lifespan_days
+exploration 17 2 0.81 0.59 0.95 0.001 61 68 7 Z9FL9L9P zebra_finch Taeniopygia_guttata 1 1 0 NA adult NA NA NA 4380
+exploration 17 2 0.35 0 0.73 0.14 322.5 325.5 3 Z9FL9L9P zebra_finch Taeniopygia_guttata 1 1 0 NA adult NA NA NA 4380
+exploration 17 4 0.76 0.46 0.92 0.001 61 324 263 Z9FL9L9P zebra_finch Taeniopygia_guttata 1 1 0 NA adult NA NA NA 4380
+struggling_rate 20 2 0.54 0.21 0.88 0.005 61 68 7 Z9FL9L9P zebra_finch Taeniopygia_guttata 1 1 0 NA adult NA NA NA 4380
+struggling_rate 20 2 0.88 0.78 0.99 0.001 268.5 271.5 3 Z9FL9L9P zebra_finch Taeniopygia_guttata 1 1 0 NA adult NA NA NA 4380
+struggling_rate 20 4 0.15 -0.31 0.61 0.25 61 270 209 Z9FL9L9P zebra_finch Taeniopygia_guttata 1 1 0 NA adult NA NA NA 4380
