@@ -71,12 +71,16 @@ mt_all <- meta_table_corrected2 %>%
 mt_all <- mt_all %>% 
     mutate(R_stand = (0.5*log(1 +(measurements_per_ind - 1)*R/(1-R))))
 
+WriteXLS::WriteXLS(mt_all, "meta_table_prelim.xls") 
+
+source("martin.R")
 mt_all %>% 
     mutate(R = ifelse(R<0, 0, R)) %>% 
-    ggplot(aes(delta_stand, R_stand)) +
+    ggplot(aes(delta_stand, R)) +
     geom_point(aes(size = sample_size), alpha = 0.2) +
     geom_smooth(method = "lm") +
-    scale_x_sqrt()
+    scale_x_sqrt() +
+    theme_martin()
 
 
 
