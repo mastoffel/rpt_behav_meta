@@ -13,6 +13,7 @@ library(metaDigitise)
 library(AnAgeScrapeR)
 library(lubridate)
 library(digitize)
+library(datapasta)
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
@@ -4083,3 +4084,44 @@ dat$id
 dat[dat$id == 18, ]
 dat %>% 
     select(site, neutered, total_days, source_type)
+
+###### Paper 73: Ferrari_Millot_2015 #####
+# Ferrari, Sebastien; Millot, S; , ie; Leguay, Didier; Chatain, Beatrice; Begout, Marie-Laure	2015
+# consistency in european seabass coping styles: a life-history approach
+# ZAKGTDQK	
+
+seabass_dat <- scrape_AnAge("Dicentrarchus labrax", vars = "maximum_longevity_yrs")
+
+seabass_max <- as.numeric(seabass_dat$maximum_longevity_yrs) * 365
+
+tribble(
+  ~behaviour,                          ~t1,            ~t2,         ~sample_size,   ~R,     ~p_val,
+  "feeding_recovery_behaviour_pca",         129,       283,           29,           0.33,  0.09, 
+  "feeding_recovery_behaviour_pca",         129,       548,           21,           0.05,  0.83,
+  "feeding_recovery_behaviour_pca",         283,       548,           29,           0.12,  0.59,
+  "restraint_test_escape_behaviour",        557,       739,           22,           0.19,  0.39,
+  "restraint_test_escape_behaviour",        557,       758,           17,           0.36,  0.15,
+  "restraint_test_escape_behaviour",        739,       758,           17,         -0.06,   0.8,
+  "risk_taking",                            187,       202,           30,           0.49,  0.006,
+  "risk_taking",                            187,       216,           30,           0.72,  0.001,
+  "risk_taking",                            202,       216,           30,            0.33,  0.06
+) %>% 
+  mutate(Key = "ZAKGTDQK",
+         species_common = "seabass",
+         species_latin = "Dicentrarchus_labrax",
+         measurements_per_ind = 2,
+         sex = 0,
+         context = 1,
+         type_of_treatment = 0,
+         treatment = NA,
+         life_stage = "juvenile",
+         event = NA,
+         R_se = NA,
+         CI_lower = NA,
+         CI_upper = NA,
+         delta_t = t2-t1,
+         remarks = "spearman correlation",
+         max_lifespan_days = seabass_max) -> meta_table
+         
+write_delim(meta_table, path = "output/Ferrari_Millot_2015.txt", delim = " ", col_names = TRUE)
+

@@ -1,0 +1,10 @@
+behaviour t1 t2 sample_size R p_val Key species_common species_latin measurements_per_ind sex context type_of_treatment treatment life_stage event R_se CI_lower CI_upper delta_t remarks max_lifespan_days
+feeding_recovery_behaviour_pca 129 283 29 0.33 0.09 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 154 "spearman correlation" 5475
+feeding_recovery_behaviour_pca 129 548 21 0.05 0.83 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 419 "spearman correlation" 5475
+feeding_recovery_behaviour_pca 283 548 29 0.12 0.59 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 265 "spearman correlation" 5475
+restraint_test_escape_behaviour 557 739 22 0.19 0.39 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 182 "spearman correlation" 5475
+restraint_test_escape_behaviour 557 758 17 0.36 0.15 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 201 "spearman correlation" 5475
+restraint_test_escape_behaviour 739 758 17 -0.06 0.8 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 19 "spearman correlation" 5475
+risk_taking 187 202 30 0.49 0.006 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 15 "spearman correlation" 5475
+risk_taking 187 216 30 0.72 0.001 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 29 "spearman correlation" 5475
+risk_taking 202 216 30 0.33 0.06 ZAKGTDQK seabass Dicentrarchus_labrax 2 0 1 0 NA juvenile NA NA NA NA 14 "spearman correlation" 5475
