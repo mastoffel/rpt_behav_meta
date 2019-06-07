@@ -1,6 +1,7 @@
 # merge all tables saved in output
-
 library(tidyverse)
+source("martin.R")
+library("wordcloud") # word-cloud generator 
 
 length(list.files("output/"))
 # read all meta_tables
@@ -17,9 +18,9 @@ all_tables_ided <- map(1:length(all_tables_char), function(x) {
                                           })
 all_tables_ided[[63]]
 # some names in some tables are wrong so correct
-names(all_tables_ided[[61]])[names(all_tables_ided[[61]]) == "timeperiod"] <- "life_stage"
-all_tables_ided[[23]]$p_val <- NA
-all_tables_ided[[23]]$session <- NULL
+# names(all_tables_ided[[61]])[names(all_tables_ided[[61]]) == "timeperiod"] <- "life_stage"
+#all_tables_ided[[23]]$p_val <- NA
+#all_tables_ided[[23]]$session <- NULL
 
 correct_meta_table_names <- function(meta_table){
     if (any(names(meta_table) == "teatment")){
@@ -64,25 +65,58 @@ mt_all <- meta_table_corrected2 %>%
                    measurements_per_ind, max_lifespan_days), as.numeric) %>% 
     select(study_id, Key, species_common, species_latin, behaviour, R, R_se, CI_lower, CI_upper, p_val,
            t1, t2, delta_t, everything()) %>% 
-    mutate(delta_stand = delta_t/max_lifespan_days) # 
+    mutate(delta_stand_by_lifespan = delta_t/max_lifespan_days) # 
 
 
 # fishers r to z transformation
-mt_all <- mt_all %>% 
-    mutate(R_stand = (0.5*log(1 +(measurements_per_ind - 1)*R/(1-R))))
+# mt_all <- mt_all %>% 
+#     mutate(R_stand = (0.5*log(1 +(measurements_per_ind - 1)*R/(1-R))))
 
 WriteXLS::WriteXLS(mt_all, "meta_table_prelim.xls") 
 
 source("martin.R")
 mt_all %>% 
     mutate(R = ifelse(R<0, 0, R)) %>% 
-    ggplot(aes(delta_stand, R)) +
+    ggplot(aes(delta_stand_by_lifespan, R)) +
     geom_point(aes(size = sample_size), alpha = 0.2) +
     geom_smooth(method = "lm") +
     scale_x_sqrt() +
     theme_martin()
 
+mt_all
+
+mt_all %>% 
+    group_by(species_common) %>% 
+    count() %>% 
+    arrange(n) %>% 
+    .$species_common -> species_names_ordered
+
+mt_all %>% filter(species_common == "desert_funnel_web_spider") %>% .$study_id
 
 
+mt_all %>% 
+    mutate(species_common = forcats::fct_relevel(species_common ,species_names_ordered)) %>% 
+    group_by(study_id, species_common) %>% 
+   # count() %>% 
+    #arrange(species_common) %>% 
+    ggplot(aes(species_common)) +
+    geom_bar(aes(fill = as.factor(study_id))) +
+    theme_martin() +
+    coord_flip() +
+    ylab("number of effect sizes") + 
+    xlab("species") +
+    ggtitle("Number of effect sizes per species.\n different color = different study") +
+    theme(legend.position = "none")
+    
+    
+as.data.frame(table(mt_all$species_common)) %>% 
+    rename("species" = Var1,
+           "n_effect_sizes" = Freq) %>% 
+    arrange(n_effect_sizes) %>% 
+    ggplot()
+
+wordcloud(words = mt_wc$species_common, freq = mt_wc$n, min.freq = 1,
+          max.words=200, random.order=FALSE, rot.per=0.35, 
+          colors=brewer.pal(8, "Dark2"))
 
 

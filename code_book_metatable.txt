@@ -4,13 +4,13 @@ Codebook meta-table
 # (1) WoS and Scopus search (see file 1_)
 # (2) Rayyan abstract screening: 218 articles tagged with longer period / more than 2 measurements
 # (3) exported to bibtex, changed "url" to "doi" in bibtex file, imported in zotero
-# (4) downloaded pdfs in zotero and not exported csv file with standard utf encoding and "notes" 
+# (4) downloaded pdfs in zotero and not exported csv file with standard utf encoding and "notes"
 
 # These variables define the study, and were exported from Zotero
 
 Key - Zotero study key
-Publication Year 
-Author 
+Publication Year
+Author
 Title
 Publication Title - Journal title
 ISBN
@@ -19,59 +19,68 @@ DOI
 Pages
 Volume
 
-# in R script: variable avg_adult means that the age at first measurement was not reported and the average age taken instead.
-
 # These variables were added to collect data
 
-species_common - 		common name 
+species_common   		common name
 
-sample_size				n
+species_latin       latin name
 
-sex						0 = both, 1 = females, 2 = males
+sample_size				  n
 
-behaviour 	   - 		measured behaviour. Categorization in Bell paper: 
+sex						      0 = both, 1 = females, 2 = males
+
+behaviour 	measured behaviour. Categorization in Bell paper:
 						Courtship, mate preference, activity, affiliation, aggression,
-						anti-predator (including risk taking), exploratory behaviour, 
+						anti-predator (including risk taking), exploratory behaviour,
 						foraging,habitat selection and territoriality (including nest site
 						selection and thermal preference), migration, mating (any behaviours
 						performed during mating and including extrapair copulations),
 						parental care and other.
-						
-context			-		3 levels
+
+context			3 levels
 						1: lab experiment, lab-reared
 						2: lab experiment, wild-caught
 						3: Field experiment
-					
-						
+
+
 type_of_treatment		3 levels
-						0: No Treatment
-						1: Between-subject treatment
-						2: Within-subject treatment
-					
-treatment				Verbal description of treatment (to be added, e.g. hormone injection)
+						        0: No Treatment
+						        1: Between-subject treatment
+						        2: Within-subject treatment
+
+treatment				  Verbal description of treatment (to be added, e.g. hormone injection)
+
 life_stage				3 levels (maybe more if insect stages are added)
-						"juvenile"
-						"adult"
-						"both"
-event					Major life-event, such as metamorphosis between measurements?
+						      "juvenile"
+						      "adult"
+						      "both"
 
-R						Point estimate repeatability 
+event					    Major life-event, such as metamorphosis between measurements?
 
-R_se					Standard error
+R						      Point estimate repeatability
 
-CI_lower			
+R_se					    Standard error
+
+CI_lower
 
 CI_upper
 
 p_val
 
-t1						timepoint of first measurement in days old# / if given in month, month * 30.5
+t1						     timepoint of first measurement in days old# / if given in month, month * 30.5
 
-t2						timepoint of second measurement in days old#
+t2						     timepoint of second measurement in days old#
 
-delta_t					difference between timepoints 
+delta_t					   difference between timepoints
 
 remarks
 
+max_lifespan_days     maximum lifespan obtained from http://genomics.senescence.info/species/
 
-			
+
+
+# when age of the individuals at measurement is not given:
+# when adult:
+avg_adult_age = 0.25 * max_longevity
+# when juvenile:
+avg_juvenile_age = 0.5 * age_maturity
