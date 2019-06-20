@@ -1702,12 +1702,12 @@ avg_adult_age <- as.numeric(anage$maximum_longevity_yrs) * 0.25 * 365
 tribble(
     ~R,   ~R_se,  ~p_val,          ~t1,                  ~t2,    ~delta_t, ~sample_size,
     0.236, 0.122, 0.022, avg_adult_age,  avg_adult_age + 0.5,         0.5,           45,
-    0.041, 0.128, 0.356, avg_adult_age,  avg_adult_age + 72,          72,            52,
-    0    , 0.134, 0.758, avg_adult_age,  avg_adult_age + 365,        365,            34
+    0.041, 0.128, 0.356, avg_adult_age,  avg_adult_age + 72,           72,            52,
+    0    , 0.134, 0.758, avg_adult_age,  avg_adult_age + 365,         365,            34
 ) %>% 
     mutate(Key = "ZCSXGUYW",
         species_common = "collared_flycatcher",
-        species_latin = "Ficedula albicollis",
+        species_latin = "Ficedula_albicollis",
         measurements_per_ind = 2,
         sex = 2,
         behaviour = "escape_ability_risk_taking",
@@ -1719,8 +1719,7 @@ tribble(
         CI_lower = NA,
         CI_upper = NA,
         max_lifespan_days = as.numeric(anage$maximum_longevity_yrs) * 365,
-        remarks = "R_se estimated from recalculating rpt with 
-        a simplified model (only id as random effect)") -> meta_table
+        remarks = "R_se estimated from recalculating rpt with a simplified model (only id as random effect)") -> meta_table
 
 write_delim(meta_table, path = "output/Jablonszky_Stasz_2017.txt", delim = " ", col_names = TRUE)
 
@@ -3709,7 +3708,7 @@ avg_adult_age <- maximum_long_flycatcher * 0.25
 
 dat <- metaDigitise("to_digitise/study13_Zsebk_Herczeg_2017/")
 # write_delim(dat, "to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt")
-
+dat <- read_delim("to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt", delim = " ")
 dat %>% 
     as_tibble() %>% 
     select(group_id, mean, se) %>% 
@@ -4125,3 +4124,77 @@ tribble(
          
 write_delim(meta_table, path = "output/Ferrari_Millot_2015.txt", delim = " ", col_names = TRUE)
 
+
+###### Paper 74: Araya_Ajoy_2017 ######
+# Araya-Ajoy, Yimen G.; Dingemanse, Niels J. 2017
+# 	2UJ6RD3M
+# repeatability, heritability, and age-dependence of seasonal plasticity in aggressiveness in a wild passerine bird
+
+# nest stage 1: one model, nest stage 2: another model
+# random: brood id, male id, nest box
+
+# : 5 week
+# zwischen Bruten innerhalb von Jahr: Mai/Juni 6 * 7 Tage
+
+# 2 measurements in egg laying phase
+# 2 measurements in incubation
+# ~7 days
+
+# between years ~ 365 days
+library(AnAgeScrapeR)
+tit_dat <- scrape_AnAge("Parus major", vars = "maximum_longevity_yrs")
+tit_max <- as.numeric(tit_dat$maximum_longevity_yrs) * 365
+
+library(rptR)
+md <- read_csv("data/downloaded_from_papers/dingemanse_great_tit.csv")
+md %>% 
+  group_by(MaleID, AggressionYear) %>% 
+  filter( NestStage==1) %>% 
+  count()
+
+# short term repeatability with broodID (only one brood per year)
+mod_st_1 <- rptGaussian(TMaleMinDistance ~ (1|BroodID), grname = "BroodID", data = subset(md, NestStage==1))
+mod_st_2 <- rptGaussian(TMaleMinDistance ~ (1|BroodID), grname = "BroodID", data = subset(md, NestStage==2))
+
+# age / sample size short term
+age_df <- md %>% 
+  group_by(NestStage) %>% 
+  summarise(age = mean(minAge) * 365)
+md %>% 
+  group_by(BroodID) %>% 
+  count()
+
+# long term
+mod_lt_1 <- rptGaussian(TMaleMinDistance ~ (1|MaleID), grname = "MaleID", data = subset(md, NestStage==1))
+mod_lt_2 <- rptGaussian(TMaleMinDistance ~ (1|MaleID), grname = "MaleID", data = subset(md, NestStage==2))
+
+mult_yrs <- md %>% 
+  group_by(NestStage, MaleID, AggressionYear) %>% 
+  count() %>% 
+  filter(NestStage == 2)
+sum(duplicated(mult_yrs$MaleID))
+sum(duplicated(mult_yrs$MaleID))
+
+tribble(
+  ~behaviour,                ~t1,             ~t2,     ~sample_size,                  ~R,   ~CI_lower,                 ~CI_upper,                         ~p_val,
+  "aggressiveness",   age_df$age[1], age_df$age[1] + 7,        1027,   unlist(mod_st_1$R),  unlist(mod_st_1$CI_emp)[[1]], unlist(mod_st_1$CI_emp)[[2]], unlist(mod_st_1$P)[[1]],
+  "aggressiveness",   age_df$age[1]+8, age_df$age[1] + 15,     1027,   unlist(mod_st_2$R),  unlist(mod_st_2$CI_emp)[[1]], unlist(mod_st_2$CI_emp)[[2]], unlist(mod_st_2$P)[[1]],
+  "aggressiveness",   age_df$age[1], age_df$age[1] + 365,      246,    unlist(mod_lt_1$R),  unlist(mod_lt_1$CI_emp)[[1]], unlist(mod_lt_1$CI_emp)[[2]], unlist(mod_lt_1$P)[[1]],
+  "aggressiveness",   age_df$age[1]+8, age_df$age[1] + 373,    298,    unlist(mod_lt_1$R),  unlist(mod_lt_1$CI_emp)[[1]], unlist(mod_lt_1$CI_emp)[[2]], unlist(mod_lt_1$P)[[1]],
+) %>% 
+mutate(Key = "2UJ6RD3M",
+       species_common = "great_tit",
+       species_latin = "parus_major",
+       measurements_per_ind = c(2,2,4,4),
+       sex = 0,
+       context = 3,
+       type_of_treatment = 0,
+       treatment = NA,
+       life_stage = "adult",
+       event = NA,
+       R_se = NA,
+       delta_t = t2-t1,
+       remarks = NA,
+       max_lifespan_days = tit_max) -> meta_table
+
+write_delim(meta_table, path = "output/ArayaAjoy_Dingemanse_2017.txt", delim = " ", col_names = TRUE)

@@ -65,9 +65,10 @@ mt_all <- meta_table_corrected2 %>%
                    measurements_per_ind, max_lifespan_days), as.numeric) %>% 
     select(study_id, Key, species_common, species_latin, behaviour, R, R_se, CI_lower, CI_upper, p_val,
            t1, t2, delta_t, everything()) %>% 
-    mutate(delta_stand_by_lifespan = delta_t/max_lifespan_days) # 
+    mutate(delta_stand_by_lifespan = delta_t/max_lifespan_days) 
+ 
 
-
+test <- mt_all %>% filter(study_id == 29) %>% as.matrix() %>% as_tibble()
 # fishers r to z transformation
 # mt_all <- mt_all %>% 
 #     mutate(R_stand = (0.5*log(1 +(measurements_per_ind - 1)*R/(1-R))))
