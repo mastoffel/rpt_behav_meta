@@ -3,10 +3,40 @@ library(tidyverse)
 source("martin.R")
 library("wordcloud") # word-cloud generator 
 
-length(list.files("output/"))
+# path to files
+files <- list.files("output", full.names = TRUE)
+
+# how many studies?
+length(files)
+
+# check that all metatables have the same format
+col_names <- files %>% 
+    .[1] %>% 
+    read_delim(" ") %>% 
+    names(.)
+
+col_types <- files %>% 
+    .[1] %>% 
+    read_delim(" ") %>% 
+    map_chr(function(x) class(x))
+
 # read all meta_tables
-all_tables <- map(paste0("output/", list.files("output/")), read_delim, delim = " ")
-?bind_rows
+all_tables <- map(files, read_delim, 
+                  delim = " ")
+
+# check whether all files have all columns
+check_table <- function(i, col_names) {
+    missing_cols <- col_names[!(col_names %in% names(all_tables[[i]]))]
+    if (length(missing_cols != 0)) print(paste0(files[i], " lacks column(s) " , missing_cols))
+}
+
+walk(1:length(all_tables), check_table, col_names)
+
+
+non_conformers <- !map_lgl(all_tables, function(x) all(col_names %in% names(x)))
+all_tables[non_conformers]
+
+
 
 # convert everything to character
 all_tables_char <- map(all_tables, ~mutate_if(., is.numeric, as.character))

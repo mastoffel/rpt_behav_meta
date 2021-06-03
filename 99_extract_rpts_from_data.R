@@ -14,6 +14,7 @@ library(AnAgeScrapeR)
 library(lubridate)
 library(digitize)
 library(datapasta)
+
 # variables from the meta table
 meta_table_template <- tibble("Key" = NA,               # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
