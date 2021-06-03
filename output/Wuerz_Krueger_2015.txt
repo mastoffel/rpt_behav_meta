@@ -1,61 +1,61 @@
-sex R CI_lower CI_upper p_val behaviour timeperiod t1 t2 Key species_common species_latin sample_size measurements_per_ind context type_of_treatment treatment event R_se delta_t remarks max_lifespan_days
-0 0.47 0.20 0.66 0.001 fearlessness subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825
-2 0.42 0.03 0.71 0.022 fearlessness subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825
-1 0.51 0.17 0.74 0.01 fearlessness subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825
-0 0.38 0.10 0.59 0.013 exploration subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825
-2 0.21 0 0.58 "> 0.05" exploration subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825
-1 0.41 0.04 0.69 0.028 exploration subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825
-0 0.28 0 0.53 0.018 boldness subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825
-2 0.25 0 0.61 "> 0.05" boldness subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825
-1 0.30 0 0.61 "> 0.05" boldness subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825
-0 0.57 0.35 0.74 0.001 activity subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825
-2 0.70 0.39 0.86 0.002 activity subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825
-1 0.48 0.13 0.72 0.011 activity subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825
-0 0.14 0 0.41 "> 0.05" aggression subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825
-2 0.00 0 0.04 "> 0.05" aggression subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825
-1 0.34 0 0.64 0.044 aggression subadult 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825
-0 0.50 0.25 0.69 0.001 fearlessness young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825
-2 0.46 0.08 0.74 0.008 fearlessness young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825
-1 0.58 0.23 0.79 0.003 fearlessness young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825
-0 0.48 0.23 0.67 0.001 exploration young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825
-2 0.23 0 0.59 "> 0.05" exploration young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825
-1 0.60 0.29 0.79 0.002 exploration young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825
-0 0.16 0 0.42 "> 0.05" boldness young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825
-2 0.12 0 0.53 >0.05 boldness young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825
-1 0.20 0 0.55 >0.05 boldness young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825
-0 0.19 0 0.46 "> 0.05" activity young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825
-2 0.00 0 0.40 >0.05 activity young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825
-1 0.34 0 0.64 0.046 activity young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825
-0 0.29 0 0.52 0.021 aggression young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825
-2 0.31 0 0.66 "> 0.05" aggression young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825
-1 0.29 0 0.58 "> 0.05" aggression young_adult 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825
-0 0.67 0.50 0.80 0.001 fearlessness mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825
-2 0.68 0.32 0.85 0.001 fearlessness mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825
-1 0.68 0.40 0.84 0.001 fearlessness mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825
-0 0.37 0.10 0.61 0.005 exploration mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825
-2 0.43 0.004 0.70 0.026 exploration mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825
-1 0.25 0 0.58 >0.05 exploration mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825
-0 0.11 0 0.38 "> 0.05" boldness mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825
-2 0.24 0 0.60 >0.05 boldness mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825
-1 0.00 0 0.40 >0.05 boldness mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825
-0 0.10 0 0.37 "> 0.05" activity mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825
-2 0.04 0 0.45 "> 0.05" activity mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825
-1 0.13 0 0.51 "> 0.05" activity mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825
-0 0.24 0 0.51 "> 0.05" aggression mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825
-2 0.10 0 0.48 "> 0.05" aggression mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825
-1 0.36 0 0.67 0.038 aggression mature_adult 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825
-0 0.50 0.24 0.68 0.001 fearlessness long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825
-2 0.55 0.19 0.78 0.005 fearlessness long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825
-1 0.47 0.10 0.73 0.009 fearlessness long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825
-0 0.10 0 0.38 "> 0.05" exploration long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825
-2 0.00 0 0.44 "> 0.05" exploration long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825
-1 0.21 0 0.54 "> 0.05" exploration long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825
-0 0.04 0 0.29 "> 0.05" boldness long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825
-2 0.00 0 0.39 "> 0.05" boldness long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825
-1 0.12 0 0.48 "> 0.05" boldness long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825
-0 0.20 0 0.44 0.08 activity long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825
-2 0.19 0 0.57 "> 0.05" activity long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825
-1 0.22 0 0.55 "> 0.05" activity long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825
-0 0.16 0 0.44 "> 0.05" aggression long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825
-2 0.05 0 0.45 "> 0.05" aggression long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825
-1 0.26 0 0.59 "> 0.05" aggression long_interval 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825
+sex R CI_lower CI_upper p_val behaviour t1 t2 Key species_common species_latin sample_size measurements_per_ind context type_of_treatment treatment event R_se delta_t remarks max_lifespan_days life_stage
+0 0.47 0.20 0.66 0.001 fearlessness 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825 adult
+2 0.42 0.03 0.71 0.022 fearlessness 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825 adult
+1 0.51 0.17 0.74 0.01 fearlessness 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825 adult
+0 0.38 0.10 0.59 0.013 exploration 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825 adult
+2 0.21 0 0.58 "> 0.05" exploration 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825 adult
+1 0.41 0.04 0.69 0.028 exploration 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825 adult
+0 0.28 0 0.53 0.018 boldness 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825 adult
+2 0.25 0 0.61 "> 0.05" boldness 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825 adult
+1 0.30 0 0.61 "> 0.05" boldness 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825 adult
+0 0.57 0.35 0.74 0.001 activity 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825 adult
+2 0.70 0.39 0.86 0.002 activity 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825 adult
+1 0.48 0.13 0.72 0.011 activity 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825 adult
+0 0.14 0 0.41 "> 0.05" aggression 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 17 NA 1825 adult
+2 0.00 0 0.04 "> 0.05" aggression 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 17 NA 1825 adult
+1 0.34 0 0.64 0.044 aggression 56 73 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 17 NA 1825 adult
+0 0.50 0.25 0.69 0.001 fearlessness 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825 adult
+2 0.46 0.08 0.74 0.008 fearlessness 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825 adult
+1 0.58 0.23 0.79 0.003 fearlessness 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825 adult
+0 0.48 0.23 0.67 0.001 exploration 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825 adult
+2 0.23 0 0.59 "> 0.05" exploration 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825 adult
+1 0.60 0.29 0.79 0.002 exploration 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825 adult
+0 0.16 0 0.42 "> 0.05" boldness 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825 adult
+2 0.12 0 0.53 >0.05 boldness 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825 adult
+1 0.20 0 0.55 >0.05 boldness 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825 adult
+0 0.19 0 0.46 "> 0.05" activity 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825 adult
+2 0.00 0 0.40 >0.05 activity 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825 adult
+1 0.34 0 0.64 0.046 activity 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825 adult
+0 0.29 0 0.52 0.021 aggression 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 18 NA 1825 adult
+2 0.31 0 0.66 "> 0.05" aggression 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 18 NA 1825 adult
+1 0.29 0 0.58 "> 0.05" aggression 103 121 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 18 NA 1825 adult
+0 0.67 0.50 0.80 0.001 fearlessness 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825 adult
+2 0.68 0.32 0.85 0.001 fearlessness 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825 adult
+1 0.68 0.40 0.84 0.001 fearlessness 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825 adult
+0 0.37 0.10 0.61 0.005 exploration 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825 adult
+2 0.43 0.004 0.70 0.026 exploration 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825 adult
+1 0.25 0 0.58 >0.05 exploration 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825 adult
+0 0.11 0 0.38 "> 0.05" boldness 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825 adult
+2 0.24 0 0.60 >0.05 boldness 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825 adult
+1 0.00 0 0.40 >0.05 boldness 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825 adult
+0 0.10 0 0.37 "> 0.05" activity 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825 adult
+2 0.04 0 0.45 "> 0.05" activity 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825 adult
+1 0.13 0 0.51 "> 0.05" activity 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825 adult
+0 0.24 0 0.51 "> 0.05" aggression 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 NA NA 14 NA 1825 adult
+2 0.10 0 0.48 "> 0.05" aggression 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 NA NA 14 NA 1825 adult
+1 0.36 0 0.67 0.038 aggression 367 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 NA NA 14 NA 1825 adult
+0 0.50 0.24 0.68 0.001 fearlessness 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825 adult
+2 0.55 0.19 0.78 0.005 fearlessness 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825 adult
+1 0.47 0.10 0.73 0.009 fearlessness 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825 adult
+0 0.10 0 0.38 "> 0.05" exploration 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825 adult
+2 0.00 0 0.44 "> 0.05" exploration 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825 adult
+1 0.21 0 0.54 "> 0.05" exploration 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825 adult
+0 0.04 0 0.29 "> 0.05" boldness 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825 adult
+2 0.00 0 0.39 "> 0.05" boldness 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825 adult
+1 0.12 0 0.48 "> 0.05" boldness 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825 adult
+0 0.20 0 0.44 0.08 activity 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825 adult
+2 0.19 0 0.57 "> 0.05" activity 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825 adult
+1 0.22 0 0.55 "> 0.05" activity 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825 adult
+0 0.16 0 0.44 "> 0.05" aggression 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 52 2 1 0 0 maturation NA 325 NA 1825 adult
+2 0.05 0 0.45 "> 0.05" aggression 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 22 2 1 0 0 maturation NA 325 NA 1825 adult
+1 0.26 0 0.59 "> 0.05" aggression 56 381 3T3APIHX zebra_finch Taeniopygia_guttata 30 2 1 0 0 maturation NA 325 NA 1825 adult

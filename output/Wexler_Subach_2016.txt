@@ -1,17 +1,17 @@
-behaviour R p_val t1 t2 sex event Key species_common species_latin sample_size measurements_per_ind context type_of_treatment treatment R_se CI_lower CI_upper delta_t remarks max_lifespan_days
-activity 0.63 NA 56 57 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity 0.53 NA 56 57 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity 0.45 NA 70 71 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity 0.77 NA 70 71 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity -0.15 NA 56 70 0 metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity -0.29 NA 56 70 0 metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity 0.61 NA 70 84 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-activity 0.59 NA 70 84 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.44 NA 56 57 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.49 NA 56 57 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.48 NA 70 71 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.32 NA 70 71 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.1 NA 56 70 0 metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference -0.003 NA 56 70 0 metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.16 NA 70 84 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
-edge_preference 0.27 NA 70 84 0 NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+behaviour R p_val t1 t2 sex life_stage event Key species_common species_latin sample_size measurements_per_ind context type_of_treatment treatment R_se CI_lower CI_upper delta_t remarks max_lifespan_days
+activity 0.63 NA 56 57 0 larva NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity 0.53 NA 56 57 0 larva NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity 0.45 NA 70 71 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity 0.77 NA 70 71 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity -0.15 NA 56 70 0 across_ontogeny metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity -0.29 NA 56 70 0 across_ontogeny metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity 0.61 NA 70 84 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+activity 0.59 NA 70 84 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.44 NA 56 57 0 larva NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.49 NA 56 57 0 larva NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.48 NA 70 71 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.32 NA 70 71 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 1 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.1 NA 56 70 0 across_ontogeny metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference -0.003 NA 56 70 0 across_ontogeny metamorphosis RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.16 NA 70 84 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787
+edge_preference 0.27 NA 70 84 0 adult NA RKZ9H5QA red_flour_beetle Tribolium_castaneum 58 2 1 0 NA NA NA NA 14 "some more data across the lifespan, but not sure about it, check with holger" 787

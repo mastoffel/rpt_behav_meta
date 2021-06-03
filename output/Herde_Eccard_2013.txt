@@ -1,25 +1,25 @@
-behaviour sample_size R p_val measurements_per_ind t1 t2 delta_t event context species_common species_latin sex type_of_treatment treatment life_stage R_se CI_lower CI_upper remarks max_lifespan_days
-boldness1 17 0.699 0.01 27.41176470588235 62 152 90 maturation 1 common_vole Microtus_arvalis 0 0 NA both NA NA NA "no uncertainty yet" 438
-activity1 17 0.205 0.43 24.58823529411765 62 152 90 maturation 1 common_vole Microtus_arvalis 0 0 NA both NA NA NA "no uncertainty yet" 438
-boldness1 168 0.409 <0.01 2.7738095238095237 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity1 151 0.441 <0.01 2.7682119205298013 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity2 168 0.581 <0.01 2.5714285714285716 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness2 157 0.388 <0.01 2.5987261146496814 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity3 164 0.543 <0.01 2.573170731707317 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness3 164 0.354 <0.01 2.573170731707317 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness4 164 0.572 <0.01 2.3048780487804876 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity4 164 0.388 <0.01 2.3048780487804876 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-exploration1 132 0.34 0.01 2.1515151515151514 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-exploration2 132 0.372 <0.01 2.1515151515151514 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity5 132 0.558 <0.01 2.1515151515151514 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness1 48 0.122 1.00 9.708333333333334 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity1 41 0.561 <0.01 10.195121951219512 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity2 48 0.636 0.03 9 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness2 47 0.229 1.00 8.680851063829786 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity3 47 0.515 0.05 8.97872340425532 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness3 47 0.179 1.00 8.97872340425532 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-boldness4 25 0.28 1.00 15.12 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity4 25 0.737 0.01 15.12 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-exploration1 10 0.091 1.00 28.4 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-exploration2 10 0.119 1.00 28.4 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
-activity5 10 NA 1.00 28.4 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+behaviour sample_size R p_val Key measurements_per_ind t1 t2 delta_t event context species_common species_latin sex type_of_treatment treatment life_stage R_se CI_lower CI_upper remarks max_lifespan_days
+boldness1 17 0.699 0.01 CVPFUYZS 27.41176470588235 62 152 90 maturation 1 common_vole Microtus_arvalis 0 0 NA both NA NA NA "no uncertainty yet" 438
+activity1 17 0.205 0.43 CVPFUYZS 24.58823529411765 62 152 90 maturation 1 common_vole Microtus_arvalis 0 0 NA both NA NA NA "no uncertainty yet" 438
+boldness1 168 0.409 <0.01 CVPFUYZS 2.7738095238095237 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity1 151 0.441 <0.01 CVPFUYZS 2.7682119205298013 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity2 168 0.581 <0.01 CVPFUYZS 2.5714285714285716 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness2 157 0.388 <0.01 CVPFUYZS 2.5987261146496814 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity3 164 0.543 <0.01 CVPFUYZS 2.573170731707317 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness3 164 0.354 <0.01 CVPFUYZS 2.573170731707317 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness4 164 0.572 <0.01 CVPFUYZS 2.3048780487804876 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity4 164 0.388 <0.01 CVPFUYZS 2.3048780487804876 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+exploration1 132 0.34 0.01 CVPFUYZS 2.1515151515151514 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+exploration2 132 0.372 <0.01 CVPFUYZS 2.1515151515151514 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity5 132 0.558 <0.01 CVPFUYZS 2.1515151515151514 438 445 7 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness1 48 0.122 1.00 CVPFUYZS 9.708333333333334 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity1 41 0.561 <0.01 CVPFUYZS 10.195121951219512 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity2 48 0.636 0.03 CVPFUYZS 9 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness2 47 0.229 1.00 CVPFUYZS 8.680851063829786 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity3 47 0.515 0.05 CVPFUYZS 8.97872340425532 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness3 47 0.179 1.00 CVPFUYZS 8.97872340425532 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+boldness4 25 0.28 1.00 CVPFUYZS 15.12 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity4 25 0.737 0.01 CVPFUYZS 15.12 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+exploration1 10 0.091 1.00 CVPFUYZS 28.4 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+exploration2 10 0.119 1.00 CVPFUYZS 28.4 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438
+activity5 10 -0.031 1.00 CVPFUYZS 28.4 438 514 76 NA 2 common_vole Microtus_arvalis 0 0 NA adult NA NA NA "no uncertainty yet" 438

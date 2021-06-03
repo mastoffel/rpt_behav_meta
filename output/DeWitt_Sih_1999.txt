@@ -1,3 +1,3 @@
-behaviour sample_size measurements_per_ind R CI_lower CI_upper p_val t1 t2 delta_t Key species_common species_latin context remarks sex type_of_treatment treatment lifes_stage event R_se max_lifespan_days
+behaviour sample_size measurements_per_ind R CI_lower CI_upper p_val t1 t2 delta_t Key species_common species_latin context remarks sex type_of_treatment treatment life_stage event R_se max_lifespan_days
 antipredator_behaviour 96 3 0.33 NA NA 1e-4 108.75 111.75 3 7QAACTY6 physid_snail Physa_gyrina 2 "No SE/CI, also data was obtained by pooling across video observation, i.e. measurement per ind not reliable" 0 0 NA NA NA NA 435
 antipredator_behaviour 96 6 0.27 NA NA 1e-4 108.75 121.75 13 7QAACTY6 physid_snail Physa_gyrina 2 "No SE/CI, also data was obtained by pooling across video observation, i.e. measurement per ind not reliable" 0 0 NA NA NA NA 435

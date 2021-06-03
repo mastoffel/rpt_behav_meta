@@ -1,4 +1,4 @@
-behavior R R_se p_val sample_size measurements_per_ind t1 t2 delta_t Key species_common species_latin sex context type_of_treatment treatment life_stage event CI_lower CI_upper remarks max_lifespan_days
+behaviour R R_se p_val sample_size measurements_per_ind t1 t2 delta_t Key species_common species_latin sex context type_of_treatment treatment life_stage event CI_lower CI_upper remarks max_lifespan_days
 aggressiveness 0.56 NA 0.01 85 2 77 78 1 SX3CYX5C pig sus_scrofa 0 1 0 NA juvenile NA NA NA "All spearman rank correlations, no SE, not the same individuals for short and long term rpt" 9855
 aggressiveness 0.73 NA 0.01 78 2 77 78 1 SX3CYX5C pig sus_scrofa 0 1 0 NA juvenile NA NA NA "All spearman rank correlations, no SE, not the same individuals for short and long term rpt" 9855
 aggressiveness 0.57 NA 0.01 53 2 49 77 28 SX3CYX5C pig sus_scrofa 0 1 0 NA juvenile NA NA NA "All spearman rank correlations, no SE, not the same individuals for short and long term rpt" 9855

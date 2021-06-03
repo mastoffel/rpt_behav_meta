@@ -611,7 +611,7 @@ tribble(
            behaviour = "aggressiveness",
            context = 1,
            type_of_treatment = c(0,0,0,2),
-           teatment = c(NA, NA, NA, "litter_change"),
+           treatment = c(NA, NA, NA, "litter_change"),
            life_stage = c("juvenile", "adult", "adult", "both"),
            event = NA,
            CI_lower = NA,
@@ -620,7 +620,7 @@ tribble(
            max_lifespan_days = pig_max_ls
            ) -> meta_table
 
-write_delim(meta_table, path = "output/D'eath_2004.txt", delim = " ", col_names = TRUE)
+write_delim(meta_table, file = "output/D'eath_2004.txt", delim = " ", col_names = TRUE)
 
 ###### Paper 13: David_Auclair_2012 ######
 # David, Morgan; Auclair, Yannick; Cezilly, Frank	2012	
@@ -696,7 +696,7 @@ tribble(
            context = 2, 
            type_of_treatment = 0,
            treatment = NA, 
-           lifes_stage = NA,
+           life_stage = NA,
            event = NA,
            R_se = NA,
            max_lifespan_days = max_lifespan_snail) -> meta_table
@@ -766,7 +766,7 @@ pig_ls <- scrape_AnAge("Sus scrofa", vars = "maximum_longevity_yrs", download_da
 pig_max_ls <- as.numeric(pig_ls$maximum_longevity_yrs) * 365
 
 tribble(
-    ~behavior,         ~R, ~R_se, ~p_val, ~sample_size, ~measurements_per_ind, ~t1, ~t2, ~delta_t,
+    ~behaviour,         ~R, ~R_se, ~p_val, ~sample_size, ~measurements_per_ind, ~t1, ~t2, ~delta_t,
     "aggressiveness",  0.56, NA,     0.01,   85,                              2,  77,  78,        1,
     "aggressiveness",  0.73, NA,     0.01,   78,                              2,  77,  78,        1,
     "aggressiveness",  0.57, NA,     0.01,   53,                              2,  49,  77,        28
@@ -1338,7 +1338,8 @@ todigit %>%
            type_of_treatment = 2,
            treatment = c(rep("predator_cue", 3), rep("no_cue", 3), rep("predator_cue", 3), rep("no_cue", 3)),
            life_stage = "juvenile",
-           event = NA,
+           event = NA, 
+           p_val = NA,
            CI_lower = NA,
            CI_upper = NA,
            remarks = "age_guessed, double check",
@@ -1414,6 +1415,9 @@ R_table[[1]] %>%
     filter(!is.na(rpt)) %>% 
     separate(rpt, into = c("sample_size", "R", "p_val"), sep = " ") -> meta_table_raw
 
+# the minus in -0.031 isn't recognized properly, replace here with actual minus string
+meta_table_raw[meta_table_raw$behaviour == "activity5" & meta_table_raw$timespan == "adult_long", "R"] <- "-0.031"
+
 # common_voles 
 # Microtus_arvalis
 # 1) before and after maturation over three month 62 +- 20 days old and 90 days later after mat. lab-born , 17 voles 9 males 8 females
@@ -1425,7 +1429,8 @@ R_table[[1]] %>%
 avg_adult_age <- 438
 
 meta_table <- meta_table_raw %>% 
-    mutate(sample_size = as.numeric(sample_size),
+    mutate(Key = "CVPFUYZS",
+           sample_size = as.numeric(sample_size),
            R = as.numeric(R),
            measurements_per_ind = num_measurements/sample_size,
            t1 = c(62, 62, rep(avg_adult_age , 22)),
@@ -3401,24 +3406,24 @@ age_larv <- 56
 age_adult <- 56 + 14
 
 tribble(
-~behaviour,       ~R,      ~p_val,    ~t1,     ~t2,    ~sex,     ~event,
-"activity",   0.63,    0.004,    age_larv, age_larv + 1, 1,       NA,
-"activity",   0.53,    0.003,    age_larv, age_larv + 1, 2,       NA,
-"activity",   0.45,    0.019,    age_adult, age_adult + 1, 1,     NA,
-"activity",   0.77,    0.001,    age_adult, age_adult + 1, 2,     NA,
-"activity",  -0.15,    0.45,    age_larv,  age_adult,      1,     "metamorphosis",
-"activity",  -0.29,    0.13,    age_larv,  age_adult,      2,     "metamorphosis",
-"activity",  0.61,     0.001,   age_adult, age_adult + 14, 1,     NA,
-"activity",  0.59,     0.001,   age_adult, age_adult + 14, 2,     NA,   
+~behaviour,       ~R,      ~p_val,    ~t1,     ~t2,    ~sex,    ~life_stage, ~event,
+"activity",   0.63,    0.004,    age_larv, age_larv + 1, 1,       "larva",    NA,
+"activity",   0.53,    0.003,    age_larv, age_larv + 1, 2,       "larva",    NA,
+"activity",   0.45,    0.019,    age_adult, age_adult + 1, 1,     "adult",    NA,
+"activity",   0.77,    0.001,    age_adult, age_adult + 1, 2,     "adult",    NA,
+"activity",  -0.15,    0.45,    age_larv,  age_adult,      1,     "across_ontogeny", "metamorphosis",
+"activity",  -0.29,    0.13,    age_larv,  age_adult,      2,     "across_ontogeny","metamorphosis",
+"activity",  0.61,     0.001,   age_adult, age_adult + 14, 1,     "adult", NA,
+"activity",  0.59,     0.001,   age_adult, age_adult + 14, 2,     "adult", NA,   
     
-"edge_preference",   0.44,    0.023,    age_larv, age_larv + 1, 1,       NA,
-"edge_preference",   0.49,    0.007,    age_larv, age_larv + 1, 2,       NA,
-"edge_preference",   0.48,    0.011,    age_adult, age_adult + 1, 1,     NA,
-"edge_preference",   0.32,    0.086,    age_adult, age_adult + 1, 2,     NA,
-"edge_preference",   0.10,    0.61,    age_larv,  age_adult,      1,     "metamorphosis",
-"edge_preference",  -0.003,   0.99,    age_larv,  age_adult,      2,     "metamorphosis",
-"edge_preference",  0.16,     0.43,   age_adult, age_adult + 14, 1,     NA,
-"edge_preference",  0.27,     0.18,   age_adult, age_adult + 14, 2,     NA
+"edge_preference",   0.44,    0.023,    age_larv, age_larv + 1, 1,    "larva",   NA,
+"edge_preference",   0.49,    0.007,    age_larv, age_larv + 1, 2,    "larva",   NA,
+"edge_preference",   0.48,    0.011,    age_adult, age_adult + 1, 1,  "adult",   NA,
+"edge_preference",   0.32,    0.086,    age_adult, age_adult + 1, 2,  "adult",   NA,
+"edge_preference",   0.10,    0.61,    age_larv,  age_adult,      1,  "across_ontogeny",   "metamorphosis",
+"edge_preference",  -0.003,   0.99,    age_larv,  age_adult,      2,  "across_ontogeny",   "metamorphosis",
+"edge_preference",  0.16,     0.43,   age_adult, age_adult + 14, 1,   "adult",  NA,
+"edge_preference",  0.27,     0.18,   age_adult, age_adult + 14, 2,   "adult",  NA
              
 ) %>% 
     mutate(
@@ -3680,8 +3685,10 @@ meta_table_raw2 %>%
         R_se = NA,
         delta_t = t2 - t1,
         remarks = NA,
-        max_lifespan_days = maximum_lifespan_wild
-    ) -> meta_table
+        max_lifespan_days = maximum_lifespan_wild,
+        life_stage = "adult" # merging early and late adulthood here
+    ) %>% 
+    select(-timeperiod) -> meta_table
 
 
 write_delim(meta_table, path = "output/Wuerz_Krueger_2015.txt", delim = " ", col_names = TRUE)

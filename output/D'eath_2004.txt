@@ -1,4 +1,4 @@
-sample_size measurements_per_ind R R_se p_val t1 t2 delta_t Key species_common species_latin sex behaviour context type_of_treatment teatment life_stage event CI_lower CI_upper remarks max_lifespan_days
+sample_size measurements_per_ind R R_se p_val t1 t2 delta_t Key species_common species_latin sex behaviour context type_of_treatment treatment life_stage event CI_lower CI_upper remarks max_lifespan_days
 112 2 0.303 NA 0.002 48 48.1 0.1 2WGN2QQC domestic_pig Sus_scrofa 0 aggressiveness 1 0 NA juvenile NA NA NA correlation 9855
 112 2 0.453 NA 0.001 80 80.1 0.1 2WGN2QQC domestic_pig Sus_scrofa 0 aggressiveness 1 0 NA adult NA NA NA correlation 9855
 112 2 0.629 NA 0.001 113 113.1 0.1 2WGN2QQC domestic_pig Sus_scrofa 0 aggressiveness 1 0 NA adult NA NA NA correlation 9855
