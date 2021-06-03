@@ -15,26 +15,26 @@ library(lubridate)
 library(digitize)
 library(datapasta)
 # variables from the meta table
-meta_table_template <- tibble("Key" = NA,                # identifier in meta-table "data/meta_table_filled.xlsx"
+meta_table_template <- tibble("Key" = NA,               # identifier in meta-table "data/meta_table_filled.xlsx"
                          "species_common" = NA, 
                          "species_latin" = NA,
                          "sample_size" = NA, 
-                         "measurements_per_ind" = NA, # new, check papers 1-6 again
-                         "sex" = NA,                # 0 = both, 1 = females, 2 = males
-                         "behaviour" = NA,          # measured behaviour as stated by authors
-                         "context" = NA,            # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
-                         "type_of_treatment"= NA,  # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
-                         "treatment"= NA,          # Verbal description
-                         "life_stage"= NA,         # "juvenile", "adult", "both"
-                         "event"= NA,              # Major life-event, such as metamorphosis between measurements
+                         "measurements_per_ind" = NA,   # new, check papers 1-6 again
+                         "sex" = NA,                    # 0 = both, 1 = females, 2 = males
+                         "behaviour" = NA,              # measured behaviour as stated by authors
+                         "context" = NA,                # 1 = lab exp. / lab-reared, 2 = lab exp. / wild-caught, 3 field exp / maybe another category: 4 field behaviour?
+                         "type_of_treatment"= NA,       # 0 = no treatment, 1 = between-subject treatment, 2 = within-subject
+                         "treatment"= NA,               # Verbal description
+                         "life_stage"= NA,              # "juvenile", "adult", "both"
+                         "event"= NA,                   # Major life-event, such as metamorphosis between measurements
                          "R"= NA,
                          "R_se"= NA,
                          "CI_lower"= NA,
                          "CI_upper"= NA,
                          "p_val"= NA,
-                         "t1"= NA,                  # timepoint of first measurement in days old (or mean of measurements)
-                         "t2"= NA,                  # timepoint of second measurement in days old# (or mean of measurements)
-                         "delta_t"= NA,             # difference between timepoints in days
+                         "t1"= NA,                      # timepoint of first measurement in days old (or mean of measurements)
+                         "t2"= NA,                      # timepoint of second measurement in days old# (or mean of measurements)
+                         "delta_t"= NA,                 # difference between timepoints in days
                          "remarks"= NA,
                          "max_lifespan_days" = NA)
 
@@ -4198,3 +4198,45 @@ mutate(Key = "2UJ6RD3M",
        max_lifespan_days = tit_max) -> meta_table
 
 write_delim(meta_table, path = "output/ArayaAjoy_Dingemanse_2017.txt", delim = " ", col_names = TRUE)
+
+###### Paper 75: Freasneau_Kluen_2014 ##############
+# Fresneau, Nolwenn; Kluen, Edward; Brommer, Jon E. 2014
+# 2CG7EZYD	
+# a sex-specific behavioral syndrome in a wild passerine
+
+#  blue tits Cyanistes caeruleus
+# 
+tit_dat <- scrape_AnAge("Cyanistes caeruleus", vars = "maximum_longevity_yrs")
+tit_max <- as.numeric(tit_dat$maximum_longevity_yrs) * 365
+
+avg_age <- tit_max * 0.25
+years_avg <- (((73*2 + 41*3 + 10 * 4) / (73 + 41 + 10)) - 1) * 365
+
+tribble(
+  ~behaviour,                ~t1,             ~t2,     ~sample_size,  ~ measurements_per_ind,      ~R,   ~R_se,   ~p_val,
+ "hatching_defense",       avg_age,     avg_age + 3,     73,         278/73,           0.46,   0.07,   0.0001,
+ "hatching_defense",       avg_age,     avg_age + 3,     91,         218 /91,            0.31,   0.08,   0.0001,
+ "hatching_defense",       avg_age,     avg_age + 3,     116,        275 /116,            0.39,   0.07,   0.0001,
+ "hatching_defense",       avg_age,     avg_age + 3,     84,         204 /84,            0.25,   0.09,   0.0054,
+ "hatching_defense",       avg_age,     avg_age + 3,     105,        276 /105,            0.33,   0.07,   0.0001,
+ "hatching_defense",       avg_age,     avg_age + 3,     87,         199 /87,            0.22,   0.09,   0.0029,
+ "hatching_defense",       avg_age,     avg_age + years_avg, 124,    years_avg/365 + 1,        0.078,  0.066,  0.23
+) %>% 
+  mutate(Key = "2CG7EZYD",
+         species_common = "blue_tit",
+         species_latin = "Cyanistes_caeruleus",
+         sex = 1,
+         context = 3,
+         type_of_treatment = 0,
+         treatment = NA,
+         life_stage = "adult",
+         event = NA,
+         CI_upper = NA,
+         CI_lower = NA,
+         delta_t = t2-t1,
+         remarks = NA,
+         max_lifespan_days = tit_max) -> meta_table
+
+write_delim(meta_table, path = "output/ Freasneau_Kluen_2014.txt", delim = " ", col_names = TRUE)
+
+
