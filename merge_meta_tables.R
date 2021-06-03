@@ -33,10 +33,7 @@ check_table <- function(i, col_names) {
 walk(1:length(all_tables), check_table, col_names)
 
 
-non_conformers <- !map_lgl(all_tables, function(x) all(col_names %in% names(x)))
-all_tables[non_conformers]
-
-
+all_tables <- bind_rows(all_tables)
 
 # convert everything to character
 all_tables_char <- map(all_tables, ~mutate_if(., is.numeric, as.character))
