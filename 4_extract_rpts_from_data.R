@@ -184,7 +184,7 @@ average_time_diff_winter3 <- time_diff_winter3 / 12
 # extract errorbars data from figure 2 to get se's for within year repeatability
 library(metaDigitise)
 ?metaDigitise
-data <- metaDigitise(dir = "to_digitise/")
+data <- metaDigitise(dir = "data/to_digitise/")
 
 # question: sample size is number of individuals or number of measurements?
 
@@ -1011,9 +1011,9 @@ write_delim(meta_table, path = "output/Gifford_Clay_2014.txt", delim = " ", col_
 # overall samlpe size long term repeatability : 86
 # intervals: test-retest: average: 14 days (mean sd = 13.8 +- 3.8), N = 193, two measurements per session
 #            test-retest long term: min: 1 year, max: 2 years, so lets take mean: 548 days
-todigit <- metaDigitise("to_digitise/study3_grace2014/")
- # write_delim(todigit, path = "to_digitise/study3_grace2014/digitized_figure.txt")
-todigit <- read_delim("to_digitise/study3_grace2014/digitized_figure.txt", delim = " ")
+todigit <- metaDigitise("data/to_digitise/study3_grace2014/")
+ # write_delim(todigit, path = "data/to_digitise/study3_grace2014/digitized_figure.txt")
+todigit <- read_delim("data/to_digitise/study3_grace2014/digitized_figure.txt", delim = " ")
 
 
 boobie_ls <- scrape_AnAge(latin_name = "sula granti", vars = "maximum_longevity_yrs", download_data = FALSE)
@@ -1316,9 +1316,9 @@ avg_juvenile <- 183
 scrape_AnAge(latin_name = "Gobiomorphus cotidianus", vars = "maximum_longevity_yrs", download_data = FALSE)
 
 # digitalise
-# todigit <- metaDigitise("to_digitise/study4_hammond-tooke_cally2012/")
-# write_delim(x = todigit, path = "to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt")
-todigit <- read_delim("to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt", delim = " ")
+# todigit <- metaDigitise("data/to_digitise/study4_hammond-tooke_cally2012/")
+# write_delim(x = todigit, path = "data/to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt")
+todigit <- read_delim("data/to_digitise/study4_hammond-tooke_cally2012/rpt_table.txt", delim = " ")
 
 todigit %>% 
     select(group_id, mean, n, se) %>% 
@@ -1524,25 +1524,25 @@ dat <- read_xlsx("data/downloaded_from_papers/holtmann_santos_2017.xlsx")
 # stable individual differences in separation calls during early development in cats and mice
 # P5DGEWV5
 
-# dat <- metaDigitise("to_digitise/study5_Hudson_Rangassamy_2015/", summary = FALSE)
-# write_delim(dat, "to_digitise/study5_Hudson_Rangassamy_2015/digitised_dat.txt")
-# dat <- read_delim(file = "to_digitise/study5_Hudson_Rangassamy_2015/digitised_dat.txt", delim = " ")
+# dat <- metaDigitise("data/to_digitise/study5_Hudson_Rangassamy_2015/", summary = FALSE)
+# write_delim(dat, "data/to_digitise/study5_Hudson_Rangassamy_2015/digitised_dat.txt")
+# dat <- read_delim(file = "data/to_digitise/study5_Hudson_Rangassamy_2015/digitised_dat.txt", delim = " ")
 # dat
 
 library(digitize)
 
-mydata <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot1.png")
-mydata2 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot2.png")
-mydata3 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot3.png")
-mydata4 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot4.png")
-mydata5 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot5.png")
-mydata6 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot6.png")
-mydata7 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot7.png")
-mydata8 <- digitize("to_digitise/study5_Hudson_Rangassamy_2015/plot8.png")
+mydata <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot1.png")
+mydata2 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot2.png")
+mydata3 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot3.png")
+mydata4 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot4.png")
+mydata5 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot5.png")
+mydata6 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot6.png")
+mydata7 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot7.png")
+mydata8 <- digitize("data/to_digitise/study5_Hudson_Rangassamy_2015/plot8.png")
 
 
-# saveRDS(ls(), file = "to_digitise/study5_Hudson_Rangassamy_2015/all_digitised_df.RData")
-# obj <- readRDS(file = "to_digitise/study5_Hudson_Rangassamy_2015/all_digitised_df.RData")
+# saveRDS(ls(), file = "data/to_digitise/study5_Hudson_Rangassamy_2015/all_digitised_df.RData")
+# obj <- readRDS(file = "data/to_digitise/study5_Hudson_Rangassamy_2015/all_digitised_df.RData")
 # make big dataframe
 df_list <- mget(paste0("mydata", c("",2:8)))
 var_names <- rep(list(c("week1", "week2"), c("week2", "week3"), c("week3", "week4"), c("week1", "week4")), 2)
@@ -1668,9 +1668,9 @@ dmy(22062016) - dmy(11042016)
 
 # digitize data to estimate R_se
 library(digitize)
-mydata <- digitize("to_digitise/study6/plot1.png")
-mydata2 <- digitize("to_digitise/study6/plot2.png")
-mydata3 <- digitize("to_digitise/study6/plot3.png")
+mydata <- digitize("data/to_digitise/study6/plot1.png")
+mydata2 <- digitize("data/to_digitise/study6/plot2.png")
+mydata3 <- digitize("data/to_digitise/study6/plot3.png")
 
 
 df_list <- mget(paste0("mydata", c("",2:3)))
@@ -2019,9 +2019,9 @@ avg_adult_age <- lifespan_adult * 0.25
 # so roughly half half males/females
 
 ## digitise figure
-# dat <- metaDigitise("to_digitise/study7_Low_Makan_2012/")
-# write_delim(dat, "to_digitise/study7_Low_Makan_2012/digitised.txt")
-dat <- read_delim(file = "to_digitise/study7_Low_Makan_2012/digitised.txt", delim = " ")
+# dat <- metaDigitise("data/to_digitise/study7_Low_Makan_2012/")
+# write_delim(dat, "data/to_digitise/study7_Low_Makan_2012/digitised.txt")
+dat <- read_delim(file = "data/to_digitise/study7_Low_Makan_2012/digitised.txt", delim = " ")
 dat %>% 
     select(group_id, mean, se) %>% 
     mutate(sex = rep(c("female", "male"), 3),
@@ -2134,7 +2134,7 @@ lv_long <-lv %>% mutate(max_days = as.numeric(maximum_longevity_yrs)*365,
                   avg_adult_age = max_days * 0.25)
 
 # only five weekends (four weeks)
-dat1 <- metaDigitise("to_digitise/study8_Milligan_Radersma_2017/")
+dat1 <- metaDigitise("data/to_digitise/study8_Milligan_Radersma_2017/")
 
 dat1 %>% 
     as_tibble() %>% 
@@ -2494,7 +2494,7 @@ avg_adult_age <- max_longevity * 0.25
 # 3 month period
 # 
 
-dat <- metaDigitise("to_digitise/study9_Olsen_Heupel_2012/")
+dat <- metaDigitise("data/to_digitise/study9_Olsen_Heupel_2012/")
 dat %>% 
     as_tibble() %>% 
     select(group_id, mean, se) %>% 
@@ -3082,8 +3082,8 @@ max_lifespan <- 12 * 365
 avg_adult_age <- max_lifespan * 0.25
 
 library(digitize)
-dat <- digitize("to_digitise/study10_Taylor_Cooke_2014/Screenshot 2019-03-15 11.18.06.png")
-dat2 <- digitize("to_digitise/study10_Taylor_Cooke_2014/Screenshot 2019-03-15 11.18.12.png")
+dat <- digitize("data/to_digitise/study10_Taylor_Cooke_2014/Screenshot 2019-03-15 11.18.06.png")
+dat2 <- digitize("data/to_digitise/study10_Taylor_Cooke_2014/Screenshot 2019-03-15 11.18.12.png")
 
 dat_df <- dat %>% 
     rename(autumn = x, spring = y) %>% 
@@ -3096,7 +3096,7 @@ dat_df2 <- dat2 %>%
     mutate(ID = rep(1:(n() / 2), 2)) 
 
 
-# write_delim(rbind(dat_df, dat_df2), path = "to_digitise/study10_Taylor_Cooke_2014/digitised.txt")
+# write_delim(rbind(dat_df, dat_df2), path = "data/to_digitise/study10_Taylor_Cooke_2014/digitised.txt")
  
 rpt1 <- rptGaussian(mean_movement ~ (1|ID), data = dat_df, grname = "ID")
 rpt2 <- rptGaussian(mean_movement ~ (1|ID), data = dat_df2, grname = "ID")
@@ -3265,8 +3265,8 @@ write_delim(meta_table, path = "output/Twiss_Cairns_2012.txt", delim = " ", col_
 # speed-accuracy trade-offs and individually consistent decision making by individuals and dyads of zebrafish in a colour discrimination task
 # KZDWYY3T
 
-dat_day_1 <- digitize("to_digitise/study11_Wang_Brennan_2015/l7Q1lLBm.png")
-#write_delim(dat_day_1, path = "to_digitise/study11_Wang_Brennan_2015/digitised.txt")
+dat_day_1 <- digitize("data/to_digitise/study11_Wang_Brennan_2015/l7Q1lLBm.png")
+#write_delim(dat_day_1, path = "data/to_digitise/study11_Wang_Brennan_2015/digitised.txt")
 
 dat <- dat_day_1
 dat %>% 
@@ -3714,9 +3714,9 @@ flycatcher_data <- scrape_AnAge("Ficedula albicollis", vars = "maximum_longevity
 maximum_long_flycatcher <- as.numeric(flycatcher_data$maximum_longevity_yrs) * 365
 avg_adult_age <- maximum_long_flycatcher * 0.25
 
-dat <- metaDigitise("to_digitise/study13_Zsebk_Herczeg_2017/")
-# write_delim(dat, "to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt")
-dat <- read_delim("to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt", delim = " ")
+dat <- metaDigitise("data/to_digitise/study13_Zsebk_Herczeg_2017/")
+# write_delim(dat, "data/to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt")
+dat <- read_delim("data/to_digitise/study13_Zsebk_Herczeg_2017/digitised.txt", delim = " ")
 dat %>% 
     as_tibble() %>% 
     select(group_id, mean, se) %>% 
@@ -3797,8 +3797,8 @@ write_delim(meta_table, path = "output/Amy_Ung_2017.txt", delim = " ", col_names
 # mean longevity lab = 450 days reported
 max_lifespan_fish <- 450 + 2*8.10 # mean and se
 
-dat <- metaDigitise("to_digitise/study14_boulton_grimmer/")
-#write_delim(dat, path = "to_digitise/study14_boulton_grimmer/digitised.txt")
+dat <- metaDigitise("data/to_digitise/study14_boulton_grimmer/")
+#write_delim(dat, path = "data/to_digitise/study14_boulton_grimmer/digitised.txt")
 scrape_AnAge(latin_name = "Xiphophorus birchmanni", vars = "maximum_longevity_yrs", download_data = FALSE)
 
 dat %>% 

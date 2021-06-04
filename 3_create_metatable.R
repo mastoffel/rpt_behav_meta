@@ -11,7 +11,7 @@
 library(tidyverse)
 library(writexl)
 # load csv with all articles
-zotero_articles <- read_csv("data/rayyan_longer_period_articles_from_zotero_04_12_2018.csv")
+zotero_articles <- read_csv("data/lit_search/rayyan_longer_period_articles_from_zotero_04_12_2018.csv")
 names(zotero_articles)
 
 meta_table <- zotero_articles %>% 

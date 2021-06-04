@@ -1,0 +1,174 @@
+---
+title: "Meta-analysis tutorial"
+authors: 
+"Alfredo Sanchez-Tojar" 
+"Nicholas Moran"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+## Meta-analysis tutorial: part 1 (searching and screening)
+
+This is a tutorial on how to conduct a systematic review. This tutorial aims at providing with multiple tools to streamline the process in R and make it more efficient.
+
+There are several sources where to find tools for conducting systematic reviews and meta-analyses. A comprehensive list has been compiled [here](https://docs.google.com/spreadsheets/d/1n_CmT1kvFmaHUJ3YIzSMUbiREAfIiXCKERub0HZz4vg/edit#gid=0), but bear in mind that some of those tools are no longer functioning (see 'screening notes'). More information can be found [here](https://cran.r-project.org/web/views/MetaAnalysis.html) and [here](http://systematicreviewtools.com/). For some recent publications about evidence synthesis software, see, for example:
+[Kohl et al. 2018](https://environmentalevidencejournal.biomedcentral.com/articles/10.1186/s13750-018-0115-5), [Roll et al. 2017](https://onlinelibrary.wiley.com/doi/abs/10.1111/cobi.13044) and [Westgate et al. 2018](https://www.nature.com/articles/s41559-018-0502-x).
+
+### Introduction
+
+Part 1 of this tutorial is based on a recent systematic review and meta-analysis that tested the status signalling hypothesis in house sparrows (*Passer domesticus*; [Sanchez-Tojar et al. 2018](https://www.biorxiv.org/content/early/2018/03/16/283150)). The systematic review of that study was conducted manually. In Part 1 of this tutorial, we will make use of several tools to try and make that systematic review (literature search and paper screening components) more efficient, and to streamline the process in R.
+
+### Literature search
+
+The first step to do a systematic review is to conduct a keyword-based literature search. Keyword queries allow us to search for all the publications related to a topic in databases such as [Web of Science](https://apps.webofknowledge.com/WOS_GeneralSearch_input.do?product=WOS&search_mode=GeneralSearch&SID=F1yxn5OvBzysODfRYr5&preferencesSaved=) and [PubMed](https://www.ncbi.nlm.nih.gov/pubmed/advanced). Building an efficient keyword query is an important step that, depeneding on the topic under investigation, can take a lot of thought and time. For this tutorial, we are going to use the keyword query designed in the original study:
+
+*(bib sparrow dominance) OR (bib sparrow status) OR (bib sparrow fight\*) OR (badge sparrow dominance) OR (badge sparrow status) OR (badge sparrow fight\*)*
+
+Let's do our first literature search in [Web of Science](https://apps.webofknowledge.com/WOS_GeneralSearch_input.do?product=WOS&search_mode=GeneralSearch&SID=F1yxn5OvBzysODfRYr5&preferencesSaved=) by copy-pasting the keyword query, and assigning search field = "Topic" and timespan = "All years (1900-2018)". As 25th of July 2018, this literature search results in 118 publications that we can now save in BibTex format (i.e. ".bib") into our meta-analysis folder for later analysis. Web of Science allows you to save the references in sets of 50 publications at the time, which in our case means that we have to save our search results as three BibTex files. Use the default option for saving the references, i.e. "Author, Title, Source, Abstract", and name the files as: bib_WoS_1.bib, bib_WoS_2.bib and bib_WoS_3.bib. - Note: alternatively, one can login into Web of Science and download up to 500 references at the time.
+
+Cool. Now that we've downloaded all the references, let's import them into R using the function read_bibliography() from the R package '[revtools](https://cran.r-project.org/web/packages/revtools/index.html)' ([Westgate 2018](https://www.biorxiv.org/content/early/2018/02/12/262881)). First, let's install and load the package.
+
+```{r}
+# package needed for handling references
+# developing package from GitHub: we used this for importing the data but we switch to the 
+# CRAN version to find and extract duplicates as these functions are not working well
+# in the developing version.
+devtools::install_github("mjwestgate/revtools") # Note: you may have to re-install some packages
+library(revtools) 
+# importing the .bib files
+WoS1 <- read_bibliography("bib_WoS_1.bib")
+WoS2 <- read_bibliography("bib_WoS_2.bib")
+WoS3 <- read_bibliography("bib_WoS_3.bib")
+# let's have a look at the first file to see how it looks
+summary(WoS1)
+# choose only the following important fields of information to make the files a bit more handy
+reducing.fields <- c("label","title","author","journal","issn",
+                         "volume","pages","year","doi","abstract")
+WoS1.reduced <- WoS1[,reducing.fields]
+WoS2.reduced <- WoS2[,reducing.fields]
+WoS3.reduced <- WoS3[,reducing.fields]
+# and them combine them all into a single file using rbind()
+WoS <- rbind(WoS1.reduced,
+             WoS2.reduced,
+             WoS3.reduced)
+```
+
+Ok, we've done the first literature search using Web of Science. Now, let's do the same exact literature search but in another database. Why? Databases differ a lot in how many journals they cover, which means that some papers might be found in one but not in another database. Therefore, it is a good practice to run your keyword queries in more than one database to make sure that the literature search is as comprehensive as possible.
+
+The search in [Pubmed](https://www.ncbi.nlm.nih.gov/pubmed/advanced) only finds 10 results (surprise!). We can save these results as ".nbib" format into our meta-analysis folder to later import it into R. Let's name the file as bib_PubMed.nbib.
+
+```{r}
+# importing the results of this second literature search
+PubMed <- read_bibliography("bib_PubMed.nbib")
+# let's have a look at the file
+summary(PubMed)
+# let's choose only the important fields to make it more handy
+PubMed <- PubMed[,reducing.fields]
+```
+
+Now we have conducted a systematic literature search in two different databases. Some of the references are likely in both databases, so let's put both databases together and use the function find_duplicates() to, well, find duplicates because we don't want to repeatedly screen the same references.
+
+```{r}
+# combine both databases
+search <- rbind(WoS,PubMed)
+# annoyingly, for the time being we have to re-install revtools but using an older 
+# version to succesfully run find_duplicates() and extract_unique_references()
+install.packages("revtools")
+library(revtools)
+library(plyr)
+# first, find out which entries are duplicated
+search.duplicated <- find_duplicates(search)
+# create a new database that only contains unique references
+search.deduplicated <- extract_unique_references(search.duplicated)
+# count the number of rows in that new database
+nrow(search.deduplicated) #great!
+# just for fun, let's have a look at some of the columns of this new database
+search.deduplicated[c(1:5),c(1,3,5:8)]
+```
+
+This is pretty cool, the R package 'revtools' allowed us to get rid off duplicated references very easily. Since only 9 references were duplicated in our dataset, this might not seem like a big achievement. But think of how useful this package will be when the results of your literature search are hundreds or thousands of publications... (Note: deduplicating is a difficult process, and the function find_duplicates() is not perfect (yet), so there might still be a few duplicates in your dataset, which you can try to find with other software [see below])
+
+Alright! We now have "easy" access to "all" the literature available. The next step is to screen all the titles and abstracts included in that reference database to further exclude references that are not really valid for your study. This is normally named "screening process".
+
+### Screening of titles and abstracts
+
+For the screeing of titles and abstracts we can use the software [rayyan](https://rayyan.qcri.org), which, despite not being based in R-language, is arguably the most efficient software for screening titles and abstracts for a systematic review. Before we import the references to [rayyan](https://rayyan.qcri.org), we need to format them accordingly. 
+
+```{r}
+# example of a valid .csv file
+rayyan.example <- read.table("rayyan_csv_example.csv",header=TRUE,sep=",")
+# standardizing fields according to rayyan.example despite that some fields are missing from the search.deduplicated output
+# what's different between the two?
+setdiff(names(rayyan.example),names(search.deduplicated))
+setdiff(names(search.deduplicated),names(rayyan.example))
+# creating two variables that were not present in screening.ref.data
+search.deduplicated$issue <- ""
+search.deduplicated$publisher <- ""
+# excluding two variables that are not needed
+search.deduplicated$duplicate_group <- NULL
+search.deduplicated$n_duplicates <- NULL
+# what's different now?
+setdiff(names(rayyan.example),names(search.deduplicated))
+setdiff(names(search.deduplicated),names(rayyan.example))
+# rename columns in screening.ref.data so that they are as expected by rayyan
+search.deduplicated.rayyan <- rename(search.deduplicated, c("label"="key", "author"="authors", "doi"="url"))
+names(search.deduplicated.rayyan)
+# reorder columns and file is almost ready to be imported into rayyan
+search.deduplicated.rayyan <- search.deduplicated.rayyan[,names(rayyan.example)]
+# before the file is ready, we need to check potential typos that might impede importing the file into rayyan
+if (dim(table(grepl(",  ",search.deduplicated.rayyan$authors,fixed=T)))==2){
+  
+  for(i in 1:nrow(search.deduplicated.rayyan)){
+    
+    if(grepl(",  ",search.deduplicated.rayyan$authors[i],fixed=T)){
+    
+    print(i) #any row number printed will need to be edited individually
+      
+      }
+    }
+} else {
+    
+  print("you are ready to import the file screening_ref_data_rayyan.csv into rayyan")
+  write.csv(search.deduplicated.rayyan,"screening_ref_data_rayyan.csv",row.names=FALSE)
+  }
+```
+
+
+
+Other potential tool is abstrackr:
+
+Link: http://abstrackr.cebm.brown.edu/account/login
+Software: abstrackr (**username**: ASanchez-Tojar)
+Video tutorials: https://www.youtube.com/results?search_query=abstrackr
+
+Also the R package 'metagear'.
+
+Jstor is for getting references, but I guess we won't use it for the time being:
+
+Reference: https://twitter.com/klebel_t/status/1017604005499846656
+Link:	https://ropensci.github.io/jstor/
+Software: jstor
+
+### Obtaining full texts from R
+
+For this task, we can use the R package 'fulltext', which has been developed as part of the [rOpenSci project](https://ropensci.org/), in combination with the R package '[rcrossref](https://github.com/ropensci/rcrossref)'. The manual of 'fulltext'  is available [here](https://ropensci.github.io/fulltext-book/).First, let's install and load the packages.
+
+```{r}
+# package needed for this analysis
+# install.packages("fulltext") #for the stable version
+# devtools::install_github("ropensci/fulltext") #for the development version
+library(fulltext)
+#devtools::install_github("ropensci/rcrossref")
+library('rcrossref')
+# removing those references without a doi
+available.dois <- search.deduplicated[!(is.na(search.deduplicated$doi)),c("doi")]
+# double checking the validity of the dois, some don't work!
+dois.check <- cr_cn(dois = available.dois[1:10], format = "text") #trying with only 10
+# choose only those dois that work
+functional.dois <- available.dois[dois.check!="NULL"]
+# get the pdf of as many references as possible.
+ft_get(functional.dois,type='pdf') #remember to specify where you want them.
+```
+
+### See part 2 for data extraction and analysis...
