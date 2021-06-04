@@ -11,4 +11,4 @@
 **meta_table_prelim**: Preliminary meta-table with (nearly) all data  
 **overview_extracted_studies**: Contains all studies deemed worth reading after the Rayyan abstract screen  
 
-
+Both tables are connected by a column "key". 
