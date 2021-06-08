@@ -4247,4 +4247,7 @@ tribble(
 
 write_delim(meta_table, path = "output/ Freasneau_Kluen_2014.txt", delim = " ", col_names = TRUE)
 
-
+###### Paper 76: Vardanis_Nilsson 2016 ##########
+# Vardanis, Y., Nilsson, J. Å., Klaassen, R. H., Strandberg, R., & Alerstam, T. (2016).
+# Consistency in long-distance bird migration: contrasting patterns in time and space for two raptors. 
+# VMEG45VE
